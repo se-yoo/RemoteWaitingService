@@ -18,6 +18,9 @@ const TestPage = () => {
       <AlertDialog
         open={openAlert}
         onClose={handleClose}
+        title={"이벤트 삭제"}
+        description={"삭제되면 복구하지 못합니다. 정말로 삭제하시겠습니까?"}
+        hideDisagree
       />      
     </div>
   );
