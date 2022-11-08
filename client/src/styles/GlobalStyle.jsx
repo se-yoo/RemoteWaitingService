@@ -57,6 +57,10 @@ const GlobalStyle = createGlobalStyle`
       background-color: #BCBCBC;
     }
   }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
 `;
 
 export default GlobalStyle;
