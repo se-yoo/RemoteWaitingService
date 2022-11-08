@@ -19,7 +19,7 @@ const Layout = () => {
               xs: '16px',
               sm: '32px',
               md: '32px auto',
-              xl: '60px auto'
+              xl: '70px auto'
             }
           }}
         >

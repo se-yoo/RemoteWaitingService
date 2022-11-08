@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import AlertDialog from '../../components/AlertDialog';
 
@@ -14,12 +15,9 @@ const TestPage = () => {
 
   return (
     <div>
-      <button 
-        onClick={handleClickOpen}
-        className="rws-green-btn"
-      >
+      <Button onClick={handleClickOpen}>
         알림창예시
-      </button>
+      </Button>
       <AlertDialog
         open={openAlert}
         onClose={handleClose}

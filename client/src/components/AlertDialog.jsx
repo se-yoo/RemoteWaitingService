@@ -20,9 +20,9 @@ const AlertDialog = (props) => {
       <DialogActions>
         {!hideDisagree && 
           <StyledDialogButton
+            color="grey"
             variant="contained"
             onClick={onClose}
-            className="rws-grey-btn"
           >
             {disagreeText}
           </StyledDialogButton>
@@ -30,7 +30,6 @@ const AlertDialog = (props) => {
         <StyledDialogButton
           variant="contained"
           onClick={onAgree || onClose}
-          className="rws-green-btn"
           sx={{ ml: "14px !important" }}
         >
           {agreeText}

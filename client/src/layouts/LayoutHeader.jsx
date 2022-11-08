@@ -44,7 +44,8 @@ const LayoutHeader = () => {
           width="100px"
           fit="contain"
           bgColor="transparent"
-          class="cursor-pointer"
+          duration={0}
+          className="cursor-pointer"
           onClick={onClickLogo}
         />
         <Box sx={{ flexGrow: 1 }} />
