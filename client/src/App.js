@@ -15,10 +15,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-            <Route exact path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/" element={<Layout />}>
-              <Route exact path="/events" element={<EventListPage />} />
-              <Route exact path="/test" element={<TestPage />} />
+              <Route path="/events" element={<EventListPage />} />
+              <Route path="/test" element={<TestPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

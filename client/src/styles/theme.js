@@ -38,6 +38,29 @@ export const theme = createTheme({
           }
         })
       }
+    },
+    MuiTextField: {
+      defaultProps: {
+        color: "primary",
+        fullWidth: true
+      },
+      styleOverrides: {
+        root: ({ ownerState, theme }) => ({
+          "& fieldset": {
+            borderRadius: 9999,
+            borderColor: theme.palette[ownerState.color || "primary"].main,
+          },
+          "&:hover fieldset": {
+            borderColor: theme.palette[ownerState.color || "primary"].main,
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: theme.palette[ownerState.color || "primary"].main,
+          },
+          "& .MuiInputBase-input": {
+            padding: "20px 30px"
+          }
+        })
+      }
     }
   },
   palette: {

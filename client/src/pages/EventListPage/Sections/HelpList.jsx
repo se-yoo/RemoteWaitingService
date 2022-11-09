@@ -1,12 +1,12 @@
 import React from 'react';
 import HelpListItem from './HelpListItem';
-import { helpColor } from '../../../utils/code';
+import { eventStatusColor } from '../../../utils/code';
 import { Box } from '@mui/material';
 
 const helpInfos = [
-  { color: helpColor.OPEN_SOON, text: "오픈 예정" },
-  { color: helpColor.IN_PROGRESS, text: "진행중" },
-  { color: helpColor.ENDED, text: "마감" }
+  { color: eventStatusColor.OPEN_SOON, text: "오픈 예정" },
+  { color: eventStatusColor.IN_PROGRESS, text: "진행중" },
+  { color: eventStatusColor.ENDED, text: "마감" }
 ]
 
 const HelpList = () => {

@@ -1,16 +1,26 @@
 import { Button, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import MenuTitle from '../../components/MenuTitle';
+import EventList from './Sections/EventList';
 import HelpList from './Sections/HelpList';
 import SearchInput from './Sections/SearchInput';
 
 const EventListPage = () => {
   const [title, setTitle] = useState("이벤트 목록");
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
     if(false) { // 추후 권한 확인 및 전시
       setTitle("참여 이벤트 목록");
     }
+  }, []);
+
+  const onChangeSearchKeyword = useCallback((searchKeyword) => {
+    setSearchKeyword(searchKeyword);
+  }, []);
+
+  const onClickSearch = useCallback(() => {
+    // 추후 검색 연결
   }, []);
 
   return (
@@ -39,9 +49,10 @@ const EventListPage = () => {
           lg={4}
         >
           <HelpList />
-          <SearchInput />
+          <SearchInput value={searchKeyword} onChangeValue={onChangeSearchKeyword} onClickSearch={onClickSearch} />
         </Grid>
       </Grid>
+      <EventList sx={{ mt: 3 }} />
     </div>
   );
 };
