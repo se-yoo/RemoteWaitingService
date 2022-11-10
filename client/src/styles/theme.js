@@ -58,6 +58,10 @@ export const theme = createTheme({
           },
           "& .MuiInputBase-input": {
             padding: "20px 30px"
+          },
+          "& .MuiInputLabel-root[data-shrink=false]": {
+            padding: "4px 16px",
+            lineHeight: "23px"
           }
         })
       }

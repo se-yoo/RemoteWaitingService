@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Dialog from '@mui/material/Dialog';
-import { Backdrop, Button, DialogContent, DialogContentText, DialogTitle, Paper } from '@mui/material';
+import { Backdrop, Box, Button, DialogContent, DialogTitle, Paper } from '@mui/material';
 import styled from '@emotion/styled';
 
-const StyledAlertPaper = styled(Paper)({
-  background: "#FFFFFF",
-  boxShadow: "0px 0px 10px 2px rgba(0, 0, 0, 0.1) !important",
-  borderRadius: "20px",
-  width: "580px",
-  padding: "32px"
-});
-
-const StyledAlertBackdrop = styled(Backdrop)({
+const StyledDialogBackdrop = styled(Backdrop)({
   background: "rgba(0, 0, 0, 0.1)",
   backdropFfilter: "blur(5px)"
 });
+
+const StyledDialogTitle = styled(DialogTitle)({
+  fontWeight: "700",
+  fontSize: "32px",
+  lineHeight: "39px",
+  color: "#496F46",
+  padding: "18px 0"
+});
+
+const StyledDialogSubText = styled(Box)({
+  fontSize: "16px",
+  color: "#BCBCBC",
+})
+
+export const StyledDialogContent = styled(DialogContent)({
+  fontWeight: "400",
+  fontSize: "16px",
+  lineHeight: "25px",
+  color: "#000000",
+  padding: "8px 0 30px 0"
+})
 
 export const StyledDialogButton = styled(Button)({
   fontSize: "24px",
@@ -30,47 +43,44 @@ const CommonDialog = (props) => {
     sx,
     TitleComponent,
     title,
+    subText,
     ContentComponent,
     content,
-    ActionComponent
+    ActionComponent,
+    width
   } = props;
+
+  const StyledDialogPaper = useMemo(() => {
+    return styled(Paper)({
+      background: "#FFFFFF",
+      boxShadow: "0px 0px 10px 2px rgba(0, 0, 0, 0.1) !important",
+      borderRadius: "20px",
+      padding: "32px 42px",
+      width: width,
+      maxWidth: "unset !important"
+    })
+  }, [width]);
 
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      BackdropComponent={StyledAlertBackdrop}
-      PaperComponent={StyledAlertPaper}
+      BackdropComponent={StyledDialogBackdrop}
+      PaperComponent={StyledDialogPaper}
       sx={sx}
     >
       { TitleComponent ? 
           TitleComponent :
-          <DialogTitle
-            sx={{
-              fontWeight: "700",
-              fontSize: "32px",
-              lineHeight: "39px",
-              color: "#496F46"
-            }}
-          >
+          <StyledDialogTitle>
             {title}
-          </DialogTitle>
+          </StyledDialogTitle>
       }
+      { subText && <StyledDialogSubText>{subText}</StyledDialogSubText> }
       { ContentComponent ? 
           ContentComponent :
-          <DialogContent>
-            <DialogContentText
-              sx={{
-                fontWeight: "400",
-                fontSize: "16px",
-                lineHeight: "25px",
-                color: "#000000",
-                padding: "8px 0 30px 0"
-              }}
-            >
-              {content}
-            </DialogContentText>
-          </DialogContent>
+          <StyledDialogContent>
+            {content}
+          </StyledDialogContent>
       }
       {ActionComponent}
     </Dialog>
@@ -85,7 +95,8 @@ CommonDialog.defaultProps = {
   title: "제목",
   ContentComponent: null,
   content: "내용",
-  ActionComponent: null
+  ActionComponent: null,
+  width: "580px"
 }
 
 export default CommonDialog;

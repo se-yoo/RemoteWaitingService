@@ -1,6 +1,7 @@
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import MenuTitle from '../../components/MenuTitle';
+import EventAddDialog from './Sections/EventAddDialog';
 import EventList from './Sections/EventList';
 import HelpList from './Sections/HelpList';
 import SearchInput from './Sections/SearchInput';
@@ -32,15 +33,7 @@ const EventListPage = () => {
         alignItems="end"
       >
         <Grid item xs={4}>
-          <Button
-            sx={{
-              width: "200px",
-              height: "60px",
-              fontSize: "24px"
-            }}
-          >
-            이벤트 등록
-          </Button>
+          <EventAddDialog />
         </Grid>
         <Grid 
           item 
