@@ -9,11 +9,11 @@ const LoginForm = () => {
       autoComplete="off"
     >
       <TextField 
-        placeholder="아이디"
+        label="아이디"
       />
       <TextField 
         type="password"
-        placeholder="비밀번호"
+        label="비밀번호"
         sx={{ mt: 2.5 }}
       />
       <Button

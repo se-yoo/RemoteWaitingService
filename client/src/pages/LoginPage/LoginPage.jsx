@@ -43,7 +43,7 @@ const LoginPage = () => {
         }}
       >
         계정이 없으신가요?&nbsp;
-        <Link href="/test" underline="none">가입하기</Link>
+        <Link href="/terms" underline="none">가입하기</Link>
       </Box>
     </StyledLoginBox>
     
