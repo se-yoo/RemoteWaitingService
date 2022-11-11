@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import Dialog from '@mui/material/Dialog';
-import { Backdrop, Box, Button, DialogContent, DialogTitle, Paper } from '@mui/material';
+import { Backdrop, Box, Button, DialogContent, DialogTitle, IconButton, Paper } from '@mui/material';
 import styled from '@emotion/styled';
+import CloseIcon from '@mui/icons-material/Close';
 
 const StyledDialogBackdrop = styled(Backdrop)({
   background: "rgba(0, 0, 0, 0.1)",
@@ -47,7 +48,8 @@ const CommonDialog = (props) => {
     ContentComponent,
     content,
     ActionComponent,
-    width
+    width,
+    closable
   } = props;
 
   const StyledDialogPaper = useMemo(() => {
@@ -73,6 +75,19 @@ const CommonDialog = (props) => {
           TitleComponent :
           <StyledDialogTitle>
             {title}
+            {closable && (
+              <IconButton
+                aria-label="close"
+                onClick={onClose}
+                sx={{
+                  position: 'absolute',
+                  right: 8,
+                  top: 8,
+                }}
+              >
+                <CloseIcon fontSize="large" color="primary" />
+              </IconButton>
+            )}
           </StyledDialogTitle>
       }
       { subText && <StyledDialogSubText>{subText}</StyledDialogSubText> }
@@ -96,7 +111,8 @@ CommonDialog.defaultProps = {
   ContentComponent: null,
   content: "내용",
   ActionComponent: null,
-  width: "580px"
+  width: "580px",
+  closable: false
 }
 
 export default CommonDialog;

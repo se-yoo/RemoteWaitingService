@@ -9,6 +9,7 @@ import JoinPage from './pages/JoinPage/JoinPage'
 import TermsPage from './pages/JoinPage/TermsPage'
 import TestPage from './pages/TestPage/TestPage';
 import EventListPage from './pages/EventListPage/EventListPage';
+import EventEditPage from './pages/EventEditPage/EventEditPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/join" element={<JoinPage />} />
             <Route path="/" element={<Layout />}>
               <Route path="/events" element={<EventListPage />} />
+              <Route path="/event/edit/:id" element={<EventEditPage />} />
               <Route path="/test" element={<TestPage />} />
             </Route>
           </Routes>

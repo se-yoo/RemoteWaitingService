@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { StyledDialogContent } from '../../../components/CommonDialog';
 import { Grid, ListItemButton } from '@mui/material';
 import styled from '@emotion/styled';
@@ -23,16 +23,10 @@ const presets = [
   { id: 1, name: '음식점 웨이팅' },
   { id: 2, name: '전시회/\n팝업스토어 예약' },
   { id: 3, name: '공개방송\n참여 신청' },
-  { id: 4, name: '사용자 지정' }
+  { id: '', name: '사용자 지정' }
 ]
 
-const EventAddDialogContent = () => {
-  const [selectedId, setSelectedId] = React.useState(4);
-
-  const handleListItemClick = useCallback(id => {
-    setSelectedId(id);
-  });
-
+const EventAddDialogContent = ({ onSelected, selectedId }) => {
   return (
     <StyledDialogContent sx={{ mt: 5 }}>
       <Grid
@@ -43,7 +37,7 @@ const EventAddDialogContent = () => {
           <Grid key={preset.id} item xs={3}>
             <StyledPresetButton
               selected={selectedId === preset.id}
-              onClick={() => handleListItemClick(preset.id)}
+              onClick={() => onSelected(preset.id)}
             >
               {preset.name}
             </StyledPresetButton>
