@@ -5,6 +5,7 @@ import Logo from '../assets/images/logo.png';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import OutputIcon from '@mui/icons-material/Output';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const iconStyle = {
   width: '30px',
@@ -23,10 +24,27 @@ const LayoutHeader = () => {
     navigate('/mypage');
   }, []);
 
-  const onClickLogout = useCallback(() => {
-    // 추후 로그아웃 처리
-    navigate('/login');
-  }, []);
+  // const onClickLogout = useCallback(() => {
+  //   // 추후 로그아웃 처리
+  //   navigate('/login');
+  // }, []);
+
+
+  //로그아웃
+  const onClickLogoutHandler = () =>{
+    axios.get('/api/user/logout')
+    .then(response=>{
+      if(response.data.success) {
+        console.log(response.data);
+        navigate('/login')
+        alert('로그아웃')
+      }
+      else{
+        console.log(response.data);
+        alert('로그아웃을 실패했습니다.')
+      }
+    })
+  }
   
   return (
     <AppBar
@@ -52,7 +70,7 @@ const LayoutHeader = () => {
         <IconButton onClick={onClickMyPage}>
           <PermIdentityIcon sx={iconStyle}/>
         </IconButton>
-        <IconButton sx={{ ml: '8px' }} onClick={onClickLogout}>
+        <IconButton sx={{ ml: '8px' }} onClick={onClickLogoutHandler}>
           <OutputIcon sx={iconStyle}/>
         </IconButton>
       </Toolbar>

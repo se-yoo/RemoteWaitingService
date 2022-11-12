@@ -19,7 +19,6 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/login" element={<LoginPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/join" element={<JoinPage />} />
             <Route path="/" element={<Layout />}>

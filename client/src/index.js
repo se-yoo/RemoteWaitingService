@@ -2,12 +2,30 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+//import { applyMiddleware, createStore } from 'redux';
+import promiseMiddleware from 'redux-promise';
+import ReduxThunk from 'redux-thunk';
+import Reducer from './reducers';
+import { configureStore } from '@reduxjs/toolkit';
 
+//const createStoreWithMiddleware = applyMiddleware(promiseMiddleware,ReduxThunk)(createStore)
+const store = configureStore({
+  reducer: Reducer,
+  middleware: [promiseMiddleware,ReduxThunk],
+  // do not forget this
+  devTools: process.env.NODE_ENV !== 'production',
+})
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  
+    <React.StrictMode>
+      <Provider 
+        store={store}
+      >
+        <App />
+      </Provider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
