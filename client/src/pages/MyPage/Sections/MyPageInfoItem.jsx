@@ -3,13 +3,13 @@ import { Box } from '@mui/material';
 import SectionTitle from '../../../components/SectionTitle';
 
 const MyPageInfoItem = (props) => {
-  const { SectionName, sx, SectionContent } = props;
+  const { sectionName, sx, sectionContent } = props;
 
   return (
     <Box sx={sx}>
-      <SectionTitle title={SectionName} />
+      <SectionTitle title={sectionName} />
       <Box display="flex" alignItems="center" fontSize={16} my={1.5} >
-        {SectionContent}
+        {sectionContent}
       </Box>
      </Box>
   );

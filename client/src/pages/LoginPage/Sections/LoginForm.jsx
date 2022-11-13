@@ -8,8 +8,8 @@ import { loginUser } from '../../../store/actions/user_actions';
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [UserID, setUserID] = useState("");
-  const [Password, setPassword] = useState("");
+  const [userID, setUserID] = useState("");
+  const [password, setPassword] = useState("");
 
   const onUserIDHandler = (event) =>{
     setUserID(event.currentTarget.value)
@@ -21,12 +21,12 @@ const LoginForm = () => {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    console.log('id',UserID);
-    console.log('password',Password);
+    console.log('id',userID);
+    console.log('password',password);
 
     let body = {
-      userId: UserID,
-      password:Password
+      userId: userID,
+      password:password
     }
 
     //로그인 액션
@@ -50,9 +50,9 @@ const LoginForm = () => {
       onSubmit={onSubmitHandler}
     >
       <TextField 
-        label="아이디" value={UserID} onChange={onUserIDHandler}
+        label="아이디" value={userID} onChange={onUserIDHandler}
       />
-      <TextField value={Password} onChange={onPasswordHandler}
+      <TextField value={password} onChange={onPasswordHandler}
         type="password"
         label="비밀번호"
         sx={{ mt: 2.5 }}

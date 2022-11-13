@@ -26,34 +26,26 @@ const StyledLoginBox = styled(Box)({
 const JoinPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [UserID, setUserID] = useState("");
-  const [Password, setPassword] = useState("");
+  const [userID, setUserID] = useState("");
+  const [password, setPassword] = useState("");
   const [pwCheck, setpwCheck] = useState("");
-  const [Name, setName] = useState("");
-  const [BirthDay, setBirthDay] = useState(null);
-  const [PhoneNumber, setPhoneNumber] = useState("");
-  const [Email, setEmail] = useState("");
-  const [Role, setRole] = useState();
+  const [name, setName] = useState("");
+  const [birthDay, setBirthDay] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    console.log('UserID',UserID);
-    console.log('Password',Password);
-    console.log('pwCheck',pwCheck);
-    console.log('Name',Name);
-    console.log('BirthDay',BirthDay);
-    console.log('PhoneNumber',PhoneNumber);
-    console.log('Email',Email);
-    console.log('Role',Role);
 
     let body = {
-      userId: UserID,
-      password:Password,
-      name:Name,
-      birthDay:BirthDay,
-      phoneNumber:PhoneNumber,
-      email:Email,
-      role:Role
+      userId: userID,
+      password:password,
+      name:name,
+      birthDay:birthDay,
+      phoneNumber:phoneNumber,
+      email:email,
+      role:role
     }
 
     dispatch(registerUser(body))
@@ -98,22 +90,22 @@ const JoinPage = () => {
         회원가입
       </h1>
       
-      <TextField onChange={onUserIDHandler} value={UserID} label="아이디"  />
-      <TextField onChange={onPWHandler} value={Password} label="비밀번호" type="password" sx={{ mt: 2.5 }}  />
+      <TextField onChange={onUserIDHandler} value={userID} label="아이디"  />
+      <TextField onChange={onPWHandler} value={password} label="비밀번호" type="password" sx={{ mt: 2.5 }}  />
       <TextField onChange={onPWCheckHandler} value={pwCheck} label="비밀번호확인"  type="password" sx={{ mt: 2.5 }}  />
-      <TextField onChange={onNameHandler} value={Name} label="이름" sx={{ mt: 2.5 }}  />
+      <TextField onChange={onNameHandler} value={name} label="이름" sx={{ mt: 2.5 }}  />
       <LocalizationProvider sx={{ mt: 2.5 }} dateAdapter={AdapterDayjs}>
         <DatePicker inputFormat={"YYYY-MM-DD"} mask={'____-__-__'}
           label="생년월일"
-          value={BirthDay}
+          value={birthDay}
           onChange={(newValue) => {
             setBirthDay(dayjs(newValue).format("YYYY-MM-DD"));
           }}
           renderInput={(params) => <TextField  sx={{ mt: 2.5 }}  {...params} />}
         />
       </LocalizationProvider>
-      <TextField onChange={onPhoneHandler} value={PhoneNumber} label="휴대폰번호" sx={{ mt: 2.5 }}  />
-      <TextField onChange={onEmailHandler} value={Email} label="이메일" sx={{ mt: 2.5 }}  />
+      <TextField onChange={onPhoneHandler} value={phoneNumber} label="휴대폰번호" sx={{ mt: 2.5 }}  />
+      <TextField onChange={onEmailHandler} value={email} label="이메일" sx={{ mt: 2.5 }}  />
       
       <FormControl sx={{float:"left", width:"100%",mt: 2.5}}>
         <RadioGroup

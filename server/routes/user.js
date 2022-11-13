@@ -62,5 +62,28 @@ router.get("/logout",auth, (req,res)=>{
     })
 })
 
+router.post("/mypage",auth, (req,res)=>{
+  User.findOne({_id:req.user._id},(err, user)=>{
+    if(!user) {
+      return res.json({
+        success: false,
+        err
+      })
+    }
+    else{
+      return res.status(200).send({
+        success: true,
+        result:req.user,
+        _id: req.user._id,
+        userId: req.user.userId,
+        name: req.user.name,
+        birthDay: req.user.birthDay,
+        phoneNumber: req.user.phoneNumber,
+        email: req.user.email,
+        role: req.user.role
+      })
+    }
+  })
+})
 
 module.exports = router;

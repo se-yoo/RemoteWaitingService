@@ -4,8 +4,9 @@ import Image from 'mui-image';
 import Logo from '../assets/images/logo.png';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import OutputIcon from '@mui/icons-material/Output';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from '../store/actions/user_actions';
 
 const iconStyle = {
   width: '30px',
@@ -14,6 +15,7 @@ const iconStyle = {
 };
 
 const LayoutHeader = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onClickLogo = useCallback(() => {
@@ -32,19 +34,21 @@ const LayoutHeader = () => {
 
   //로그아웃
   const onClickLogoutHandler = () =>{
-    axios.get('/api/user/logout')
+    dispatch(logoutUser())
     .then(response=>{
-      if(response.data.success) {
-        console.log(response.data);
-        navigate('/login')
-        alert('로그아웃')
+      if(response.payload.success) {
+        console.log(response.payload.success);
+        navigate('/login');
+        alert('로그아웃');
       }
       else{
-        console.log(response.data);
+        console.log(response.payload.err);
         alert('로그아웃을 실패했습니다.')
       }
     })
   }
+
+  
   
   return (
     <AppBar

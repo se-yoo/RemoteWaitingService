@@ -4,8 +4,19 @@ import {
   REGISTER_USER,
   AUTH_USER,
   LOGOUT_USER,
+  MYPAGE_USER,
 } from './types';
 import { USER_SERVER } from './api';
+
+export function mypageUser(){
+  const request = axios.post(`${USER_SERVER}/mypage`)
+  .then(response => response.data);
+
+  return {
+    type: MYPAGE_USER,
+    payload: request
+  }
+}
 
 export function registerUser(dataToSubmit){
   const request = axios.post(`${USER_SERVER}/register`,dataToSubmit)

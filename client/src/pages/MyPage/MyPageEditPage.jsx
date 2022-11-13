@@ -9,42 +9,41 @@ import { useNavigate } from "react-router-dom";
 const MyPageEditPage = () =>{
   const navigate = useNavigate(null);
 
-  const [title, setTitle] = useState("마이페이지");
-  const [UserID, setUserID] = useState("egg");
-  const [Name, setName] = useState("홍길동");
-  const [BirthDay, setBirthDay] = useState("2000-01-08");
-  const [PhoneNumber, setPhoneNumber] = useState("010-0000-0000");
-  const [Email, setEmail] = useState("hello@naver.com");
+  const [userID, setUserID] = useState("eeeee");
+  const [name, setName] = useState("홍홍홍");
+  const [birthDay, setBirthDay] = useState("2000-01-08");
+  const [phoneNumber, setPhoneNumber] = useState("010-0000-0000");
+  const [email, setEmail] = useState("hello@naver.com");
 
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    console.log('UserID',UserID);
-    console.log('Name',Name);
-    console.log('BirthDay',BirthDay);
-    console.log('PhoneNumber',PhoneNumber);
-    console.log('Email',Email);
+    console.log('UserID',userID);
+    console.log('Name',name);
+    console.log('BirthDay',birthDay);
+    console.log('PhoneNumber',phoneNumber);
+    console.log('Email',email);
   }
 
-  const CancleEdit = () => {
+  const cancleEdit = () => {
     navigate("/mypage");
   }
 
   return (
     <Box component="form" onSubmit={onSubmitHandler}>
-      <MenuTitle title={title} subText={"계정 정보를 수정합니다."} sx={{mb:"10px"}} subTextSx={{mb:"10px"}}/>
-      <MyPageEditItem onChangeValue={setUserID} SectionName={"아이디"} SectionContent={UserID} sx={{mt:"59px"}} />
-      <MyPageEditItem onChangeValue={setName} SectionName={"이름"} SectionContent={Name} />
-      <MyPageEditItem onChangeValue={setBirthDay} SectionName={"생년월일"} SectionContent={BirthDay} />
-      <MyPageEditItem onChangeValue={setPhoneNumber} SectionName={"휴대폰 번호"} SectionContent={PhoneNumber} />
-      <MyPageEditItem onChangeValue={setEmail} SectionName={"이메일"} SectionContent={Email} />
-      <MyPageInfoItem SectionName={"권한"} SectionContent={"이벤트 참여자"} />
+      <MenuTitle title={"마이페이지"} subText={"계정 정보를 수정합니다."} sx={{mb:"10px"}} subTextSx={{mb:"10px"}}/>
+      <MyPageEditItem onChangeValue={setUserID} sectionName={"아이디"} sectionContent={userID} sx={{mt:"59px"}} />
+      <MyPageEditItem onChangeValue={setName} sectionName={"이름"} sectionContent={name} />
+      <MyPageEditItem onChangeValue={setBirthDay} sectionName={"생년월일"} sectionContent={birthDay} />
+      <MyPageEditItem onChangeValue={setPhoneNumber} sectionName={"휴대폰 번호"} sectionContent={phoneNumber} />
+      <MyPageEditItem onChangeValue={setEmail} sectionName={"이메일"} sectionContent={email} />
+      <MyPageInfoItem sectionName={"권한"} sectionContent={"이벤트 참여자"} />
       <Grid
         container
         justifyContent="end"
         sx={{ mt: 6 }}
       >
-        <Button color="grey" sx={{ width: 160 }} onClick={CancleEdit} >
+        <Button color="grey" sx={{ width: 160 }} onClick={cancleEdit} >
           취소
         </Button>
         <Button type="submit" sx={{ width: 200, ml: 2 }}>
