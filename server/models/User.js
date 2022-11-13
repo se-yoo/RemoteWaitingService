@@ -12,14 +12,14 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    minlength: 10
+    minlength: 4
   },
   name: {
     type: String,
     maxlength: 50
   },
   birthDay: {
-    type: Date
+    type: String
   },
   phoneNumber: {
     type: String
@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema({
   },
   role : {
     type: Number,
-    default: 0 
+    default: 0 //참여자 0
   },
   token : {
     type: String,

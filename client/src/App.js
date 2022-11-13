@@ -10,6 +10,8 @@ import TermsPage from './pages/JoinPage/TermsPage'
 import TestPage from './pages/TestPage/TestPage';
 import EventListPage from './pages/EventListPage/EventListPage';
 import EventEditPage from './pages/EventEditPage/EventEditPage';
+import MyPage from './pages/MyPage/MyPage';
+import MyPageEditPage from './pages/MyPage/MyPageEditPage';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route path="/events" element={<EventListPage />} />
               <Route path="/event/edit/:id" element={<EventEditPage />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/mypage/edit" element={<MyPageEditPage />} />
               <Route path="/test" element={<TestPage />} />
             </Route>
           </Routes>
