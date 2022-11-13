@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import Dialog from '@mui/material/Dialog';
-import { Backdrop, Box, Button, DialogContent, DialogTitle, IconButton, Paper } from '@mui/material';
+import { Backdrop, Box, DialogContent, DialogTitle, IconButton, Paper } from '@mui/material';
 import styled from '@emotion/styled';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -29,13 +29,6 @@ export const StyledDialogContent = styled(DialogContent)({
   color: "#000000",
   padding: "8px 0 30px 0"
 })
-
-export const StyledDialogButton = styled(Button)({
-  fontSize: "24px",
-  lineHeight: "29px",
-  width: "160px",
-  height: "60px",
-});
 
 const CommonDialog = (props) => {
   const {

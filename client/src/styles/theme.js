@@ -7,6 +7,9 @@ export const theme = createTheme({
         root: ({ ownerState, theme }) => ({
           fontWeight: 700,
           borderRadius: 9999,
+          fontSize: "24px",
+          lineHeight: "29px",
+          height: "60px",
           boxShadow: "none",
           textAlign: "center",
           border: "none",
@@ -47,7 +50,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
           "& fieldset": {
-            borderRadius: 9999,
+            borderRadius: ownerState.multiline ? 20 : 9999,
             borderColor: theme.palette[ownerState.color || "primary"].main,
           },
           "&:hover fieldset": {
@@ -57,7 +60,7 @@ export const theme = createTheme({
             borderColor: theme.palette[ownerState.color || "primary"].main,
           },
           "& .MuiInputBase-input": {
-            padding: "20px 30px"
+            padding: ownerState.multiline ? "8px 10px" : "20px 30px"
           },
           "& .MuiInputLabel-root[data-shrink=false]": {
             padding: "4px 16px",

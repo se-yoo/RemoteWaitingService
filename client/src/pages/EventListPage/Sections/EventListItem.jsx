@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, ListItemButton, ListItemText } from '@mui/material';
 import styled from '@emotion/styled';
 import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined';
-import { eventStatusColor, eventStatusType } from '../../../utils/code';
+import { EVENT_STATUS_COLOR, EVENT_STATUS_TYPE } from '../../../utils/code';
 
 const StyledEventListItem = styled(ListItemButton)({
   background: "#FFFFFF",
@@ -28,12 +28,12 @@ const StyledEventListItemContent = styled(Grid)({
 
 const getStatusColor = (status) => {
   switch(status) {
-    case eventStatusType.OPEN_SOON:
-      return eventStatusColor.OPEN_SOON;
-    case eventStatusType.IN_PROGRESS:
-      return eventStatusColor.IN_PROGRESS;
-    case eventStatusType.ENDED:
-      return eventStatusColor.ENDED;
+    case EVENT_STATUS_TYPE.OPEN_SOON:
+      return EVENT_STATUS_COLOR.OPEN_SOON;
+    case EVENT_STATUS_TYPE.IN_PROGRESS:
+      return EVENT_STATUS_COLOR.IN_PROGRESS;
+    case EVENT_STATUS_TYPE.ENDED:
+      return EVENT_STATUS_COLOR.ENDED;
     default:
       return "red";
   }

@@ -1,6 +1,6 @@
 import React from 'react';
-import { DialogActions } from '@mui/material';
-import CommonDialog, { StyledDialogButton } from './CommonDialog';
+import { Button, DialogActions } from '@mui/material';
+import CommonDialog from './CommonDialog';
 
 const AlertDialog = (props) => {
   const {
@@ -17,23 +17,24 @@ const AlertDialog = (props) => {
 
   const ActionComponent = () => {
     return (
-      <DialogActions>
+      <DialogActions sx={{ px: 0 }}>
         {!hideDisagree && 
-          <StyledDialogButton
+          <Button
             color="grey"
+            sx={{ width: 160 }}
             variant="contained"
             onClick={onClose}
           >
             {disagreeText}
-          </StyledDialogButton>
+          </Button>
         }
-        <StyledDialogButton
+        <Button
           variant="contained"
           onClick={onAgree || onClose}
-          sx={{ ml: "14px !important" }}
+          sx={{ width: 160, ml: 2 }}
         >
           {agreeText}
-        </StyledDialogButton>
+        </Button>
       </DialogActions>
     )
   };

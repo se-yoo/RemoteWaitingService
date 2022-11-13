@@ -9,11 +9,27 @@ const StyledTitle = styled(Box)({
   color: "#496F46"
 });
 
-const MenuTitle = ({ title, sx }) => {
+const StyledSubText = styled(Box)({
+  fontSize: "16px",
+  lineHeight: "19px",
+  color: "#BCBCBC",
+  marginTop: "16px"
+});
+
+const MenuTitle = (props) => {
+  const { title, sx, subText, subTextSx } = props;
+
   return (
-    <StyledTitle sx={sx}>
-      { title }
-    </StyledTitle>
+    <>
+      <StyledTitle sx={sx}>
+        { title }
+      </StyledTitle>
+      {subText && (
+        <StyledSubText sx={subTextSx}>
+          {subText}
+        </StyledSubText>
+      )}
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Button, DialogActions } from '@mui/material';
-import CommonDialog, { StyledDialogButton } from '../../../components/CommonDialog';
+import CommonDialog from '../../../components/CommonDialog';
 import EventAddDialogContent from './EventAddDialogContent';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,20 +28,21 @@ const EventAddDialog = () => {
   const ActionComponent = useMemo(() => {
     return (
       <DialogActions sx={{ px: 0 }}>
-        <StyledDialogButton
+        <Button
           color="grey"
+          sx={{ width: 160 }}
           variant="contained"
           onClick={handleClose}
         >
           취소
-        </StyledDialogButton>
-        <StyledDialogButton
+        </Button>
+        <Button
           variant="contained"
           onClick={onClickSelected}
-          sx={{ ml: "14px !important" }}
+          sx={{ width: 160, ml: 2 }}
         >
           선택
-        </StyledDialogButton>
+        </Button>
       </DialogActions>
     )
   });
