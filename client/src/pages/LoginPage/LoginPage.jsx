@@ -3,6 +3,7 @@ import { Box, Link, styled, useTheme } from '@mui/material';
 import Image from 'mui-image';
 import Logo from '../../assets/images/logo.png';
 import LoginForm from './Sections/LoginForm';
+import Auth from '../../hoc/Auth';
 
 const StyledLoginBox = styled(Box)({
   maxWidth: "440px",
@@ -50,4 +51,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Auth(LoginPage, false);

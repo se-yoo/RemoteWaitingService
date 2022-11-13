@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import {Box,Button,Checkbox,FormGroup,FormControlLabel, styled} from '@mui/material';
+import Auth from '../../hoc/Auth';
 
 const StyledLoginBox = styled(Box)({
   maxWidth: "440px",
@@ -13,9 +14,7 @@ const StyledLoginBox = styled(Box)({
   alignItems: "center"
 });
 
-
 const TermsPage = () => {
-
     // const [isChecked, setisChecked] = useState(false);
 
     // const CheckedHandler = (checked) => {
@@ -70,9 +69,7 @@ const TermsPage = () => {
             회원가입
           </Button>
         </StyledLoginBox>
-        
       );
 };
 
-
-export default TermsPage;
+export default Auth(TermsPage, false);

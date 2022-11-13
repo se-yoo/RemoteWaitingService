@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import LayoutHeader from './LayoutHeader';
 import { Box } from '@mui/material';
+import Auth from '../hoc/Auth';
 
 const Layout = () => {
   return (
@@ -30,4 +31,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default Auth(Layout, true);
