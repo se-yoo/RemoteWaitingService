@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import {Box,Button,Checkbox,FormGroup,FormControlLabel, styled} from '@mui/material';
 import Auth from '../../hoc/Auth';
@@ -15,11 +15,12 @@ const StyledLoginBox = styled(Box)({
 });
 
 const TermsPage = () => {
-    // const [isChecked, setisChecked] = useState(false);
+    const [isChecked, setisChecked] = useState(false);
 
-    // const CheckedHandler = (checked) => {
-        
-    //   };
+    const CheckedHandler = () => {
+        setisChecked(!isChecked);
+
+      };
 
     const navigate = useNavigate(null);
  
@@ -49,17 +50,17 @@ const TermsPage = () => {
 
           <div style={{width:"100%"}}>
             <FormGroup sx={{width:"50%clear"}}>
-                <FormControlLabel control={<Checkbox sx={{
+                <FormControlLabel control={<Checkbox checked={isChecked} sx={{
                 color: "#496F46",
                 '&.Mui-checked': {
                     color: "#496F46"
                 }
-                }}/>} label="동의합니다." />
+                }}/>} onChange={CheckedHandler} label="동의합니다." />
             </FormGroup>
           </div>
 
           {/* checkbox 체크시 버튼 활성화 초반에는 비활성*/}
-          <Button  onClick={navigateToJoin} sx={{
+          <Button  onClick={navigateToJoin} disabled={!isChecked} sx={{
               height: "90px",
               fontSize: "32px",
               mt: 4

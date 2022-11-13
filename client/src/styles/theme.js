@@ -38,6 +38,9 @@ export const theme = createTheme({
           },
           "&:hover:before": {
             opacity: "0.08"
+          },
+          "&.Mui-disabled":{
+            background:"#D5D5D5"
           }
         })
       }
