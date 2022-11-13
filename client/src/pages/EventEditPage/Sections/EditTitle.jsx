@@ -2,21 +2,25 @@ import { Box, IconButton, TextField } from '@mui/material';
 import React, { useCallback, useState } from 'react';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { setEventTitle } from '../../../store/actions/event_actions';
 
 const EditTitle = (props) => {
-  const { value, onChangeValue, sx } = props;
+  const title = useSelector(state => state.event.title);
+  const { sx } = props;
   const [tempTitle, setTempTitle] = useState("");
   const [editable, setEditable] = useState(false);
+  const dispatch = useDispatch();
 
   const onClickEdit = useCallback(() => {
     setEditable(true);
-    setTempTitle(value);
-  }, [value]);
+    setTempTitle(title);
+  }, [title]);
 
   const onClickCompleteEdit = useCallback(() => {
-    onChangeValue(tempTitle);
+    dispatch(setEventTitle(tempTitle));
     setEditable(false);
-  }, [tempTitle, onChangeValue]);
+  }, [tempTitle]);
 
   const onChangeTempTitle = useCallback((e) => {
     setTempTitle(e.target.value);
@@ -51,7 +55,7 @@ const EditTitle = (props) => {
             alignItems="center"
             fontSize={24}
           >
-            {value}
+            {title}
             <IconButton
               sx={{ ml: 1 }}
               onClick={onClickEdit}

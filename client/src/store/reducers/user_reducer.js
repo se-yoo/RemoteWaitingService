@@ -6,18 +6,30 @@ import {
   MYPAGE_USER,
 } from '../actions/types';
 
-export default function(state={},action){
+export default function(state = {}, action) {
   switch(action.type){
     case REGISTER_USER:
-      return {...state, register: action.payload }
+      return {
+        ...state, 
+        register: action.payload 
+      }
     case LOGIN_USER:
-      return { ...state, loginSucces: action.payload }
+      return { 
+        ...state, 
+        loginSucces: action.payload 
+      }
     case AUTH_USER:
-      return {...state, userData: action.payload }
+      return {
+        ...state, 
+        userData: action.payload 
+      }
     case LOGOUT_USER:
       return {...state }
     case MYPAGE_USER:
-      return {...state, mypage: action.payload }
+      return {
+        ...state,
+        mypage: action.payload
+      }
     default:
       return state;
   }
