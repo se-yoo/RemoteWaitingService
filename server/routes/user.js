@@ -15,7 +15,7 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  User.findOne({userId:req.body.userId},(err,user)=>{
+  User.findOne({userId:req.body.userId}, (err, user)=>{
     if(!user) {
       return res.json({
         loginSuccess: false,
@@ -29,6 +29,7 @@ router.post("/login", (req, res) => {
         user.generateToken((err,user)=>{
         if(err) return res.status(400).send(err);
         
+        res.cookie("x_authExp", user.tokenExp);
         res
           .cookie("x_auth", user.token)
           .status(200)
@@ -52,11 +53,11 @@ router.get("/auth", auth, (req,res)=>{
 
 router.get("/logout",auth, (req,res)=>{
   User.findOneAndUpdate({ _id: req.user._id },
-    { token : "" }
+    { token : "", tokenExp: "" }
     , (err, user)=>{
-      if(err) return res.json({success:false,err});
+      if(err) return res.json({ success:false, err });
       return res.status(200).send({
-        success:true
+        success: true
       })
     })
 })
