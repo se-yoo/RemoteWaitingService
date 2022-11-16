@@ -1,8 +1,10 @@
-import { Box, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import React, { memo, useCallback, useMemo } from 'react';
-import { EVENT_OPTION } from '../../../utils/code';
-import { getPageCount, getPageItems, getSeq } from '../../../utils/function';
-import ParticipantInfoTableRow from './ParticipantInfoTableRow';
+import { Button, TableCell } from '@mui/material';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { EVENT_OPTION, PARTICIPANT_STATUS_INFO, WAITING_PARTICIPANT_STATUS_INFO } from '../../../utils/code';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
+import DataTable from '../../../components/DataTable';
+import ParticipantInfoTableExpand from './ParticipantInfoTableExpand';
 
 // 화면 작업을 위한 임시 값, 추후 삭제
 const tempEvent = { 
@@ -37,70 +39,100 @@ const tempEventQuestionList = [
 ];
 // 화면 작업을 위한 임시 값 끝
 
-const rowsPerPage = 5;
-
 const ParticipantInfoTable = memo(() => {
   const [page, setPage] = React.useState(1);
+  const [statusInfos, setStatusInfos] = useState([]);
   const { option } = tempEvent;
 
   const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage);
   }, []);
 
-  const pageCount = useMemo(() => {
-    return getPageCount(tempEventParticipantList.length, rowsPerPage);
+  const headers = useMemo(() => {
+    return [
+      { text: "순서", align: "center", width: "7%", sx: { minWidth: "4rem" }, value: 'index', useIndex: true },
+      { text: "응답 시간", align: "left", value: 'participantDate' },
+      { text: `${option === EVENT_OPTION.WAITING ? '입장' : '당첨'} 여부`, align: "center", value: 'status' }
+    ];
+  }, [option]);
+
+  useEffect(() => {
+    switch(option) {
+      case EVENT_OPTION.WAITING:
+        setStatusInfos(WAITING_PARTICIPANT_STATUS_INFO);
+        break;
+      case EVENT_OPTION.FCFS:
+      case EVENT_OPTION.RANDOM:
+        setStatusInfos(PARTICIPANT_STATUS_INFO);
+        break;
+      default:
+        setStatusInfos(PARTICIPANT_STATUS_INFO);
+        break;
+    }
   }, []);
 
-  const pageItems = useMemo(() => {
-    return getPageItems(page, tempEventParticipantList, rowsPerPage);
-  }, [page]);
+  const statusText = useCallback((status) => {
+    const statusInfo = statusInfos.find(item => item.value === status);
+    return statusInfo? statusInfo.text : '-';
+  }, [statusInfos]);
+
+  const statusColor = useCallback((status) => {
+    const statusInfo = statusInfos.find(item => item.value === status);
+    return statusInfo? statusInfo.color : 'black';
+  }, [statusInfos]);
+
+  const ItemCellComponent = {
+    status: ({item}) => (
+      <TableCell 
+        align="center" 
+        sx={{ color: `${statusColor(item.status)} !important` }}
+      >
+        {statusText(item.status)}
+      </TableCell>
+    )
+  };
+
+  const CollapseContentComponent = useCallback(({item}) => {
+    return (
+      <ParticipantInfoTableExpand
+        item={item}
+        questions={tempEventQuestionList}
+        option={option}
+      />
+    )
+  }, [option]);
+
+  const HideButton = useCallback(({onClick}) => {
+    return (
+      <Button type="innerTable" customsize="x-small" onClick={onClick}>
+        닫기 <ExpandLessIcon />
+      </Button>
+    )
+  }, []);
+
+  const ShowButton = useCallback(({onClick}) => {
+    return (
+      <Button type="innerTable" customsize="x-small" onClick={onClick}>
+        조회 <ExpandMoreOutlinedIcon />
+      </Button>
+    )
+  }, []);
 
   return (
-    <>
-      <TableContainer component={Box} sx={{ my: 3 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell
-                align="center" 
-                sx={{ minWidth: "4rem" }}
-                width="7%"
-              >
-                순서
-              </TableCell>
-              <TableCell align="left">응답 시간</TableCell>
-              <TableCell align="center">
-                {option === EVENT_OPTION.WAITING ? '입장' : '당첨'} 여부
-              </TableCell>
-              <TableCell
-                align="center" 
-                sx={{ minWidth: "120px" }}
-                width="15%"
-              >
-                답변 상세
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {pageItems.map((item, index) => (
-              <ParticipantInfoTableRow 
-                key={item.id} 
-                item={item} 
-                index={getSeq(page, rowsPerPage, index)}
-                questions={tempEventQuestionList}
-                eventOption={option} 
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Pagination 
-        count={pageCount} 
-        page={page} 
-        onChange={handleChangePage}
-        sx={{ mt: 5 }}
-      />
-    </>
+    <DataTable
+      headers={headers}
+      items={tempEventParticipantList}
+      page={page}
+      rowsPerPage={5}
+      sx={{ my: 3 }}
+      showExpand
+      expandHeaderText="답변 상세"
+      HideControlComponent={HideButton}
+      ExpandControlComponent={ShowButton}
+      CollapseContentComponent={CollapseContentComponent}
+      onChangePage={handleChangePage}
+      ItemCellComponent={ItemCellComponent}
+    />
   );
 });
 

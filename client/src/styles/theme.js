@@ -195,6 +195,7 @@ export const theme = createTheme({
     MuiTableRow: {
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
+          height: ownerState.type === "collapse" ? "" : 64,
           ...(ownerState.type === "collapse" && {
             "& .MuiTableCell-root": {
               padding: 0

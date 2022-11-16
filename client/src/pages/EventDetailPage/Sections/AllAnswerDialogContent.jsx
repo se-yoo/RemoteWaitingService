@@ -1,8 +1,7 @@
-import { Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { Box } from '@mui/system';
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { StyledDialogContent } from '../../../components/CommonDialog';
-import { getPageCount, getPageItems, getSeq } from '../../../utils/function';
+import DataTable from '../../../components/DataTable';
+import { getSeq } from '../../../utils/function';
 import AllAnswerDialogContentRow from './AllAnswerDialogContentRow';
 
 // 화면 작업을 위한 임시 값, 추후 삭제
@@ -27,70 +26,50 @@ const tempEventQuestionList = [
 ];
 // 화면 작업을 위한 임시 값 끝
 
-const rowsPerPage = 10;
-
 const AllAnswerDialogContent = memo(() => {
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
+  const [headers, setHeaders] = useState([]);
 
   const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage);
   }, []);
 
-  const pageCount = useMemo(() => {
-    return getPageCount(tempEventParticipantList.length, rowsPerPage);
+  useEffect(() => {
+    const tempHeaders = [
+      { text: "순서", align: "center", width: "7%", sx: { minWidth: "4rem" } },
+      { text: "응답 시간", align: "center", width: "15%", sx: { minWidth: "120px" } }
+    ];
+
+    tempEventQuestionList.forEach(question => {
+      tempHeaders.splice(1, 0, {
+        text: question.question,
+        align: "left"
+      });
+    });
+
+    setHeaders(tempHeaders);
   }, []);
 
-  const pageItems = useMemo(() => {
-    return getPageItems(page, tempEventParticipantList, rowsPerPage);
-  }, [page]);
+  const ItemRowComponent = useCallback(({item, index}) => {
+    return (
+      <AllAnswerDialogContentRow
+        item={item} 
+        index={getSeq(page, 8, index)}
+        questions={tempEventQuestionList}
+      />
+    );
+  });
 
   return (
     <StyledDialogContent>
-      <TableContainer component={Box} sx={{ my: 3 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell
-                align="center" 
-                sx={{ minWidth: "4rem" }}
-                width="7%"
-              >
-                순서
-              </TableCell>
-              {tempEventQuestionList.map(question => (
-                <TableCell 
-                  key={question.id}
-                  align="left"
-                >
-                  {question.question}
-                </TableCell>
-              ))}
-              <TableCell
-                align="center"
-                sx={{ minWidth: "120px" }}
-                width="15%"
-              >
-                응답 시간
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {pageItems.map((item, index) => (
-              <AllAnswerDialogContentRow
-                key={item.id} 
-                item={item} 
-                index={getSeq(page, rowsPerPage, index)}
-                questions={tempEventQuestionList}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Pagination 
-        count={pageCount} 
-        page={page} 
-        onChange={handleChangePage}
-        sx={{ mt: 5 }}
+      <DataTable
+        headers={headers}
+        items={tempEventParticipantList}
+        page={page}
+        sx={{ my: 3 }}
+        rowsPerPage={8}
+        onChangePage={handleChangePage}
+        ItemRowComponent={ItemRowComponent}
       />
     </StyledDialogContent>
   );
