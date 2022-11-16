@@ -31,9 +31,7 @@ const QuestionListItem = memo((props) => {
           <DragHandle />
         </Grid>
         <Grid item xs>
-          <QuestionListItemForm
-            idx={itemIdx}
-          />
+          <QuestionListItemForm idx={itemIdx} />
         </Grid>
       </Grid>
     </StyledQuestionListItem>

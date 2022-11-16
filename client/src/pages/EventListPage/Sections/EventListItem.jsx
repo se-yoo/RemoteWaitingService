@@ -39,9 +39,11 @@ const getStatusColor = (status) => {
   }
 };
 
-const EventListItem = ({ title, content, status }) => {
+const EventListItem = (props) => {
+  const { title, content, status, onClickEvent } = props;
+
   return (
-    <StyledEventListItem>
+    <StyledEventListItem onClick={onClickEvent}>
       <ListItemText
         primary={
           <StyledEventListItemTitle 

@@ -1,5 +1,6 @@
 import { Button, Grid } from '@mui/material';
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MenuTitle from '../../components/MenuTitle';
 import EditDate from './Sections/EditDate';
 import EditDesc from './Sections/EditDesc';
@@ -8,6 +9,12 @@ import EditQuestions from './Sections/EditQuestions';
 import EditTitle from './Sections/EditTitle';
 
 const EventEditPage = () => {
+  const navigate = useNavigate();
+
+  const onClickCancel = useCallback(() => {
+    navigate(-1);
+  }, []);
+
   return (
     <div>
       <MenuTitle 
@@ -24,7 +31,11 @@ const EventEditPage = () => {
         justifyContent="end"
         sx={{ mt: 6 }}
       >
-        <Button color="grey" sx={{ width: 160 }}>
+        <Button
+            color="grey"
+            sx={{ width: 160 }}
+            onClick={onClickCancel}
+        >
           취소
         </Button>
         <Button sx={{ width: 200, ml: 2 }}>

@@ -46,15 +46,6 @@ export const theme = createTheme({
           "&.Mui-disabled":{
             background:"#D5D5D5"
           },
-          ...(ownerState.translucent && {
-            background: `${theme.palette[ownerState.color || "primary"].main}1a`,
-            border: `1px solid ${theme.palette[ownerState.color || "primary"].main}`,
-            color: theme.palette[ownerState.color || "primary"].main,
-            "&:hover": {
-              boxShadow: "none",
-              background: `${theme.palette[ownerState.color || "primary"].main}0d`,
-            }
-          }),
           ...(ownerState.variant === "text" && {
             background: 'white',
             color: theme.palette[ownerState.color || "primary"].main,
@@ -66,6 +57,47 @@ export const theme = createTheme({
               background: "transparent",
               opacity: "0.8"
             }
+          }),
+          ...(ownerState.type === "translucent" && {
+            background: `${theme.palette[ownerState.color || "primary"].main}1a`,
+            border: `1px solid ${theme.palette[ownerState.color || "primary"].main}`,
+            color: theme.palette[ownerState.color || "primary"].main,
+            "&:hover": {
+              boxShadow: "none",
+              background: `${theme.palette[ownerState.color || "primary"].main}0d`,
+            }
+          }),
+          ...(ownerState.type === "innerTable"  && {
+            border: "1px solid #BCBCBC",
+            background: "#FFFFFF",
+            color: "#000000",
+            "&:hover": {
+              boxShadow: "none",
+              background: "transparent",
+              opacity: "0.8"
+            }
+          }),
+          ...(ownerState.variant === "outlined" && {
+            background: 'white',
+            color: theme.palette[ownerState.color || "primary"].main,
+            border: `2px solid ${theme.palette[ownerState.color || "primary"].main}`,
+            "&:hover": {
+              background: "transparent",
+              opacity: "0.8",
+              border: `2px solid ${theme.palette[ownerState.color || "primary"].main}`,
+            }
+          }),
+          ...(ownerState.customsize === "small"  && {
+            height: 44,
+            fontSize: 20,
+            borderRadius: 22
+          }),
+          ...(ownerState.customsize === "x-small"  && {
+            borderRadius: "16px",
+            fontSize: "16px",
+            height: "32px",
+            minWidth: "110px",
+            fontWeight: 400,
           })
         })
       }
@@ -120,7 +152,7 @@ export const theme = createTheme({
         selectlabel: "false"
       },
       styleOverrides: {
-        root: ({ ownerState, theme }) => ({
+        root: {
           "&[data-shrink=true]": {
             padding: "0 4px"
           },
@@ -128,7 +160,67 @@ export const theme = createTheme({
             padding: "4px 16px",
             lineHeight: "23px"
           }
+        }
+      }
+    },
+    MuiTableContainer: {
+      styleOverrides: {
+        root: {
+          borderTop: "1px solid #496F46",
+          borderBottom: "1px solid #496F46"
+        }
+      }
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          "& .MuiTableCell-head": {
+            color: "#000000",
+            fontWeight: 700,
+            fontSize: 16,
+            borderBottom: "1px solid #BCBCBC"
+          }
+        }
+      }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          color: "#000000",
+          fontSize: 16,
+          borderBottom: "unset"
+        }
+      }
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: ({ ownerState, theme }) => ({
+          ...(ownerState.type === "collapse" && {
+            "& .MuiTableCell-root": {
+              padding: 0
+            },
+            "& .MuiCollapse-wrapper": {
+              padding: "32px 56px",
+              background: `${theme.palette[ownerState.color || "primary"].main}08`
+            },
+          })
         })
+      }
+    },
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          "& .MuiPagination-ul": {
+            justifyContent: "center"
+          },
+          "& .MuiPaginationItem-root": {
+            fontSize: 20
+          },
+          "& .Mui-selected.MuiPaginationItem-root": {
+            background: "unset",
+            fontWeight: 700
+          }
+        }
       }
     }
   },

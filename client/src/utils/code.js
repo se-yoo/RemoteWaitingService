@@ -1,3 +1,5 @@
+import { theme } from "../styles/theme"
+
 export const ROLE_TYPE = {
   EVENT_PARTICIPANT: 0,
   EVENT_MANAGER: 1
@@ -34,7 +36,8 @@ export const ANSWER_TYPE = {
   TEXTAREA: 3,
   RADIO: 4,
   CHECKBOX: 5,
-  DATE: 6
+  DATE: 6,
+  NUMBER: 7
 }
 
 export const ANSWER_TYPE_TEXT = [
@@ -45,4 +48,23 @@ export const ANSWER_TYPE_TEXT = [
   { text: '라디오 버튼', value: ANSWER_TYPE.RADIO },
   { text: '체크박스', value: ANSWER_TYPE.CHECKBOX },
   { text: '날짜', value: ANSWER_TYPE.DATE },
+  { text: '숫자', value: ANSWER_TYPE.NUMBER },
+]
+
+export const PARTICIPANT_STATUS = {
+  NONE: 0,
+  WIN: 1,
+  ENTER: 2,
+  ENTER_CANCEL: 3
+}
+
+export const PARTICIPANT_STATUS_INFO = [
+  { text: '-', value: PARTICIPANT_STATUS.NONE, color: theme.palette.black },
+  { text: '당첨', value: PARTICIPANT_STATUS.WIN, color: theme.palette.primary.main }
+]
+
+export const WAITING_PARTICIPANT_STATUS_INFO = [
+  { text: '대기', value: PARTICIPANT_STATUS.NONE, color: theme.palette.black },
+  { text: '입장 완료', value: PARTICIPANT_STATUS.ENTER, color: theme.palette.primary.main },
+  { text: '입장 취소', value: PARTICIPANT_STATUS.ENTER_CANCEL, color: theme.palette.red.main }
 ]

@@ -14,7 +14,7 @@ const SectionTitle = (props) => {
       fontWeight={700}
       color={theme.palette[color || "primary"].main}
       my={1.5}
-      sx={{ sx }}
+      sx={sx}
     >
       <CircleIcon
         sx={{ mr: 1, fontSize: 8 }}

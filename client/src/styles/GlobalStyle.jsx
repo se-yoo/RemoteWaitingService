@@ -16,6 +16,15 @@ const GlobalStyle = createGlobalStyle`
   .cursor-pointer {
     cursor: pointer;
   }
+
+  .required::after {
+    content: "*";
+    color: #CA3737;
+    display: inline-block;
+    vertical-align: -webkit-baseline-middle;
+    vertical-align: middle;
+    padding-left: 4px;
+  }
 `;
 
 export default GlobalStyle;

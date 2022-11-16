@@ -18,7 +18,7 @@ const EditQuestions = memo((props) => {
       <SectionTitle title="이벤트 문항" />
       <QuestionList />
       <Button
-        translucent="true"
+        type="translucent"
         sx={{
           fontSize: 24,
           fontWeight: 400
