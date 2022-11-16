@@ -1,21 +1,11 @@
-import { Box, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box } from '@mui/system';
 import React, { memo, useCallback, useMemo } from 'react';
-import { EVENT_OPTION } from '../../../utils/code';
+import { StyledDialogContent } from '../../../components/CommonDialog';
 import { getPageCount, getPageItems, getSeq } from '../../../utils/function';
-import ParticipantInfoTableRow from './ParticipantInfoTableRow';
+import AllAnswerDialogContentRow from './AllAnswerDialogContentRow';
 
 // 화면 작업을 위한 임시 값, 추후 삭제
-const tempEvent = { 
-  id: 1, 
-  title: '이벤트 제목', 
-  description: '이벤트 설명',
-  participantCnt: 10, 
-  createDate: '2022-09-27', 
-  startDate: '2022-09-27 15:00:00',
-  endDate: '2022-10-05 18:00:00',
-  option: 0 
-};
-
 const tempEventParticipantList = [
   { id: 1, participantDate: '2022-09-26 15:00:01.002', status: 0, answers: ['홍길동', 1] },
   { id: 2, participantDate: '2022-09-26 15:00:01.003', status: 2, answers: ['홍길동', 1] },
@@ -37,11 +27,10 @@ const tempEventQuestionList = [
 ];
 // 화면 작업을 위한 임시 값 끝
 
-const rowsPerPage = 5;
+const rowsPerPage = 10;
 
-const ParticipantInfoTable = memo(() => {
+const AllAnswerDialogContent = memo(() => {
   const [page, setPage] = React.useState(1);
-  const { option } = tempEvent;
 
   const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage);
@@ -56,7 +45,7 @@ const ParticipantInfoTable = memo(() => {
   }, [page]);
 
   return (
-    <>
+    <StyledDialogContent>
       <TableContainer component={Box} sx={{ my: 3 }}>
         <Table>
           <TableHead>
@@ -68,27 +57,30 @@ const ParticipantInfoTable = memo(() => {
               >
                 순서
               </TableCell>
-              <TableCell align="left">응답 시간</TableCell>
-              <TableCell align="center">
-                {option === EVENT_OPTION.WAITING ? '입장' : '당첨'} 여부
-              </TableCell>
+              {tempEventQuestionList.map(question => (
+                <TableCell 
+                  key={question.id}
+                  align="left"
+                >
+                  {question.question}
+                </TableCell>
+              ))}
               <TableCell
-                align="center" 
+                align="center"
                 sx={{ minWidth: "120px" }}
                 width="15%"
               >
-                답변 상세
+                응답 시간
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {pageItems.map((item, index) => (
-              <ParticipantInfoTableRow 
+              <AllAnswerDialogContentRow
                 key={item.id} 
                 item={item} 
                 index={getSeq(page, rowsPerPage, index)}
                 questions={tempEventQuestionList}
-                eventOption={option} 
               />
             ))}
           </TableBody>
@@ -100,8 +92,8 @@ const ParticipantInfoTable = memo(() => {
         onChange={handleChangePage}
         sx={{ mt: 5 }}
       />
-    </>
+    </StyledDialogContent>
   );
 });
 
-export default ParticipantInfoTable;
+export default AllAnswerDialogContent;

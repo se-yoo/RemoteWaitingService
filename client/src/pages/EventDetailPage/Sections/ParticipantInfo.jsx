@@ -1,7 +1,9 @@
 import { Box, Button } from '@mui/material';
-import React, { memo } from 'react';
+import React, { memo, useCallback, useState } from 'react';
+import CommonDialog from '../../../components/CommonDialog';
 import SectionTitle from '../../../components/SectionTitle';
 import { EVENT_OPTION } from '../../../utils/code';
+import AllAnswerDialogContent from './AllAnswerDialogContent';
 import ParticipantInfoTable from './ParticipantInfoTable';
 
 // 화면 작업을 위한 임시 값, 추후 삭제
@@ -17,7 +19,16 @@ const tempEvent = {
 };
 
 const ParticipantInfo = memo(() => {
+  const [openDialogAllAnswer, setOpenDialogAllAnswer] = useState(false);
   const { participantCnt, option } = tempEvent;
+
+  const handleClose = useCallback(() => {
+    setOpenDialogAllAnswer(false);
+  }, []);
+
+  const onClickAllAnswer = useCallback(() => {
+    setOpenDialogAllAnswer(true);
+  }, []);
 
   return (
     <>
@@ -29,7 +40,11 @@ const ParticipantInfo = memo(() => {
         justifyContent="end"
         mt={4}
       >
-        <Button type="translucent" customsize="small">
+        <Button
+          type="translucent"
+          customsize="small"
+          onClick={onClickAllAnswer}
+        >
           전체 답변 상세
         </Button>
         {option !== EVENT_OPTION.WAITING && (
@@ -42,6 +57,14 @@ const ParticipantInfo = memo(() => {
             </Button>
         )}
       </Box>
+      <CommonDialog
+        open={openDialogAllAnswer}
+        onClose={handleClose}
+        width={1500}
+        title="전체 답변 상세"
+        closable
+        ContentComponent={<AllAnswerDialogContent />}
+      />
     </>
   );
 });

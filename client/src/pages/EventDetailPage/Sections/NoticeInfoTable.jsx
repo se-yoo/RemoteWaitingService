@@ -26,11 +26,11 @@ const NoticeInfoTable = memo(() => {
 
   const pageCount = useMemo(() => {
     return getPageCount(tempNoticeList.length, rowsPerPage);
-  }, [rowsPerPage]);
+  }, []);
 
   const pageItems = useMemo(() => {
     return getPageItems(page, tempNoticeList, rowsPerPage);
-  }, [page, rowsPerPage]);
+  }, [page]);
 
   return (
     <>

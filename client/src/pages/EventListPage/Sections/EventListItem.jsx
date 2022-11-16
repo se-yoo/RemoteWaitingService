@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, ListItemButton, ListItemText } from '@mui/material';
+import { Box, ListItemButton, ListItemText } from '@mui/material';
 import styled from '@emotion/styled';
 import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined';
 import { EVENT_STATUS_COLOR, EVENT_STATUS_TYPE } from '../../../utils/code';
@@ -12,14 +12,14 @@ const StyledEventListItem = styled(ListItemButton)({
   padding: "16px 24px"
 });
 
-const StyledEventListItemTitle = styled(Grid)({
+const StyledEventListItemTitle = styled(Box)({
   fontWeight: 600,
   fontSize: "20px",
   lineHeight: "44px",
   marginBottom: "12px"
 });
 
-const StyledEventListItemContent = styled(Grid)({
+const StyledEventListItemContent = styled(Box)({
   fontWeight: 400,
   fontSize: "16px",
   lineHeight: "19px",
@@ -47,8 +47,9 @@ const EventListItem = (props) => {
       <ListItemText
         primary={
           <StyledEventListItemTitle 
-            container
+            display="flex"
             alignItems="center"
+            component="span"
           >
             <LocalActivityOutlinedIcon 
               color={getStatusColor(status)}
@@ -59,7 +60,7 @@ const EventListItem = (props) => {
           </StyledEventListItemTitle>
         }
         secondary={
-          <StyledEventListItemContent>
+          <StyledEventListItemContent component="span">
             {content}
           </StyledEventListItemContent>
         }
