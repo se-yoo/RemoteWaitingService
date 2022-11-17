@@ -3,6 +3,7 @@ export const REGISTER_USER = 'register_user';
 export const AUTH_USER = 'auth_user';
 export const LOGOUT_USER = 'logout_user';
 export const MYPAGE_USER = 'mypage_user';
+export const MYPAGE_USER_EDIT = 'mypage_user_edit';
 
 export const SET_EVENT_TITLE = 'set_event_title';
 export const SET_EVENT_DESCRIPTION = 'set_event_description';

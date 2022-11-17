@@ -4,6 +4,7 @@ import {
   AUTH_USER,
   LOGOUT_USER,
   MYPAGE_USER,
+  MYPAGE_USER_EDIT,
 } from '../actions/types';
 
 export default function(state = {}, action) {
@@ -27,8 +28,12 @@ export default function(state = {}, action) {
       return {...state }
     case MYPAGE_USER:
       return {
+        ...state
+      }
+    case MYPAGE_USER_EDIT:
+      return {
         ...state,
-        mypage: action.payload
+        mypageEditSuccess: action.payload
       }
     default:
       return state;

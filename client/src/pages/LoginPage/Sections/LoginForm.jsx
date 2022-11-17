@@ -36,7 +36,7 @@ const LoginForm = () => {
         navigate('/');
       }
       else{
-        alert('Error!');
+        alert('로그인할 수 없습니다!');
       }
     })
 

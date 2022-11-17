@@ -3,6 +3,7 @@ const router = express.Router();
 const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
 
+//req.params.id는 클라이언트에서 엔드포인트의 끝(:id)에 붙여준 id를 받아오는 것
 router.post("/register", (req, res) => {
   const user = new User(req.body);
 
@@ -26,7 +27,7 @@ router.post("/login", (req, res) => {
       if(!isMatch) 
         return res.json({ loginSuccess:false, message:"비밀번호가 틀렸습니다." })
       
-        user.generateToken((err,user)=>{
+      user.generateToken((err,user)=>{
         if(err) return res.status(400).send(err);
         
         res.cookie("x_authExp", user.tokenExp);
@@ -81,6 +82,43 @@ router.post("/mypage",auth, (req,res)=>{
         phoneNumber: req.user.phoneNumber,
         email: req.user.email,
         role: req.user.role
+      })
+    }
+  })
+})
+
+router.post("/mypage/edit", auth, (req,res)=>{
+  User.findOne({_id:req.user._id},(err,user)=>{
+    if(!user){
+      return res.json({
+        success:false,
+        err
+      })
+    }
+    else{
+      User.findByIdAndUpdate(req.user._id, req.body, null, (err, user)=>{
+        if(err) return res.json({ success:false, err });
+        user.isChangePW(req.body.password, (err,user)=>{
+          if(err) res.json({success:false, err})
+          if(user){
+            User.findOneAndUpdate({ _id: req.user._id },
+              { password : user.password }
+              , (err, user)=>{
+                if(err) return res.json({ success:false, isPWChange:true, err });
+                return res.status(200).send({
+                  success: true,
+                  isPWChange:true
+                })
+              })
+          }
+          else{
+            return res.status(200).send({
+              success: true,
+              isPWChange:false
+            })
+          }
+        })
+        
       })
     }
   })

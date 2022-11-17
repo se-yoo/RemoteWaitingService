@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    minlength: 4
+    minlength: 8
   },
   name: {
     type: String,
@@ -39,6 +39,7 @@ const userSchema = mongoose.Schema({
   }
 });
 
+
 userSchema.pre('save', function( next ) {
   var user = this;
   
@@ -57,6 +58,27 @@ userSchema.pre('save', function( next ) {
     next()
   }
 });
+
+
+
+userSchema.methods.isChangePW = function(plainPassword,cb){
+  var user = this;
+  if(plainPassword){
+    bcrypt.genSalt(saltRounds, function(err, salt){
+      if(err) return cb(err);
+
+      bcrypt.hash(plainPassword, salt, function(err, hash){
+        if(err) return cb(err);
+        user.password = hash 
+        cb(null, user);
+      })
+    })
+  }
+  else{
+    cb(null);
+  }
+}
+
 
 userSchema.methods.comparePassword = function(plainPassword,cb){
   bcrypt.compare(plainPassword, this.password, function(err, isMatch){

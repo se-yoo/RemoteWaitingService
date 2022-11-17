@@ -5,8 +5,19 @@ import {
   AUTH_USER,
   LOGOUT_USER,
   MYPAGE_USER,
+  MYPAGE_USER_EDIT,
 } from './types';
 import { USER_SERVER } from './api';
+
+export function mypageUserEdit(dataToSubmit){
+  const request = axios.post(`${USER_SERVER}/mypage/edit`,dataToSubmit)
+  .then(response => response.data);
+
+  return {
+    type: MYPAGE_USER_EDIT,
+    payload: request
+  }
+}
 
 export function mypageUser(){
   const request = axios.post(`${USER_SERVER}/mypage`)

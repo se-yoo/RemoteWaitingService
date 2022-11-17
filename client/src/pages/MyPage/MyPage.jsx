@@ -28,6 +28,7 @@ const MyPage = () =>{
     dispatch(mypageUser())
     .then(response => {
       if(response.payload.success){
+        console.log('MyPage useEffect()');
         setUserID(response.payload.userId);
         setName(response.payload.name);
         setBirthDay(response.payload.birthDay);
