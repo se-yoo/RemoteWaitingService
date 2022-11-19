@@ -46,7 +46,7 @@ const ParticipantInfo = memo(() => {
         <Button
           variant="contained"
           onClick={onClickSaveWinner}
-          sx={{ width: 160, ml: 2 }}
+          sx={{ width: 160, marginLeft: "14px !important" }}
         >
           저장
         </Button>

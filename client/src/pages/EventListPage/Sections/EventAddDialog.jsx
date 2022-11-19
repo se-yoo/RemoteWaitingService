@@ -5,7 +5,7 @@ import EventAddDialogContent from './EventAddDialogContent';
 import { useNavigate } from 'react-router-dom';
 
 const EventAddDialog = () => {
-  const [selectedId, setSelectedId] = React.useState('');
+  const [selectedId, setSelectedId] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ const EventAddDialog = () => {
         <Button
           variant="contained"
           onClick={onClickSelected}
-          sx={{ width: 160, ml: 2 }}
+          sx={{ width: 160, marginLeft: "14px !important" }}
         >
           선택
         </Button>

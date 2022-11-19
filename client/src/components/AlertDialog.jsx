@@ -31,7 +31,7 @@ const AlertDialog = (props) => {
         <Button
           variant="contained"
           onClick={onAgree || onClose}
-          sx={{ width: 160, ml: 2 }}
+          sx={{ width: 160, marginLeft: "14px !important" }}
         >
           {agreeText}
         </Button>

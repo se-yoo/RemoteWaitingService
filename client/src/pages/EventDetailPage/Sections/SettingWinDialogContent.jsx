@@ -66,7 +66,7 @@ const SettingWinDialogContent = memo(() => {
       <Box
         display="flex"
         justifyContent="end"
-        sx={{color: "primary"}}
+        sx={{color: "#496F46"}}
       >
         {selectedCount}명 선택됨
       </Box>

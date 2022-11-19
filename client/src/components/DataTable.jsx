@@ -28,7 +28,8 @@ const DataTable = (props) => {
     checkboxSelection,
     checkboxReadonly,
     selected,
-    onChangeSelected
+    onChangeSelected,
+    onClickRow
   } = props;
   const [opens, setOpens] = useState(initialOpens(items.length));
   
@@ -78,7 +79,10 @@ const DataTable = (props) => {
     return ItemRowComponent ? 
       <ItemRowComponent item={item} index={index} />
       : (
-        <TableRow>
+        <TableRow 
+          clickable={onClickRow != null ? "true" : "false"}
+          onClick={(e) => onClickTableRowComponent(e, item)}
+        >
           {checkboxSelection && (
             <TableCell padding="checkbox">
               <Checkbox
@@ -162,6 +166,11 @@ const DataTable = (props) => {
 
     onChangeSelected([]);
   }, []);
+
+  const onClickTableRowComponent = useCallback((event, row) => {
+    if(onClickRow == null) return;
+    onClickRow(event, row);
+  }, [onClickRow]);
 
   return (
     <>
@@ -248,7 +257,8 @@ DataTable.defaultProps = {
   checkboxSelection: false,
   checkboxReadonly: false,
   selected: [],
-  onChangeSelected: () => {}
+  onChangeSelected: () => {},
+  onClickRow: null
 }
 
 export default DataTable;

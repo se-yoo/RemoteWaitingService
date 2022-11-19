@@ -210,6 +210,12 @@ export const theme = createTheme({
               padding: "32px 56px",
               background: `${theme.palette[ownerState.color || "primary"].main}08`
             },
+          }),
+          ...(ownerState.clickable === "true" && {
+            "&:hover": {
+              cursor: "pointer",
+              background: `${theme.palette[ownerState.color || "primary"].main}12`
+            }
           })
         })
       }

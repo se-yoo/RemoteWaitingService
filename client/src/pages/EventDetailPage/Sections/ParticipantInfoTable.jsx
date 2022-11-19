@@ -40,7 +40,7 @@ const tempEventQuestionList = [
 // 화면 작업을 위한 임시 값 끝
 
 const ParticipantInfoTable = memo((props) => {
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
   const [statusInfos, setStatusInfos] = useState([]);
   const { option } = tempEvent;
   const { 
