@@ -121,6 +121,9 @@ export const theme = createTheme({
           },
           "& .MuiInputBase-input": {
             padding: ownerState.multiline ? "8px 10px" : "20px 30px"
+          },
+          "& .MuiIconButton-edgeEnd": {
+            marginRight: "-4px"
           }
         })
       }
@@ -143,6 +146,9 @@ export const theme = createTheme({
           },
           "& .MuiInputBase-input": {
             padding: "20px 30px"
+          },
+          "& .MuiSelect-icon": {
+            right: "16px"
           }
         })
       }

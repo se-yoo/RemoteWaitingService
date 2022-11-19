@@ -63,7 +63,7 @@ const QuestionListItemForm = memo((props) => {
         sx={{ mt: 2 }}
       >
         <Grid item xs={3}>
-          <FormControl  fullWidth>
+          <FormControl fullWidth>
             <InputLabel id="type-select-label" selectlabel="true">
               문항 종류
             </InputLabel>

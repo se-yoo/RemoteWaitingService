@@ -18,8 +18,8 @@ const EventEditPage = () => {
   return (
     <div>
       <MenuTitle 
-        title={"이벤트 등록"} 
-        subText={"이벤트 참여 양식을 생성합니다"}
+        title="이벤트 등록"
+        subText="이벤트 참여 양식을 생성합니다"
       />
       <EditTitle sx={{ mt: 8 }} />
       <EditDesc sx={{ mt: 4 }} />

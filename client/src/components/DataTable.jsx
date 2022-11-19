@@ -1,4 +1,4 @@
-import { Collapse, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Checkbox, Collapse, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useCallback, useMemo, useState } from 'react';
 import { getPageCount, getPageItems, getSeq } from '../utils/function';
@@ -24,19 +24,25 @@ const DataTable = (props) => {
     expandHeaderText,
     ExpandControlComponent,
     HideControlComponent,
-    CollapseContentComponent
+    CollapseContentComponent,
+    checkboxSelection,
+    checkboxReadonly,
+    selected,
+    onChangeSelected
   } = props;
-  const [ opens, setOpens ] = useState(initialOpens(items.length));
+  const [opens, setOpens] = useState(initialOpens(items.length));
   
   const emptyRows = useMemo(() => {
     return page > 0 ? Math.max(0, page * rowsPerPage - items.length) : 0;
-  }, [page, rowsPerPage, items.length])
+  }, [page, rowsPerPage, items.length]);
 
-  const toggleOpen = useCallback((index) => {
-    const newOpens = [...opens];
-    newOpens[index] = !newOpens[index];
-    setOpens(newOpens);
-  }, [opens]);
+  const selectedCount = useMemo(() => {
+    return selected.length;
+  }, [selected.length]);
+
+  const rowCount = useMemo(() => {
+    return items.length;
+  }, [items.length]);
 
   const pageCount = useMemo(() => {
     return getPageCount(items.length, rowsPerPage);
@@ -59,15 +65,30 @@ const DataTable = (props) => {
         </TableCell>
       )
     }
-  })
+  });
+  
+  const isSelected = (item) => {
+    return selected.indexOf(item) !== -1;
+  };
 
   const DataTableRow = ({item, index}) => {
     const arrIndex = getSeq(page, rowsPerPage, index) - 1;
+    const isItemSelected = isSelected(item);
 
     return ItemRowComponent ? 
       <ItemRowComponent item={item} index={index} />
       : (
         <TableRow>
+          {checkboxSelection && (
+            <TableCell padding="checkbox">
+              <Checkbox
+                color="primary"
+                disabled={checkboxReadonly}
+                checked={isItemSelected}
+                onClick={() => handleSelectRow(item)}
+              />
+            </TableCell>
+          )}
           {headers.map(header => (
             <DataTableCell 
               key={`row-${item.id || index}-cell-${header.value || header.text}`}
@@ -91,13 +112,33 @@ const DataTable = (props) => {
         </TableRow>
       );
   };
+
+  const handleSelectRow = (row) => {
+    const selectedIndex = selected.indexOf(row);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, row);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    onChangeSelected(newSelected);
+  };
                 
   const DataTableRowExpand = useCallback(({item, index}) => {
     const arrIndex = getSeq(page, rowsPerPage, index) - 1;
 
     return (
       <TableRow type="collapse">
-        <TableCell colSpan={headers.length + 1}>
+        <TableCell colSpan={headers.length + (checkboxSelection? 2 : 1)}>
           <Collapse in={opens[arrIndex]} timeout="auto">
             <CollapseContentComponent item={item} />
           </Collapse>
@@ -106,6 +147,22 @@ const DataTable = (props) => {
     );
   }, [headers.length, showExpand, CollapseContentComponent, opens]);
 
+  const toggleOpen = useCallback((index) => {
+    const newOpens = [...opens];
+    newOpens[index] = !newOpens[index];
+    setOpens(newOpens);
+  }, [opens]);
+
+  const handleSelectAllClick = useCallback((event) => {
+    if (event.target.checked) {
+      const newSelected = items;
+      onChangeSelected(newSelected);
+      return;
+    }
+
+    onChangeSelected([]);
+  }, []);
+
   return (
     <>
       <TableContainer component={Box} sx={sx}>
@@ -113,6 +170,17 @@ const DataTable = (props) => {
           {HeaderComponent ? HeaderComponent : (
             <TableHead>
               <TableRow>
+                {checkboxSelection && (
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                      disabled={checkboxReadonly}
+                      indeterminate={selectedCount > 0 && selectedCount < rowCount}
+                      checked={rowCount > 0 && selectedCount === rowCount}
+                      onChange={handleSelectAllClick}
+                    />
+                  </TableCell>
+                )}
                 {headers.map(header => (
                   <TableCell
                     key={`header-${header.value || header.text}`}
@@ -176,7 +244,11 @@ DataTable.defaultProps = {
   expandHeaderText: '',
   ExpandControlComponent: KeyboardArrowDownIcon,
   HideControlComponent: KeyboardArrowUpIcon,
-  CollapseContentComponent: null
+  CollapseContentComponent: null,
+  checkboxSelection: false,
+  checkboxReadonly: false,
+  selected: [],
+  onChangeSelected: () => {}
 }
 
 export default DataTable;

@@ -63,8 +63,8 @@ const EventAddDialog = () => {
         open={openDialog}
         onClose={handleClose}
         width={900}
-        title={"이벤트 등록"}
-        subText={"새로 생성할 이벤트 참여 양식의 템플릿을 선택합니다"}
+        title="이벤트 등록"
+        subText="새로 생성할 이벤트 참여 양식의 템플릿을 선택합니다"
         closable
         ContentComponent={
           <EventAddDialogContent 
