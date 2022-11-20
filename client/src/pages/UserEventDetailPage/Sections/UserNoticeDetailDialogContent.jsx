@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { StyledDialogContent } from '../../../components/CommonDialog';
 import SectionTitle from '../../../components/SectionTitle';
