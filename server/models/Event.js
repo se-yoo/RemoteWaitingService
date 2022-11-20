@@ -23,7 +23,12 @@ const eventSchema = mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }
-}, { timestamps: true });
+}, { 
+  timestamps: { 
+    createdAt: "createDate",
+    updatedAt: "updateDate" 
+  }
+});
 
 const Event = mongoose.model('Event', eventSchema);
 

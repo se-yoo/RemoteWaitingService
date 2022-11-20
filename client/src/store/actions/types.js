@@ -7,6 +7,7 @@ export const MYPAGE_USER_EDIT = 'mypage_user_edit';
 
 export const RESET_EMPTY_EVENT = 'reset_empty_event';
 export const LOAD_EVENT_DETAIL = 'load_event_detail';
+export const SET_EVENT = 'set_event';
 export const SET_EVENT_TITLE = 'set_event_title';
 export const SET_EVENT_DESCRIPTION = 'set_event_description';
 export const ADD_EVENT_QUESTION = 'add_event_question';

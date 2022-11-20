@@ -4,6 +4,7 @@ import {
   LOAD_EVENT_DETAIL, 
   MOVE_EVENT_QUESTION, 
   RESET_EMPTY_EVENT, 
+  SET_EVENT, 
   SET_EVENT_DESCRIPTION, 
   SET_EVENT_END_DATE, 
   SET_EVENT_NO_LIMIT_DATE, 
@@ -21,16 +22,19 @@ export function resetEmptyEvent() {
 }
 
 export function loadEventDetail(dataToSubmit) {
-  const eventRequest = axios.get(`${EVENT_SERVER}`, { params: dataToSubmit })
+  const request = axios.get(`${EVENT_SERVER}`, { params: dataToSubmit })
     .then(response => response.data);
 
   return {
     type: LOAD_EVENT_DETAIL,
-    payload: {
-      ...eventRequest,
-      questions: [],
-      notices: []
-    }
+    payload: request
+  }
+}
+
+export function setEvent(newEvent){
+  return {
+    type: SET_EVENT,
+    payload: newEvent
   }
 }
 

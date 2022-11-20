@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { EventAnswer } = require("../models/EventAnswer");
 
-router.post("/write", (req, res) => {
+router.post("/create", (req, res) => {
   const answer = new EventAnswer(req.body);
 
   answer.save((err,doc) => {

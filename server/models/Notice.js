@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { mongoose, Schema } = require("mongoose");
 
 const noticeSchema = mongoose.Schema({
   title: {
@@ -7,17 +7,22 @@ const noticeSchema = mongoose.Schema({
   description: {
     type: String
   },
-  createDate: {
-    type: Date,
-    default: Date.now()
-  },
   target: {
     type: Number,
     default: 0 //참여자 모두
+  },
+  event: {
+    type: Schema.Types.ObjectId,
+    ref: 'Event'
+  }
+}, { 
+  timestamps: { 
+    createdAt: "createDate",
+    updatedAt: "updateDate" 
   }
 });
 
 
 const Notice = mongoose.model('Notice', noticeSchema);
 
-module.exports = {Notice}
+module.exports = { Notice }

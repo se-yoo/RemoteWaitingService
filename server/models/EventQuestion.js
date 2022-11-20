@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { mongoose, Schema } = require("mongoose");
 
 const questionSchema = mongoose.Schema({
   question: {
@@ -19,9 +19,13 @@ const questionSchema = mongoose.Schema({
         type: Number
       }
     }
-  ]
+  ],
+  event: {
+    type: Schema.Types.ObjectId,
+    ref: 'Event'
+  }
 });
 
 const EventQuestion = mongoose.model('EventQuestion', questionSchema);
 
-module.exports = {EventQuestion}
+module.exports = { EventQuestion }

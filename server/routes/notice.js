@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Notice } = require("../models/Notice");
 
-router.post("/write", (req, res) => {
+router.post("/create", (req, res) => {
   const notice = new Notice(req.body);
 
   notice.save((err,doc) => {

@@ -10,7 +10,8 @@ import {
   SET_EVENT_START_DATE, 
   SET_EVENT_TITLE, 
   UPDATE_EVENT_QUESTION,
-  LOAD_EVENT_DETAIL
+  LOAD_EVENT_DETAIL,
+  SET_EVENT
 } from "../actions/types";
 import { EVENT_OPTION } from "../../utils/code";
 
@@ -35,21 +36,16 @@ export default function(state = initialState, action) {
         ...state,
         ...initialState
       }
-    case LOAD_EVENT_DETAIL: {
-      if(action.payload.success) {
-        return {
-          ...state,
-          ...action.payload,
-          eventId: action.payload._id
-        }
+    case LOAD_EVENT_DETAIL:
+      return {
+        ...state,
+        result: action.payload
       }
-      else {
-        return {
-          ...state,
-          success: false
-        }
+    case SET_EVENT:
+      return  {
+        ...state,
+        ...action.payload
       }
-    }
     case SET_EVENT_TITLE:
       return  {
         ...state,
