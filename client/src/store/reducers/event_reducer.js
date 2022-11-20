@@ -1,4 +1,5 @@
 import { 
+  RESET_EMPTY_EVENT, 
   ADD_EVENT_QUESTION, 
   DELETE_EVENT_QUESTION, 
   MOVE_EVENT_QUESTION, 
@@ -8,25 +9,47 @@ import {
   SET_EVENT_OPTION_CD, 
   SET_EVENT_START_DATE, 
   SET_EVENT_TITLE, 
-  UPDATE_EVENT_QUESTION
+  UPDATE_EVENT_QUESTION,
+  LOAD_EVENT_DETAIL
 } from "../actions/types";
 import { EVENT_OPTION } from "../../utils/code";
 
 const initialState = {
-  id: "new",
+  eventId: "new",
   title: "제목없는 이벤트",
   description: "",
   questions: [],
+  notices: [],
   startDate: null,
   endDate: null,
   noLimitDate: false,
   optionCd: EVENT_OPTION.WAITING,
-  userId: '',
-  createDate: ''
+  writer: {},
+  createDate: ""
 };
 
 export default function(state = initialState, action) {
   switch(action.type){
+    case RESET_EMPTY_EVENT: 
+      return {
+        ...state,
+        ...initialState
+      }
+    case LOAD_EVENT_DETAIL: {
+      if(action.payload.success) {
+        return {
+          ...state,
+          ...action.payload,
+          eventId: action.payload._id
+        }
+      }
+      else {
+        return {
+          ...state,
+          success: false
+        }
+      }
+    }
     case SET_EVENT_TITLE:
       return  {
         ...state,

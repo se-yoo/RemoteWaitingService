@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/api/user', require('./routes/user'));
+app.use('/api/event', require('./routes/event'));
 
 app.listen(port, () => {
   console.log(`Server Listening on ${port}`)
