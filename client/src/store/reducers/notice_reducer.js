@@ -1,5 +1,10 @@
+import { 
+  SET_NOTICE, 
+  SET_NOTICE_DESCRIPTION, 
+  SET_NOTICE_TARGET, 
+  SET_NOTICE_TITLE 
+} from "../actions/types";
 import { NOTICE_TARGET } from "../../utils/code";
-import { SET_NOTICE } from "../actions/types";
 
 const initialState = {
   title: "",
@@ -21,6 +26,21 @@ export default function(state = initialState, action) {
         createDate: newState.createDate
       }
     }
+    case SET_NOTICE_TITLE:
+      return  {
+        ...state,
+        title: action.payload
+      }
+    case SET_NOTICE_DESCRIPTION:
+      return  {
+        ...state,
+        description: action.payload
+      }
+    case SET_NOTICE_TARGET:
+      return  {
+        ...state,
+        target: action.payload
+      }
     default:
       return state;
   }

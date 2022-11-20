@@ -16,4 +16,7 @@ export const SET_EVENT_END_DATE = 'set_event_end_date';
 export const SET_EVENT_NO_LIMIT_DATE = 'set_event_no_limit_date';
 export const SET_EVENT_OPTION_CD = 'set_event_option_cd';
 
-export const SET_NOTICE = 'set_notice'
+export const SET_NOTICE = 'set_notice';
+export const SET_NOTICE_TITLE = 'set_notice_title';
+export const SET_NOTICE_DESCRIPTION = 'set_notice_description';
+export const SET_NOTICE_TARGET = 'set_notice_target';

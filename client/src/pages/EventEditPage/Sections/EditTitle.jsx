@@ -18,6 +18,8 @@ const EditTitle = (props) => {
   }, [title]);
 
   const onClickCompleteEdit = useCallback(() => {
+    if(!tempTitle) return;
+
     dispatch(setEventTitle(tempTitle));
     setEditable(false);
   }, [tempTitle]);
@@ -37,6 +39,9 @@ const EditTitle = (props) => {
       {editable ? 
         (
           <TextField
+            error={!tempTitle}
+            helperText={!tempTitle && "제목은 필수 입력값입니다"}
+            label="이벤트 제목"
             value={tempTitle}
             onChange={onChangeTempTitle}
             onKeyPress={onCheckEnter}

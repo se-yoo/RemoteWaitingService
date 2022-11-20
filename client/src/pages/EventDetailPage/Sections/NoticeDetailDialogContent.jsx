@@ -6,17 +6,20 @@ import SectionTitle from '../../../components/SectionTitle';
 import { NOTICE_TARGET_TEXT } from '../../../utils/code';
 
 const NoticeDetailDialogContent = memo(() => {
-  const notice = useSelector(state => state.notice);
+  const title = useSelector(state => state.notice.title);
+  const description = useSelector(state => state.notice.description);
+  const target = useSelector(state => state.notice.target);
 
   const targetText = useMemo(() => {
-    const targetInfo = NOTICE_TARGET_TEXT.find(target => target.value === notice.target);
+    const targetInfo = NOTICE_TARGET_TEXT
+                        .find(noticeTarget => noticeTarget.value === target);
     return targetInfo ? targetInfo.text : '알 수 없음';
-  }, [notice.target]);
+  }, [target]);
 
   return (
     <StyledDialogContent sx={{ mt: 3 }}>
       <Box fontSize="36px">
-        {notice.title}
+        {title}
       </Box>
       <SectionTitle title="공지 내용" sx={{ mt: 6 }} />
       <Box
@@ -24,7 +27,7 @@ const NoticeDetailDialogContent = memo(() => {
         maxHeight="10rem"
         sx={{overflowY: "auto"}}
       >
-        {notice.description}
+        {description}
       </Box>
       <SectionTitle title="공지 대상" sx={{ mt: 6 }} />
       {targetText}

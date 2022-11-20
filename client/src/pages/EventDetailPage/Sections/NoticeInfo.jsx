@@ -1,11 +1,13 @@
 import { Box, Button, DialogActions } from '@mui/material';
 import React, { memo, useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ActionButtons from '../../../components/ActionButtons';
 import CommonDialog from '../../../components/CommonDialog';
 import DataTable from '../../../components/DataTable';
 import SectionTitle from '../../../components/SectionTitle';
 import { setNotice } from '../../../store/actions/notice_actions';
 import NoticeDetailDialogContent from './NoticeDetailDialogContent';
+import NoticeEditDialogContent from './NoticeEditDialogContent';
 
 // 화면 작업을 위한 임시 값, 추후 삭제
 const tempNoticeList = [
@@ -29,34 +31,12 @@ const NoticeInfo = memo(() => {
   const notice = useSelector(state => state.notice);
   const [page, setPage] = useState(1);
   const [openDialogNotice, setOpenDialogNotice] = useState(false);
-  const [openDialogAddNotice, setOpenDialogAddNotice] = useState(false);
+  const [openDialogEditNotice, setOpenDialogEditNotice] = useState(false);
   const dispatch = useDispatch();
-
-  const ActionComponent = useMemo(() => {
-    return (
-      <DialogActions sx={{ px: 0 }}>
-        <Button
-          color="red"
-          sx={{ width: 160 }}
-          variant="contained"
-          onClick={onClickDeleteNotice}
-        >
-          삭제
-        </Button>
-        <Button
-          variant="contained"
-          onClick={onClickEditNotice}
-          sx={{ width: 160, marginLeft: "14px !important" }}
-        >
-          수정
-        </Button>
-      </DialogActions>
-    )
-  });
 
   const handleClose = useCallback(() => {
     setOpenDialogNotice(false);
-    setOpenDialogAddNotice(false);
+    setOpenDialogEditNotice(false);
   }, []);
   
   const handleChangePage = useCallback((event, newPage) => {
@@ -69,7 +49,7 @@ const NoticeInfo = memo(() => {
   }, []);
 
   const onClickAddNotice = useCallback(() => {
-    setOpenDialogAddNotice(true);
+    setOpenDialogEditNotice(true);
   }, []);
 
   const onClickDeleteNotice = useCallback(() => {
@@ -77,6 +57,30 @@ const NoticeInfo = memo(() => {
 
   const onClickEditNotice = useCallback(() => {
   }, []);
+
+  const detailButtons = useMemo(() => {
+    return [
+      { text: "삭제", color: "red", onClick: onClickDeleteNotice },
+      { text: "수정", onClick: onClickEditNotice }
+    ];
+  }, [onClickDeleteNotice, onClickEditNotice]);
+
+  const editButtons = useMemo(() => {
+    return [
+      { text: "취소", color: "grey", onClick: handleClose },
+      { text: "등록" }
+    ];
+  }, [handleClose]);
+
+  const ActionComponent = (buttons) => {
+    return (
+      <ActionButtons
+        WrapComponent={DialogActions}
+        sx={{ px: 0 }}
+        buttons={buttons}
+      />
+    );
+  };
 
   return (
     <>
@@ -111,7 +115,17 @@ const NoticeInfo = memo(() => {
         subText={`생성일 - ${notice.createDate}`}
         closable
         ContentComponent={<NoticeDetailDialogContent />}
-        ActionComponent={ActionComponent}
+        ActionComponent={ActionComponent(detailButtons)}
+      />
+      <CommonDialog
+        open={openDialogEditNotice}
+        onClose={handleClose}
+        width={900}
+        title="공지 "
+        subText="이벤트에 대한 공지를 편집합니다"
+        closable
+        ContentComponent={<NoticeEditDialogContent />}
+        ActionComponent={ActionComponent(editButtons)}
       />
     </>
   );
