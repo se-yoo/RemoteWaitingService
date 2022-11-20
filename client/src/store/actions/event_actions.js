@@ -1,7 +1,9 @@
 import { 
   ADD_EVENT_QUESTION, 
   DELETE_EVENT_QUESTION, 
+  LOAD_EVENT_DETAIL, 
   MOVE_EVENT_QUESTION, 
+  RESET_EMPTY_EVENT, 
   SET_EVENT_DESCRIPTION, 
   SET_EVENT_END_DATE, 
   SET_EVENT_NO_LIMIT_DATE, 
@@ -11,6 +13,26 @@ import {
   UPDATE_EVENT_QUESTION} from "./types";
 import { ANSWER_TYPE } from "../../utils/code";
 import { arrayMoveImmutable } from 'array-move';
+import { EVENT_SERVER } from "./api";
+import axios from "axios";
+
+export function resetEmptyEvent() {
+  return { type: RESET_EMPTY_EVENT }
+}
+
+export function loadEventDetail(dataToSubmit) {
+  const eventRequest = axios.get(`${EVENT_SERVER}`, { params: dataToSubmit })
+    .then(response => response.data);
+
+  return {
+    type: LOAD_EVENT_DETAIL,
+    payload: {
+      ...eventRequest,
+      questions: [],
+      notices: []
+    }
+  }
+}
 
 export function setEventTitle(newTitle){
   return {

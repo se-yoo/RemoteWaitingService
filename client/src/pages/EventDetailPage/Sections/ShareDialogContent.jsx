@@ -6,14 +6,14 @@ import { StyledDialogContent } from '../../../components/CommonDialog';
 const baseJoinUrl = `${window.location.protocol}//${window.location.host}/user/event/join`;
 
 const ShareDialogContent = memo(() => {
-  const id = useSelector(state => state.event.id);
+  const eventId = useSelector(state => state.event.eventId);
   const [shareUrl, setShareUrl] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
   const theme = useTheme();
 
   useEffect(() => {
-    setShareUrl(`${baseJoinUrl}/${id}`);
-  }, [id]);
+    setShareUrl(`${baseJoinUrl}/${eventId}`);
+  }, [eventId]);
 
   const onClickCopy = useCallback(async () => {
     await navigator.clipboard.writeText(shareUrl);
