@@ -1,7 +1,7 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MenuTitle from '../../components/MenuTitle';
-import EventAddDialog from './Sections/EventAddDialog';
 import EventList from './Sections/EventList';
 import HelpList from './Sections/HelpList';
 import SearchInput from './Sections/SearchInput';
@@ -9,6 +9,7 @@ import SearchInput from './Sections/SearchInput';
 const EventListPage = () => {
   const [title, setTitle] = useState("이벤트 목록");
   const [searchKeyword, setSearchKeyword] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if(false) { // 추후 권한 확인 및 전시
@@ -24,6 +25,10 @@ const EventListPage = () => {
     // 추후 검색 연결
   }, []);
 
+  const onClickAddEvent = useCallback(() => {
+    navigate('/event/edit/new');
+  }, []);
+
   return (
     <div>
       <MenuTitle title={title} />
@@ -33,7 +38,16 @@ const EventListPage = () => {
         alignItems="end"
       >
         <Grid item xs={4}>
-          <EventAddDialog />
+          <Button
+            sx={{
+              width: "200px",
+              height: "60px",
+              fontSize: "24px"
+            }}
+            onClick={onClickAddEvent}
+          >
+            이벤트 등록
+          </Button>
         </Grid>
         <Grid 
           item 

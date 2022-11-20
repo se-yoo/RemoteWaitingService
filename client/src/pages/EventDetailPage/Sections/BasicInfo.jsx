@@ -12,7 +12,7 @@ const tempEvent = {
   createDate: '2022-09-27', 
   startDate: '2022-09-27 15:00:00',
   endDate: '2022-10-05 18:00:00',
-  option: 0 
+  option: 1
 }
 
 const BasicInfo = () => {

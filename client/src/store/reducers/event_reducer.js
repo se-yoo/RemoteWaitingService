@@ -13,6 +13,7 @@ import {
 import { EVENT_OPTION } from "../../utils/code";
 
 const initialState = {
+  id: "new",
   title: "제목없는 이벤트",
   description: "",
   questions: [],

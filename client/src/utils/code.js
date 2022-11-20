@@ -74,3 +74,15 @@ export const WAITING_PARTICIPANT_STATUS_INFO = [
   { text: '입장 완료', value: PARTICIPANT_STATUS.ENTER, color: theme.palette.primary.main },
   { text: '입장 취소', value: PARTICIPANT_STATUS.ENTER_CANCEL, color: theme.palette.red.main }
 ]
+
+export const NOTICE_TARGET = {
+  ALL: 0,
+  WINNER: 1,
+  NON_WINNER: 2
+}
+
+export const NOTICE_TARGET_TEXT = [
+  { text: '참여자 전원', value: NOTICE_TARGET.ALL },
+  { text: '당첨자', value: NOTICE_TARGET.WINNER },
+  { text: '미당첨자', value: NOTICE_TARGET.NON_WINNER }
+]

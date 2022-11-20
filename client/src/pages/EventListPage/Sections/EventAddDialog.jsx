@@ -3,9 +3,10 @@ import { Button, DialogActions } from '@mui/material';
 import CommonDialog from '../../../components/CommonDialog';
 import EventAddDialogContent from './EventAddDialogContent';
 import { useNavigate } from 'react-router-dom';
+import ActionButtons from '../../../components/ActionButtons';
 
 const EventAddDialog = () => {
-  const [selectedId, setSelectedId] = React.useState('');
+  const [selectedId, setSelectedId] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
 
@@ -25,27 +26,22 @@ const EventAddDialog = () => {
     navigate('/event/edit/new', { state: { preset: selectedId }})
   }, []);
 
+  const buttons = useMemo(() => {
+    return [
+      { text: "취소", color: "grey", onClick: handleClose },
+      { text: "선택", onClick: onClickSelected }
+    ];
+  }, [handleClose, onClickSelected]);
+
   const ActionComponent = useMemo(() => {
     return (
-      <DialogActions sx={{ px: 0 }}>
-        <Button
-          color="grey"
-          sx={{ width: 160 }}
-          variant="contained"
-          onClick={handleClose}
-        >
-          취소
-        </Button>
-        <Button
-          variant="contained"
-          onClick={onClickSelected}
-          sx={{ width: 160, ml: 2 }}
-        >
-          선택
-        </Button>
-      </DialogActions>
-    )
-  });
+      <ActionButtons
+        WrapComponent={DialogActions}
+        sx={{ px: 0 }}
+        buttons={buttons}
+      />
+    );
+  }, [buttons]);
 
   return (
     <>
@@ -63,8 +59,8 @@ const EventAddDialog = () => {
         open={openDialog}
         onClose={handleClose}
         width={900}
-        title={"이벤트 등록"}
-        subText={"새로 생성할 이벤트 참여 양식의 템플릿을 선택합니다"}
+        title="이벤트 등록"
+        subText="새로 생성할 이벤트 참여 양식의 템플릿을 선택합니다"
         closable
         ContentComponent={
           <EventAddDialogContent 

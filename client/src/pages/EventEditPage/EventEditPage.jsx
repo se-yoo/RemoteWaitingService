@@ -1,6 +1,7 @@
-import { Button, Grid } from '@mui/material';
-import React, { useCallback } from 'react';
+import { Box } from '@mui/material';
+import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ActionButtons from '../../components/ActionButtons';
 import MenuTitle from '../../components/MenuTitle';
 import EditDate from './Sections/EditDate';
 import EditDesc from './Sections/EditDesc';
@@ -15,33 +16,29 @@ const EventEditPage = () => {
     navigate(-1);
   }, []);
 
+  const buttons = useMemo(() => {
+    return [
+      { text: "취소", color: "grey", onClick: onClickCancel },
+      { text: "등록", width: 200 }
+    ];
+  }, [onClickCancel]);
+
   return (
     <div>
       <MenuTitle 
-        title={"이벤트 등록"} 
-        subText={"이벤트 참여 양식을 생성합니다"}
+        title="이벤트 등록"
+        subText="이벤트 참여 양식을 생성합니다"
       />
       <EditTitle sx={{ mt: 8 }} />
       <EditDesc sx={{ mt: 4 }} />
       <EditQuestions sx={{ mt: 4 }} />
       <EditDate sx={{ mt: 4 }} />
       <EditOption sx={{ mt: 4 }} />
-      <Grid
-        container
-        justifyContent="end"
-        sx={{ mt: 6 }}
-      >
-        <Button
-            color="grey"
-            sx={{ width: 160 }}
-            onClick={onClickCancel}
-        >
-          취소
-        </Button>
-        <Button sx={{ width: 200, ml: 2 }}>
-          등록
-        </Button>
-      </Grid>
+      <ActionButtons
+        WrapComponent={Box}
+        sx={{ mt: 6, display: "flex" , justifyContent: "end" }}
+        buttons={buttons}
+      />
     </div>
   );
 };

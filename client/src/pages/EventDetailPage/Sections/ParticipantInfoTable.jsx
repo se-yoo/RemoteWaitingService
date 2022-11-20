@@ -1,5 +1,5 @@
 import { Button, TableCell } from '@mui/material';
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { EVENT_OPTION, PARTICIPANT_STATUS_INFO, WAITING_PARTICIPANT_STATUS_INFO } from '../../../utils/code';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
@@ -15,7 +15,7 @@ const tempEvent = {
   createDate: '2022-09-27', 
   startDate: '2022-09-27 15:00:00',
   endDate: '2022-10-05 18:00:00',
-  option: 0 
+  option: 1
 };
 
 const tempEventParticipantList = [
@@ -39,22 +39,23 @@ const tempEventQuestionList = [
 ];
 // 화면 작업을 위한 임시 값 끝
 
-const ParticipantInfoTable = memo(() => {
-  const [page, setPage] = React.useState(1);
+const ParticipantInfoTable = memo((props) => {
+  const [page, setPage] = useState(1);
   const [statusInfos, setStatusInfos] = useState([]);
   const { option } = tempEvent;
+  const { 
+    headers, 
+    sx, 
+    checkboxSelection, 
+    checkboxReadonly,
+    selected, 
+    onChangeSelected, 
+    rowsPerPage 
+  } = props;
 
   const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage);
   }, []);
-
-  const headers = useMemo(() => {
-    return [
-      { text: "순서", align: "center", width: "7%", sx: { minWidth: "4rem" }, value: 'index', useIndex: true },
-      { text: "응답 시간", align: "left", value: 'participantDate' },
-      { text: `${option === EVENT_OPTION.WAITING ? '입장' : '당첨'} 여부`, align: "center", value: 'status' }
-    ];
-  }, [option]);
 
   useEffect(() => {
     switch(option) {
@@ -123,8 +124,8 @@ const ParticipantInfoTable = memo(() => {
       headers={headers}
       items={tempEventParticipantList}
       page={page}
-      rowsPerPage={5}
-      sx={{ my: 3 }}
+      rowsPerPage={rowsPerPage || 5}
+      sx={{ my: 3, ...sx }}
       showExpand
       expandHeaderText="답변 상세"
       HideControlComponent={HideButton}
@@ -132,6 +133,10 @@ const ParticipantInfoTable = memo(() => {
       CollapseContentComponent={CollapseContentComponent}
       onChangePage={handleChangePage}
       ItemCellComponent={ItemCellComponent}
+      checkboxSelection={checkboxSelection}
+      checkboxReadonly={checkboxReadonly}
+      selected={selected}
+      onChangeSelected={onChangeSelected}
     />
   );
 });

@@ -1,4 +1,4 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, MenuItem, Select } from '@mui/material';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SectionTitle from '../../../components/SectionTitle';
@@ -17,13 +17,8 @@ const EditOption = (props) => {
   return (
     <Box sx={sx}>
       <SectionTitle title="이벤트 옵션" />
-      <FormControl fullWidth sx={{ mt: 2 }}>
-        <InputLabel id="option-select-label" selectlabel="true">
-          이벤트 옵션
-        </InputLabel>
+      <FormControl fullWidth>
         <Select
-          labelId="option-select-label"
-          label="이벤트 옵션"
           value={optionCd}
           onChange={onChangeOptionCd}
           sx={{ maxWidth: 370 }}

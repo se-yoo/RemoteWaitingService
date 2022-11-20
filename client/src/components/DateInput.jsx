@@ -20,8 +20,8 @@ const DateInput = (props) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-        inputFormat={"YYYY-MM-DD"} 
-        mask={'____-__-__'}
+        inputFormat="YYYY-MM-DD" 
+        mask="____-__-__"
         label={label}
         value={value}
         onChange={onChangeDate}
