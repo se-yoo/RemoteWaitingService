@@ -1,5 +1,6 @@
 import { Box, Button, DialogActions } from '@mui/material';
 import React, { memo, useCallback, useMemo, useState } from 'react';
+import ActionButtons from '../../../components/ActionButtons';
 import CommonDialog from '../../../components/CommonDialog';
 import SectionTitle from '../../../components/SectionTitle';
 import { EVENT_OPTION } from '../../../utils/code';
@@ -32,28 +33,6 @@ const ParticipantInfo = memo(() => {
     ];
   }, [option]);
 
-  const ActionComponent = useMemo(() => {
-    return (
-      <DialogActions sx={{ px: 0 }}>
-        <Button
-          color="grey"
-          sx={{ width: 160 }}
-          variant="contained"
-          onClick={handleClose}
-        >
-          취소
-        </Button>
-        <Button
-          variant="contained"
-          onClick={onClickSaveWinner}
-          sx={{ width: 160, marginLeft: "14px !important" }}
-        >
-          저장
-        </Button>
-      </DialogActions>
-    )
-  });
-
   const handleClose = useCallback(() => {
     setOpenDialogAllAnswer(false);
     setOpenDialogSettingWin(false);
@@ -70,6 +49,23 @@ const ParticipantInfo = memo(() => {
   const onClickSaveWinner = useCallback(() => {
 
   }, []);
+
+  const buttons = useMemo(() => {
+    return [
+      { text: "취소", color: "grey", onClick: handleClose },
+      { text: "저장", onClick: onClickSaveWinner }
+    ];
+  }, [handleClose, onClickSaveWinner]);
+
+  const ActionComponent = useMemo(() => {
+    return (
+      <ActionButtons
+        WrapComponent={DialogActions}
+        sx={{ px: 0 }}
+        buttons={buttons}
+      />
+    );
+  }, [buttons]);
 
   return (
     <>

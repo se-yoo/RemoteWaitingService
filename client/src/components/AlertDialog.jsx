@@ -1,6 +1,7 @@
-import React from 'react';
-import { Button, DialogActions } from '@mui/material';
+import React, { useMemo } from 'react';
+import { DialogActions } from '@mui/material';
 import CommonDialog from './CommonDialog';
+import ActionButtons from './ActionButtons';
 
 const AlertDialog = (props) => {
   const {
@@ -15,29 +16,22 @@ const AlertDialog = (props) => {
     sx
   } = props;
 
-  const ActionComponent = () => {
+  const buttons = useMemo(() => {
+    return [
+      (hideDisagree && { text: disagreeText, color: "grey", onClick: onClose }),
+      { text: agreeText, onClick: onAgree || onClose }
+    ];
+  }, [hideDisagree, disagreeText, agreeText, onClose, onAgree]);
+
+  const ActionComponent = useMemo(() => {
     return (
-      <DialogActions sx={{ px: 0 }}>
-        {!hideDisagree && 
-          <Button
-            color="grey"
-            sx={{ width: 160 }}
-            variant="contained"
-            onClick={onClose}
-          >
-            {disagreeText}
-          </Button>
-        }
-        <Button
-          variant="contained"
-          onClick={onAgree || onClose}
-          sx={{ width: 160, marginLeft: "14px !important" }}
-        >
-          {agreeText}
-        </Button>
-      </DialogActions>
-    )
-  };
+      <ActionButtons
+        WrapComponent={DialogActions}
+        sx={{ px: 0 }}
+        buttons={buttons}
+      />
+    );
+  }, [buttons]);
 
   return (
     <CommonDialog
@@ -45,7 +39,7 @@ const AlertDialog = (props) => {
       sx={sx}
       title={title}
       content={content}
-      ActionComponent={<ActionComponent />}
+      ActionComponent={ActionComponent}
     />
   );
 };

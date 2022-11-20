@@ -3,6 +3,7 @@ import { Button, DialogActions } from '@mui/material';
 import CommonDialog from '../../../components/CommonDialog';
 import EventAddDialogContent from './EventAddDialogContent';
 import { useNavigate } from 'react-router-dom';
+import ActionButtons from '../../../components/ActionButtons';
 
 const EventAddDialog = () => {
   const [selectedId, setSelectedId] = useState('');
@@ -25,27 +26,22 @@ const EventAddDialog = () => {
     navigate('/event/edit/new', { state: { preset: selectedId }})
   }, []);
 
+  const buttons = useMemo(() => {
+    return [
+      { text: "취소", color: "grey", onClick: handleClose },
+      { text: "선택", onClick: onClickSelected }
+    ];
+  }, [handleClose, onClickSelected]);
+
   const ActionComponent = useMemo(() => {
     return (
-      <DialogActions sx={{ px: 0 }}>
-        <Button
-          color="grey"
-          sx={{ width: 160 }}
-          variant="contained"
-          onClick={handleClose}
-        >
-          취소
-        </Button>
-        <Button
-          variant="contained"
-          onClick={onClickSelected}
-          sx={{ width: 160, marginLeft: "14px !important" }}
-        >
-          선택
-        </Button>
-      </DialogActions>
-    )
-  });
+      <ActionButtons
+        WrapComponent={DialogActions}
+        sx={{ px: 0 }}
+        buttons={buttons}
+      />
+    );
+  }, [buttons]);
 
   return (
     <>
