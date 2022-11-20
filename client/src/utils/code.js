@@ -5,6 +5,12 @@ export const ROLE_TYPE = {
   EVENT_MANAGER: 1
 }
 
+export const EVENT_RESULT_TYPE = {
+  IN_PROGRESS: 0,
+  WIN: 1,
+  NOT_WON: 2
+}
+
 export const EVENT_STATUS_TYPE = {
   OPEN_SOON: 0,
   IN_PROGRESS: 1,

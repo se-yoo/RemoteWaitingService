@@ -13,6 +13,9 @@ import EventEditPage from './pages/EventEditPage/EventEditPage';
 import MyPage from './pages/MyPage/MyPage';
 import MyPageEditPage from './pages/MyPage/MyPageEditPage';
 import EventDetailPage from './pages/EventDetailPage/EventDetailPage';
+import UserEventDetailPage from './pages/UserEventDetailPage/UserEventDetailPage';
+import UserEventJoinPage from './pages/UserEventJoinPage/UserEventJoinPage';
+import UserEventListPage from './pages/UserEventListPage/UserEventListPage';
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
               <Route path="/event/detail/:id" element={<EventDetailPage />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/mypage/edit" element={<MyPageEditPage />} />
+              <Route path="/user/event/list/:id" element={<UserEventListPage />} />
+              <Route path="/user/event/detail/:id" element={<UserEventDetailPage />} />
+              <Route path="/user/event/join/:id" element={<UserEventJoinPage />} />
               <Route path="/test" element={<TestPage />} />
             </Route>
           </Routes>

@@ -1,6 +1,6 @@
 import React,{ useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import {Box,Button,Checkbox,FormGroup,FormControlLabel, styled} from '@mui/material';
+import {Box,Button,Checkbox,FormControlLabel, styled} from '@mui/material';
 import Auth from '../../hoc/Auth';
 
 const StyledLoginBox = styled(Box)({
@@ -15,10 +15,10 @@ const StyledLoginBox = styled(Box)({
 });
 
 const TermsPage = () => {
-    const [isChecked, setisChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
 
     const CheckedHandler = () => {
-        setisChecked(!isChecked);
+        setIsChecked(!isChecked);
 
       };
 
@@ -49,14 +49,12 @@ const TermsPage = () => {
           </textarea>
 
           <div style={{width:"100%"}}>
-            <FormGroup sx={{width:"50%clear"}}>
-                <FormControlLabel control={<Checkbox checked={isChecked} sx={{
+            <FormControlLabel control={<Checkbox checked={isChecked} sx={{
                 color: "#496F46",
                 '&.Mui-checked': {
                     color: "#496F46"
                 }
                 }}/>} onChange={CheckedHandler} label="동의합니다." />
-            </FormGroup>
           </div>
 
           {/* checkbox 체크시 버튼 활성화 초반에는 비활성*/}
