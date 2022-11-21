@@ -48,7 +48,11 @@ const UserEventJoinInfo = (props) => {
     <>
       <SectionTitle title={"참여 정보"} sx={{ mt: 6 }}/>
       <Box sx={{ mb: 1}} >{"2022-09-26 15:00:01.023"}</Box>
-      <AnswerList questions={eventQuestion} answers={eventAnswer.answers} />
+      <AnswerList
+        hideRequired 
+        questions={eventQuestion} 
+        answers={eventAnswer.answers}
+      />
       <SectionTitle title={"참여 현황"} sx={{ mt: 3 }}/>
       <StyledStateBox
         sx={{

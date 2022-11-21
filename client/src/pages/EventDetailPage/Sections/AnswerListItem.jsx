@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Grid, ListItem } from '@mui/material';
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { ANSWER_TYPE } from '../../../utils/code';
 
 const StyledAnswerListItem = styled(ListItem)({
@@ -11,8 +11,8 @@ const StyledAnswerListItem = styled(ListItem)({
   padding: "16px 24px"
 });
 
-const AnswerListItem = (props) => {
-  const { question, answer, index } = props;
+const AnswerListItem = memo((props) => {
+  const { question, answer, index, hideRequired } = props;
 
   const answerText = useMemo(() => {
     switch(question.answerType) {
@@ -48,7 +48,7 @@ const AnswerListItem = (props) => {
         {index}
       </Grid>
       <Grid item xs>
-        <Box className={{ required: question.required }}>
+        <Box className={{ required: !hideRequired && question.required }}>
           {question.question}
         </Box>
         <Box pt={1}>
@@ -57,6 +57,10 @@ const AnswerListItem = (props) => {
       </Grid>
     </Grid>
   );
-};
+});
+
+AnswerListItem.defaultProps = {
+  hideRequired: false
+}
 
 export default AnswerListItem;

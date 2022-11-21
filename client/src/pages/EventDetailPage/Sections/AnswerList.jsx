@@ -1,9 +1,9 @@
 import { List } from '@mui/material';
-import React from 'react';
+import React, { memo } from 'react';
 import AnswerListItem from './AnswerListItem';
 
-const AnswerList = (props) => {
-  const { questions, answers } = props;
+const AnswerList = memo((props) => {
+  const { questions, answers, hideRequired } = props;
 
   return (
     <List>
@@ -13,10 +13,11 @@ const AnswerList = (props) => {
           index={index + 1}
           question={question}
           answer={answers[index]}
+          hideRequired={hideRequired}
         />
       ))}
     </List>
   );
-};
+});
 
 export default AnswerList;
