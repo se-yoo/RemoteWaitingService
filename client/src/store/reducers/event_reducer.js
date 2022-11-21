@@ -11,7 +11,7 @@ import {
   SET_EVENT_TITLE, 
   UPDATE_EVENT_QUESTION,
   LOAD_EVENT_DETAIL,
-  SET_EVENT
+  ERR_EVENT
 } from "../actions/types";
 import { EVENT_OPTION } from "../../utils/code";
 
@@ -26,7 +26,11 @@ const initialState = {
   noLimitDate: false,
   optionCd: EVENT_OPTION.WAITING,
   writer: {},
-  createDate: ""
+  createDate: "",
+
+  error: null,
+  errorMessage: "",
+  errorFrom: ""
 };
 
 export default function(state = initialState, action) {
@@ -34,17 +38,18 @@ export default function(state = initialState, action) {
     case RESET_EMPTY_EVENT: 
       return {
         ...state,
-        ...initialState
+        ...initialState,
+        error: null,
+        errorMessage: "",
+        errorFrom: ""
       }
     case LOAD_EVENT_DETAIL:
       return {
         ...state,
-        result: action.payload
-      }
-    case SET_EVENT:
-      return  {
-        ...state,
-        ...action.payload
+        ...action.payload,
+        error: null,
+        errorMessage: "",
+        errorFrom: ""
       }
     case SET_EVENT_TITLE:
       return  {
@@ -113,6 +118,11 @@ export default function(state = initialState, action) {
       return  {
         ...state,
         optionCd: action.payload
+      }
+    case ERR_EVENT:
+      return {
+        ...state,
+        ...action.payload
       }
     default:
       return state;

@@ -17,10 +17,12 @@ const AlertDialog = (props) => {
   } = props;
 
   const buttons = useMemo(() => {
-    return [
-      (hideDisagree && { text: disagreeText, color: "grey", onClick: onClose }),
-      { text: agreeText, onClick: onAgree || onClose }
-    ];
+    let actionButtons = [{ text: agreeText, onClick: onAgree || onClose }];
+
+    if(!hideDisagree)
+      actionButtons.unshift({ text: disagreeText, color: "grey", onClick: onClose });
+
+    return actionButtons;
   }, [hideDisagree, disagreeText, agreeText, onClose, onAgree]);
 
   const ActionComponent = useMemo(() => {

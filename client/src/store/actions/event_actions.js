@@ -1,10 +1,10 @@
 import { 
   ADD_EVENT_QUESTION, 
   DELETE_EVENT_QUESTION, 
+  ERR_EVENT, 
   LOAD_EVENT_DETAIL, 
   MOVE_EVENT_QUESTION, 
   RESET_EMPTY_EVENT, 
-  SET_EVENT, 
   SET_EVENT_DESCRIPTION, 
   SET_EVENT_END_DATE, 
   SET_EVENT_NO_LIMIT_DATE, 
@@ -17,25 +17,24 @@ import { arrayMoveImmutable } from 'array-move';
 import { EVENT_SERVER } from "./api";
 import axios from "axios";
 
+export function loadEventDetail(dataToSubmit) {
+  return (dispatch) => {
+    axios
+      .get(`${EVENT_SERVER}`, { params: dataToSubmit })
+      .then( res => dispatch({ type: LOAD_EVENT_DETAIL, payload: res.data }))
+      .catch( err => dispatch({ 
+        type: ERR_EVENT, 
+        payload: {
+          error: err,
+          errorMessage: "이벤트 정보를 불러오는데 실패하였습니다.",
+          errorFrom: "loadEventDetail"
+        }
+      }));
+  }
+}
+
 export function resetEmptyEvent() {
   return { type: RESET_EMPTY_EVENT }
-}
-
-export function loadEventDetail(dataToSubmit) {
-  const request = axios.get(`${EVENT_SERVER}`, { params: dataToSubmit })
-    .then(response => response.data);
-
-  return {
-    type: LOAD_EVENT_DETAIL,
-    payload: request
-  }
-}
-
-export function setEvent(newEvent){
-  return {
-    type: SET_EVENT,
-    payload: newEvent
-  }
 }
 
 export function setEventTitle(newTitle){

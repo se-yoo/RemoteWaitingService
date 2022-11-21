@@ -27,7 +27,8 @@ export const StyledDialogContent = styled(DialogContent)({
   fontSize: "16px",
   lineHeight: "25px",
   color: "#000000",
-  padding: "8px 0 30px 0"
+  padding: "8px 0 30px 0",
+  whiteSpace: "pre-line"
 })
 
 const CommonDialog = (props) => {
