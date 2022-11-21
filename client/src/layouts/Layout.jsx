@@ -1,10 +1,30 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import LayoutHeader from './LayoutHeader';
 import { Box } from '@mui/material';
 import Auth from '../hoc/Auth';
+import { useSelector } from 'react-redux';
+import { windowScrollTop } from '../utils/function';
 
 const Layout = () => {
+  const userData = useSelector(state => state.user.userData);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(location.pathname == "/") {
+      if(!userData.isAuth) {
+        navigate("/login");
+      } else if(userData.isAdmin) {
+        navigate("/event");
+      } else {
+        navigate("/user/event/list");
+      }
+    }
+    
+    windowScrollTop();
+  }, [location]);
+
   return (
     <>
       <LayoutHeader />

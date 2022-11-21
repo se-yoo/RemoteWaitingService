@@ -53,9 +53,10 @@ const EventEditPage = () => {
 
   const onClickEdit = useCallback(() => {
     if(isNew) {
-
-    } else {
       //dispatch(createEvent(event));
+      console.log(event);
+    } else {
+      
     }
   }, [isNew, event])
 

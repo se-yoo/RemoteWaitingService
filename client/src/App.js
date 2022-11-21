@@ -33,7 +33,7 @@ function App() {
               <Route path="/event/detail/:id" element={<EventDetailPage />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/mypage/edit" element={<MyPageEditPage />} />
-              <Route path="/user/event/list/:id" element={<UserEventListPage />} />
+              <Route path="/user/event/list" element={<UserEventListPage />} />
               <Route path="/user/event/detail/:id" element={<UserEventDetailPage />} />
               <Route path="/user/event/join/:id" element={<UserEventJoinPage />} />
               <Route path="/test" element={<TestPage />} />
