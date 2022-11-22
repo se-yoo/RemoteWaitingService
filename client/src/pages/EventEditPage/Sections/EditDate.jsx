@@ -1,4 +1,4 @@
-import { Box, Checkbox, FormControlLabel } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormHelperText } from '@mui/material';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DateInput from '../../../components/DateInput';
@@ -9,7 +9,7 @@ const EditDate = (props) => {
   const startDate = useSelector(state => state.event.startDate);
   const endDate = useSelector(state => state.event.endDate);
   const noLimitDate = useSelector(state => state.event.noLimitDate);
-  const { sx } = props;
+  const { sx, formStatus } = props;
   const dispatch = useDispatch();
 
   const onChangeStartDate = useCallback((newValue) => {
@@ -30,6 +30,7 @@ const EditDate = (props) => {
       <Box display="flex" alignItems="center" sx={{ pt: 2 }}>
         <DateInput
           label="오픈 시간"
+          disabled={noLimitDate}
           value={startDate}
           onChangeValue={onChangeStartDate}
           sx={{ maxWidth: 370 }}
@@ -39,6 +40,7 @@ const EditDate = (props) => {
         </Box>
         <DateInput
           label="마감 시간"
+          disabled={noLimitDate}
           value={endDate}
           onChangeValue={onChangeEndDate}
           sx={{ maxWidth: 370 }}
@@ -54,6 +56,11 @@ const EditDate = (props) => {
           }
         />
       </Box>
+      {formStatus && (
+        <FormHelperText error sx={{mt: 1, ml: 2}}>
+          {formStatus}
+        </FormHelperText>
+      )}
     </Box>
   );
 };

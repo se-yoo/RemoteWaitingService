@@ -1,12 +1,12 @@
 import { Box, TextField } from '@mui/material';
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SectionTitle from '../../../components/SectionTitle';
 import { setEventDescription } from '../../../store/actions/event_actions';
 
-const EditDesc = (props) => {
+const EditDesc = memo((props) => {
   const description = useSelector(state => state.event.description);
-  const { sx } = props;
+  const { sx, formStatus } = props;
   const dispatch = useDispatch();
 
   const onChangeDesc = useCallback((e) => {
@@ -21,10 +21,12 @@ const EditDesc = (props) => {
         onChange={onChangeDesc}
         multiline
         rows={5}
-        placeholder={"이벤트 설명을 작성해주세요."}
+        placeholder="이벤트 설명을 작성해주세요."
+        error={formStatus !== undefined}
+        helperText={formStatus}
       />
     </Box>
   );
-};
+});
 
 export default EditDesc;

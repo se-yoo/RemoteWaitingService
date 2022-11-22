@@ -10,7 +10,10 @@ const DateInput = (props) => {
     sx,
     value, 
     onChangeValue,
-    label
+    label,
+    disabled,
+    error,
+    helperText
   } = props;
 
   const onChangeDate = useCallback((newValue) => {
@@ -24,7 +27,10 @@ const DateInput = (props) => {
         mask="____-__-__"
         label={label}
         value={value}
+        disabled={disabled}
         onChange={onChangeDate}
+        error={error}
+        helperText={helperText}
         renderInput={(params) => (
           <TextField 
             sx={sx}

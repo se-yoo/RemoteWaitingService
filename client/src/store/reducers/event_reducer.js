@@ -11,7 +11,8 @@ import {
   SET_EVENT_TITLE, 
   UPDATE_EVENT_QUESTION,
   LOAD_EVENT_DETAIL,
-  ERR_EVENT
+  ERR_EVENT,
+  UPLOAD_EVENT
 } from "../actions/types";
 import { EVENT_OPTION } from "../../utils/code";
 
@@ -123,6 +124,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         ...action.payload
+      }
+    case UPLOAD_EVENT: 
+      return {
+        ...state,
+        success: action.payload
       }
     default:
       return state;

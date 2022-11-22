@@ -22,13 +22,11 @@ router.get("/", auth, (req, res) => {
 });
 
 router.post("/create", auth, (req, res) => {
-  const event = new User(req.body);
+  const event = new Event(req.body);
 
   event.save((err, doc) => {
     if (err) return res.json({ success: false, err });
-    return res.status(200).json({
-      success: true
-    });
+    return res.status(200).json({ success: true });
   });
 });
 
@@ -38,9 +36,7 @@ router.put("/update", auth, (req, res) => {
     req.body,
     (err, doc) => {
       if (err) return res.json({ success: false, err });
-      return res.status(200).json({
-        success: true
-      });
+      return res.status(200).json({ success: true });
     }
   )
 });

@@ -61,3 +61,18 @@ export const getSeq = function(page, rowsPerPage, index) {
 export const windowScrollTop = function() {
   window.scroll(0, 0);
 };
+
+/**
+ * @method checkFormValidation
+ * @note 폼 유효성 검사 함수
+ */
+export const checkFormValidation = (data, key, rules =[]) => {
+  if(data[key] === undefined) return `알 수 없는 ${key} 데이터`;
+  for(let i = 0; i < rules.length; i++) {
+    if(rules[i](data[key]) !== true) {
+      return rules[i](data[key]);
+    }
+  }
+
+  return true;
+};

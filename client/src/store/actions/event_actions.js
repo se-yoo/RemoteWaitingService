@@ -11,7 +11,8 @@ import {
   SET_EVENT_OPTION_CD, 
   SET_EVENT_START_DATE, 
   SET_EVENT_TITLE, 
-  UPDATE_EVENT_QUESTION} from "./types";
+  UPDATE_EVENT_QUESTION,
+  UPLOAD_EVENT} from "./types";
 import { ANSWER_TYPE } from "../../utils/code";
 import { arrayMoveImmutable } from 'array-move';
 import { EVENT_SERVER } from "./api";
@@ -30,6 +31,26 @@ export function loadEventDetail(dataToSubmit) {
           errorFrom: "loadEventDetail"
         }
       }));
+  }
+}
+
+export function createEvent(dataToSubmit) {
+  const request = axios.post(`${EVENT_SERVER}/create`, dataToSubmit)
+    .then(response => response.data);
+  
+  return {
+    type: UPLOAD_EVENT,
+    payload: request
+  }
+}
+
+export function updateEvent(dataToSubmit) {
+  const request = axios.post(`${EVENT_SERVER}/update`, dataToSubmit)
+    .then(response => response.data);
+  
+  return {
+    type: UPLOAD_EVENT,
+    payload: request
   }
 }
 

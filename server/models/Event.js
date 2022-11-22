@@ -14,10 +14,10 @@ const eventSchema = mongoose.Schema({
     type: String
   },
   noLimitDate: {
-    type: String
+    type: Boolean
   },
   optionCd: {
-    type: String
+    type: Number
   },
   writer: {
     type: Schema.Types.ObjectId,
