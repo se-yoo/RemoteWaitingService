@@ -96,7 +96,6 @@ const JoinPage = () => {
       email:email,
       role:role
     }
-    console.log(body);
 
     dispatch(registerUser(body))
     .then(response => {
@@ -105,7 +104,6 @@ const JoinPage = () => {
         alert('회원가입을 축하합니다! 로그인 후 이용해주세요');
       }
       else{
-        console.log(response.payload.err);
         alert('Error!');
       }
     })

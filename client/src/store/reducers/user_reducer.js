@@ -17,7 +17,7 @@ export default function(state = {}, action) {
     case LOGIN_USER:
       return { 
         ...state, 
-        loginSucces: action.payload 
+        userData: action.payload 
       }
     case AUTH_USER:
       return {

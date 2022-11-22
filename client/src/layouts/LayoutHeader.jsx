@@ -37,12 +37,10 @@ const LayoutHeader = () => {
     dispatch(logoutUser())
     .then(response=>{
       if(response.payload.success) {
-        console.log(response.payload.success);
         navigate('/login');
         alert('로그아웃');
       }
       else{
-        console.log(response.payload.err);
         alert('로그아웃을 실패했습니다.')
       }
     })

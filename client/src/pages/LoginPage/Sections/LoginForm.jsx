@@ -21,8 +21,6 @@ const LoginForm = () => {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    console.log('id',userID);
-    console.log('password',password);
 
     let body = {
       userId: userID,

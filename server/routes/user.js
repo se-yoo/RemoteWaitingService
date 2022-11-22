@@ -34,7 +34,12 @@ router.post("/login", (req, res) => {
         res
           .cookie("x_auth", user.token)
           .status(200)
-          .json({ loginSuccess: true, userId: user._id });
+          .json({ 
+            loginSuccess: true, 
+            userId: user._id, 
+            isAdmin: user.role === 1,
+            isAuth: true
+          });
       })
     })
   })
@@ -44,7 +49,7 @@ router.post("/login", (req, res) => {
 router.get("/auth", auth, (req,res)=>{
   res.status(200).json({
     _id: req.user._id,
-    isAdmin: req.user.role === 0 ? false : true,
+    isAdmin: req.user.role === 1,
     isAuth: true,
     userId: req.user.userId,
     name: req.user.name,

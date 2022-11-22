@@ -12,10 +12,8 @@ const Layout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(location.pathname == "/") {
-      if(!userData.isAuth) {
-        navigate("/login");
-      } else if(userData.isAdmin) {
+    if(location.pathname === "/" && userData) {
+      if(userData.isAdmin) {
         navigate("/event");
       } else {
         navigate("/user/event/list");
@@ -23,7 +21,7 @@ const Layout = () => {
     }
     
     windowScrollTop();
-  }, [location]);
+  }, [location, userData]);
 
   return (
     <>
