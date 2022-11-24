@@ -82,7 +82,10 @@ const EventEditPage = () => {
     }
 
     setFormStatus(prevFormStatus=> {
-      const result = event.noLimitDate || (event.startDate && event.endDate) || '날짜를 모두 입력해주세요.';
+      const result = 
+        event.noLimitDate 
+        || (Boolean(event.startDate) && Boolean(event.endDate))
+        || '날짜를 모두 입력해주세요.';
       
       return {
         ...prevFormStatus,

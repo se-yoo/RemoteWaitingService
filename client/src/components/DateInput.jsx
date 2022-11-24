@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker, DateTimePicker } from '@mui/x-date-pickers';
 import { TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 const DateInput = (props) => {
   const { 
@@ -13,31 +13,58 @@ const DateInput = (props) => {
     label,
     disabled,
     error,
-    helperText
+    helperText,
+    minDate,
+    maxDate,
+    containTime
   } = props;
 
   const onChangeDate = useCallback((newValue) => {
-    onChangeValue(dayjs(newValue).format("YYYY-MM-DD"));
+    const value = dayjs(newValue).format("YYYY-MM-DD HH:mm");
+    onChangeValue(value !== "Invalid Date" ? value : null);
   }, [onChangeValue]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        inputFormat="YYYY-MM-DD" 
-        mask="____-__-__"
-        label={label}
-        value={value}
-        disabled={disabled}
-        onChange={onChangeDate}
-        error={error}
-        helperText={helperText}
-        renderInput={(params) => (
-          <TextField 
-            sx={sx}
-            {...params}  
-          />
-        )}
-      />
+      {containTime? (
+        <DateTimePicker
+          inputFormat="YYYY-MM-DD HH:mm" 
+          mask="____-__-__ __:__"
+          label={label}
+          value={value}
+          disabled={disabled}
+          onChange={onChangeDate}
+          error={error}
+          helperText={helperText}
+          minDate={minDate}
+          maxDate={maxDate}
+          renderInput={(params) => (
+            <TextField 
+              sx={sx}
+              {...params}  
+            />
+          )}
+        />
+      ): (
+        <DatePicker
+          inputFormat="YYYY-MM-DD" 
+          mask="____-__-__"
+          label={label}
+          value={value}
+          disabled={disabled}
+          onChange={onChangeDate}
+          error={error}
+          helperText={helperText}
+          minDate={minDate}
+          maxDate={maxDate}
+          renderInput={(params) => (
+            <TextField 
+              sx={sx}
+              {...params}  
+            />
+          )}
+        />
+      )}
     </LocalizationProvider>
   );
 };

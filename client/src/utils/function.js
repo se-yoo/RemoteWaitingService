@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 /**
  * @method formatDate
@@ -8,7 +8,7 @@ import moment from "moment";
  */
 export const formatDate = (date) => {
   const targetDate = new Date(date);
-  return moment(targetDate).format('YYYY-MM-DD');
+  return dayjs(targetDate).format('YYYY-MM-DD');
 }
 
 /**
@@ -21,7 +21,7 @@ export const formatKorTime = (date) => {
   const targetDate = new Date(date);
   const ampm = targetDate.getHours() >= 12 ? '오후' : '오전';
   const format = `YYYY-MM-DD ${ampm} h시`;
-  return moment(targetDate).format(format);
+  return dayjs(targetDate).format(format);
 }
 
 /**

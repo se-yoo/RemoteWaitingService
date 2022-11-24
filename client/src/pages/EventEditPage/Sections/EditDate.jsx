@@ -30,6 +30,9 @@ const EditDate = (props) => {
       <Box display="flex" alignItems="center" sx={{ pt: 2 }}>
         <DateInput
           label="오픈 시간"
+          containTime
+          minDate={new Date()}
+          maxDate={endDate}
           disabled={noLimitDate}
           value={startDate}
           onChangeValue={onChangeStartDate}
@@ -40,6 +43,8 @@ const EditDate = (props) => {
         </Box>
         <DateInput
           label="마감 시간"
+          containTime
+          minDate={startDate}
           disabled={noLimitDate}
           value={endDate}
           onChangeValue={onChangeEndDate}
