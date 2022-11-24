@@ -11,13 +11,45 @@ router.get("/", auth, (req, res) => {
         if(err) return res.status(400).send(err);
         res.status(200).json({ success: true, ...event });
       })
-  } else { // 전체 검색
-    Event.find()
-      .populate("writer")
-      .exec((err, events) => {
-        if(err) return res.status(400).send(err);
-        res.status(200).json({ success: true, events });
-      })
+  } else { // 목록 검색
+    const adminCondition = [
+      { $match: { writer: req.user._id } },
+      { $lookup: {
+          from: "eventanswers",
+          localField: "_id",
+          foreignField: "event",
+          as: "participantCnt"
+      }},
+      { $addFields: { 
+          participantCnt: { $size: "$participantCnt" }
+      }},
+      { $addFields: { 
+          status: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$noLimitDate", true] }, then: 1 },
+                { case: { $gt: ["$startDate", "$$NOW"] }, then: 0 },
+                { case: { $and: [
+                  { $lte: ["$startDate", "$$NOW"] },
+                  { $gte: ["$endDate", "$$NOW" ] }
+                ] }, then: 1 },
+                { case: { $lt: ["$endDate", "$$NOW" ] }, then: 2 }
+              ],
+              default: undefined
+            }
+          }
+      }},
+      { $sort: { status: 1, createDate: -1 } }
+    ];
+
+    const userCondition = [];
+
+    const condition = req.user.role === 1 ? adminCondition : userCondition;
+
+    Event.aggregate(condition, (err, events) => {
+      if(err) return res.status(400).send(err);
+      res.status(200).json({ success: true, events });
+    });
   }
 });
 

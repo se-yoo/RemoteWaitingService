@@ -1,6 +1,17 @@
 import moment from "moment";
 
 /**
+ * @method formatDate
+ * @param {String} date 
+ * @returns {String} YYYY-MM-DD
+ * @note 날짜 포맷 함수(YYYY-MM-DD)
+ */
+export const formatDate = (date) => {
+  const targetDate = new Date(date);
+  return moment(targetDate).format('YYYY-MM-DD');
+}
+
+/**
  * @method formatKorTime
  * @param {String} date 
  * @returns {String} YYYY-MM-DD 오전/오후 h시

@@ -8,10 +8,10 @@ const eventSchema = mongoose.Schema({
     type: String
   },
   startDate: {
-    type: String
+    type: Date
   },
   endDate: {
-    type: String
+    type: Date
   },
   noLimitDate: {
     type: Boolean

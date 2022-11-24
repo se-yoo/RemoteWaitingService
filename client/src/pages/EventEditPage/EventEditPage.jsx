@@ -143,8 +143,9 @@ const EventEditPage = () => {
 
   useEffect(() => {
     if(event.error) {
+      const { message, error } = event.error;
       setErrorDialogAgree(() => navigateMain);
-      setErrorDialogContent(`${event.errorMessage} 확인을 누르시면 메인으로 돌아갑니다. \n오류: ${event.error.toString()}`);
+      setErrorDialogContent(`${message} 확인을 누르시면 메인으로 돌아갑니다. \n오류: ${error.toString()}`);
       setOpenAlertError(true);
     }
   }, [event.error, navigateMain]);

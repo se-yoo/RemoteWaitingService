@@ -3,6 +3,7 @@ import {
   DELETE_EVENT_QUESTION, 
   ERR_EVENT, 
   LOAD_EVENT_DETAIL, 
+  LOAD_EVENT_LIST, 
   MOVE_EVENT_QUESTION, 
   RESET_EMPTY_EVENT, 
   SET_EVENT_DESCRIPTION, 
@@ -12,11 +13,28 @@ import {
   SET_EVENT_START_DATE, 
   SET_EVENT_TITLE, 
   UPDATE_EVENT_QUESTION,
-  UPLOAD_EVENT} from "./types";
+  UPLOAD_EVENT
+} from "./types";
 import { ANSWER_TYPE } from "../../utils/code";
 import { arrayMoveImmutable } from 'array-move';
 import { EVENT_SERVER } from "./api";
 import axios from "axios";
+
+export function loadEventList() {
+  return (dispatch) => {
+    axios
+      .get(`${EVENT_SERVER}`)
+      .then( res => dispatch({ type: LOAD_EVENT_LIST, payload: res.data }))
+      .catch( err => dispatch({ 
+        type: ERR_EVENT, 
+        payload: {
+          error: err,
+          message: "이벤트 목록을 불러오는데 실패하였습니다.",
+          from: LOAD_EVENT_LIST
+        }
+      }));
+  }
+}
 
 export function loadEventDetail(dataToSubmit) {
   return (dispatch) => {
@@ -27,8 +45,8 @@ export function loadEventDetail(dataToSubmit) {
         type: ERR_EVENT, 
         payload: {
           error: err,
-          errorMessage: "이벤트 정보를 불러오는데 실패하였습니다.",
-          errorFrom: "loadEventDetail"
+          message: "이벤트 정보를 불러오는데 실패하였습니다.",
+          from: LOAD_EVENT_DETAIL
         }
       }));
   }

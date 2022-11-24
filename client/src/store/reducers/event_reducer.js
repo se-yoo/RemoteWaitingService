@@ -12,7 +12,8 @@ import {
   UPDATE_EVENT_QUESTION,
   LOAD_EVENT_DETAIL,
   ERR_EVENT,
-  UPLOAD_EVENT
+  UPLOAD_EVENT,
+  LOAD_EVENT_LIST
 } from "../actions/types";
 import { EVENT_OPTION } from "../../utils/code";
 
@@ -29,9 +30,9 @@ const initialState = {
   writer: {},
   createDate: "",
 
-  error: null,
-  errorMessage: "",
-  errorFrom: ""
+  events: [],
+
+  error: null
 };
 
 export default function(state = initialState, action) {
@@ -40,17 +41,19 @@ export default function(state = initialState, action) {
       return {
         ...state,
         ...initialState,
-        error: null,
-        errorMessage: "",
-        errorFrom: ""
+        error: null
+      }
+    case LOAD_EVENT_LIST:
+      return {
+        ...state,
+        events: [...action.payload.events],
+        error: null
       }
     case LOAD_EVENT_DETAIL:
       return {
         ...state,
         ...action.payload,
-        error: null,
-        errorMessage: "",
-        errorFrom: ""
+        error: null
       }
     case SET_EVENT_TITLE:
       return  {
@@ -123,7 +126,7 @@ export default function(state = initialState, action) {
     case ERR_EVENT:
       return {
         ...state,
-        ...action.payload
+        error: {...action.payload}
       }
     case UPLOAD_EVENT: 
       return {

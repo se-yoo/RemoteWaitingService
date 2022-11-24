@@ -1,20 +1,40 @@
 import { Button, Grid } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import AlertDialog from '../../components/AlertDialog';
 import MenuTitle from '../../components/MenuTitle';
+import { loadEventList, resetEmptyEvent } from '../../store/actions/event_actions';
 import EventList from './Sections/EventList';
 import HelpList from './Sections/HelpList';
 import SearchInput from './Sections/SearchInput';
 
 const EventListPage = () => {
-  const [title, setTitle] = useState("이벤트 목록");
+  const [openAlertError, setOpenAlertError] = useState(false);
+  const [errorDialogContent, setErrorDialogContent] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
+  const event = useSelector(state => state.event);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if(false) { // 추후 권한 확인 및 전시
-      setTitle("참여 이벤트 목록");
+    dispatch(loadEventList());
+  }, []);
+
+  useEffect(() => {
+    if(event.error) {
+      const { message, error } = event.error;
+      setErrorDialogContent(`${message} \n오류: ${error.toString()}`);
+      setOpenAlertError(true);
     }
+
+    return () => {
+      dispatch(resetEmptyEvent());
+    }
+  }, [event.error]);
+
+  const handleCloseErrorDialog = useCallback(() => {
+    setOpenAlertError(false);
   }, []);
 
   const onChangeSearchKeyword = useCallback((searchKeyword) => {
@@ -31,7 +51,7 @@ const EventListPage = () => {
 
   return (
     <div>
-      <MenuTitle title={title} />
+      <MenuTitle title="이벤트 목록" />
       <Grid 
         container
         justifyContent="space-between"
@@ -60,6 +80,13 @@ const EventListPage = () => {
         </Grid>
       </Grid>
       <EventList sx={{ mt: 3 }} />
+      <AlertDialog
+        open={openAlertError}
+        onAgree={handleCloseErrorDialog}
+        title="오류 발생"
+        content={errorDialogContent}
+        hideDisagree
+      />
     </div>
   );
 };
