@@ -7,6 +7,29 @@ const eventSchema = mongoose.Schema({
   description: {
     type: String
   },
+  questions:  [
+    {
+      question: {
+        type: String
+      },
+      required: {
+        type: Boolean
+      },
+      answerType: {
+        type: Number
+      },
+      options: [
+        {
+          text:{
+            type: String
+          },
+          value:{
+            type: Number
+          }
+        }
+      ]
+    }
+  ],
   startDate: {
     type: Date
   },

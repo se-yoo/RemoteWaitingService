@@ -8,16 +8,31 @@ import QuestionListItemFormOption from './QuestionListItemFormOption';
 
 const QuestionListItemForm = memo((props) => {
   const { idx } = props;
-  const question = useSelector(state => state.event.questions[idx]);
-  const { answerType, required } = question;
+  const questionInfo = useSelector(state => state.event.questions[idx]);
+  const { question, answerType, required } = questionInfo;
   const dispatch = useDispatch();
 
   const onClickDelete = useCallback(() => {
     dispatch(deleteEventQuestion(idx));
   }, [idx]);
 
+  const onChangeQuestion = useCallback((e) => {
+    const newValue = { question: e.target.value };
+    dispatch(updateEventQuestion(idx, newValue));
+  }, [idx]);
+
   const onChangeAnswerType = useCallback((e) => {
-    const newValue = { answerType: e.target.value };
+    const newAnswerType = e.target.value;
+    let newOptions = undefined;
+
+    if(newAnswerType === ANSWER_TYPE.CHECKBOX || newAnswerType === ANSWER_TYPE.RADIO) {
+      newOptions = [{ value: 1, text: "새로운 답변" }];
+    }
+
+    const newValue = { 
+      answerType: newAnswerType,
+      options: newOptions
+    };
     dispatch(updateEventQuestion(idx, newValue));
   }, [idx]);
 
@@ -48,6 +63,8 @@ const QuestionListItemForm = memo((props) => {
           <TextField
             label="문항 이름"
             placeholder="문항 이름을 입력해주세요."
+            value={question}
+            onChange={onChangeQuestion}
           />
         </Grid>
         <Grid item xs="auto">

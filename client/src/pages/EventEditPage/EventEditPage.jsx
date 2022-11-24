@@ -116,6 +116,7 @@ const EventEditPage = () => {
       _id: isNew ? undefined : id,
       title: event.title,
       description: event.description,
+      questions: event.questions,
       startDate: event.startDate,
       endDate: event.endDate,
       noLimitDate: event.noLimitDate,

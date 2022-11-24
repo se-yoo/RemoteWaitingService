@@ -93,7 +93,7 @@ export function setEventDescription(newDescription){
 export function addEventQuestion() {
   const newQuestion = {
     id: `question-${new Date().getTime()}`,
-    label: "",
+    question: "",
     answerType: ANSWER_TYPE.TEXT,
     required: false
   };
