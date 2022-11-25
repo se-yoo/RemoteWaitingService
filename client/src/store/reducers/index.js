@@ -9,7 +9,8 @@ import answer from './answer_reducer';
 const rootReducer = combineReducers({
   user,
   event,
-  notice
+  notice,
+  answer
 })
 
 export default rootReducer;
