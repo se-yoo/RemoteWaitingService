@@ -23,7 +23,6 @@ app.use(cookieParser());
 app.use('/api/user', require('./routes/user'));
 app.use('/api/notice', require('./routes/notice'));
 app.use('/api/answer', require('./routes/answer'));
-app.use('/api/question', require('./routes/question'));
 app.use('/api/event', require('./routes/event'));
 
 app.listen(port, () => {

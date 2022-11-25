@@ -1,24 +1,47 @@
 import { List } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import SectionTitle from '../../../components/SectionTitle';
 import JoinQuestionListItem from './JoinQuestionListItem';
+import { loadUserEventJoin } from '../../../store/actions/event_actions';
+import { useParams } from 'react-router-dom';
 
-// 화면 작업을 위한 임시 값, 추후 삭제
-const tempEventQuestionList = [
-  { id: 'question-1', question: '이름', required: true, answerType: 0 },
-  { id: 'question-2', question: '성별', required: true, answerType: 4, options: [{ text: '남성', value: 1 }, { text: '여성', value: 2 }] }
-];
 
-const QuestionList = () => {
+
+const QuestionList = (props) => {
+  const dispatch = useDispatch();
+  const { value, onChangeAnswer, required, onChangeRequired } = props;
+  const [eventQuestionList,setEventQuestionList]=useState([]);
+  const eventId = useParams().eventId;
+  const body={
+    eventId:eventId
+  }
+  
+  useEffect(()=>{
+    dispatch(loadUserEventJoin(body))
+    .then(response=>{
+      if(response.payload.success){
+        setEventQuestionList(response.payload.eventQuestion);
+      }
+      else{
+        console.log(response.payload.err);
+      }
+    })
+  }, [dispatch])
+
   return (
     <>
       <SectionTitle title="참여 정보" sx={{ mt: 6 }} />
       <List>
-        {tempEventQuestionList.map((question, index) => (
+        {eventQuestionList.map((question, index) => (
           <JoinQuestionListItem
             key={index}
             index={index + 1}
             question={question}
+            answerItem={value}
+            onChangeItem={onChangeAnswer}
+            itemRequired={required}
+            onChangeItemRequired={onChangeRequired}
           />
         ))}
       </List>

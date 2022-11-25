@@ -13,7 +13,8 @@ import {
   SET_EVENT_START_DATE, 
   SET_EVENT_TITLE, 
   UPDATE_EVENT_QUESTION,
-  UPLOAD_EVENT
+  UPLOAD_EVENT,
+  SET_USER_EVENT_JOIN,
 } from "./types";
 import { ANSWER_TYPE } from "../../utils/code";
 import { arrayMoveImmutable } from 'array-move';
@@ -71,6 +72,18 @@ export function updateEvent(dataToSubmit) {
     payload: request
   }
 }
+
+//사용자 참여 페이지 load
+export function loadUserEventJoin(eventId){
+  const request = axios.post(`${EVENT_SERVER}/userEventSelect`,eventId)
+  .then(response => response.data);
+
+  return {
+    type: SET_USER_EVENT_JOIN,
+    payload: request
+  }
+}
+
 
 export function resetEmptyEvent() {
   return { type: RESET_EMPTY_EVENT }

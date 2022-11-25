@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {TextField,Button,Box, styled } from '@mui/material';
 import {Radio,RadioGroup,FormControlLabel,FormControl} from '@mui/material';
-//import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -10,7 +10,6 @@ import {ROLE_TYPE} from '../../utils/code'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { registerUser } from '../../store/actions/user_actions';
-import dayjs from 'dayjs';
 
 const StyledLoginBox = styled(Box)({
   maxWidth: "440px",

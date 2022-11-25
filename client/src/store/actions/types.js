@@ -25,3 +25,8 @@ export const SET_NOTICE = 'set_notice';
 export const SET_NOTICE_TITLE = 'set_notice_title';
 export const SET_NOTICE_DESCRIPTION = 'set_notice_description';
 export const SET_NOTICE_TARGET = 'set_notice_target';
+
+
+export const SET_USER_EVENT_JOIN='set_user_evnet_join';
+
+export const USER_ANSWER='user_answer';

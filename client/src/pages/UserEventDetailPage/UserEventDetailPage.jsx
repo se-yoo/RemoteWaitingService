@@ -35,7 +35,7 @@ const UserEventDetailPage = () => {
   return (
     <>
       <MenuTitle title={"이벤트 상세"} />
-      <UserEventBasicInfo eventContent={tempEvent}/>
+      <UserEventBasicInfo />
       <UserEventJoinInfo eventQuestion={userEventQuestionList} eventAnswer={userEventAnswer} eventResult={tempEvent.result_option}/>
       <UserNoticeInfo />
     </>
