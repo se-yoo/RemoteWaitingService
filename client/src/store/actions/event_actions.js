@@ -105,7 +105,7 @@ export function setEventDescription(newDescription){
 
 export function addEventQuestion() {
   const newQuestion = {
-    id: `question-${new Date().getTime()}`,
+    tempId: `question-${new Date().getTime()}`,
     question: "",
     answerType: ANSWER_TYPE.TEXT,
     required: false

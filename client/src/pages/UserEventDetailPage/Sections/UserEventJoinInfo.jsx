@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, styled } from '@mui/material';
 import SectionTitle from '../../../components/SectionTitle';
-import AnswerList from '../../EventDetailPage/Sections/AnswerList';
 import { EVENT_RESULT_TYPE } from '../../../utils/code';
+import AnswerList from '../../../components/AnswerList';
 
 const stateSuccess={
   BG_COLOR:"rgba(73,111,70,0.1)",

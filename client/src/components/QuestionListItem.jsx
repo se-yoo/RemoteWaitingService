@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, ListItem, Radio, RadioGroup } from '@mui/material';
 import React, { useMemo } from 'react';
-import { ANSWER_TYPE, ANSWER_TYPE_TEXT } from '../../../utils/code';
+import { ANSWER_TYPE, ANSWER_TYPE_TEXT } from '../utils/code';
 
 const StyledQuestionListItem = styled(ListItem)({
   background: "#FFFFFF",

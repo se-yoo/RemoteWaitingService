@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import { Grid, ListItem } from '@mui/material';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { SortableHandle } from 'react-sortable-hoc';
-import QuestionListItemForm from './QuestionListItemForm';
+import EditQuestionListItemForm from './EditQuestionListItemForm';
 
-const StyledQuestionListItem = styled(ListItem)({
+const StyledEditQuestionListItem = styled(ListItem)({
   background: "#FFFFFF",
   boxShadow: "0px 0px 10px 2px rgba(0, 0, 0, 0.1)",
   borderRadius: "20px",
@@ -17,11 +17,11 @@ const DragHandle = SortableHandle(() => (
   <DragIndicatorIcon sx={{ cursor: "move" }} />
 ));
 
-const QuestionListItem = memo((props) => {
+const EditQuestionListItem = memo((props) => {
   const { itemIdx } = props;
 
   return (
-    <StyledQuestionListItem>
+    <StyledEditQuestionListItem>
       <Grid
         container
         alignItems="center"
@@ -31,11 +31,11 @@ const QuestionListItem = memo((props) => {
           <DragHandle />
         </Grid>
         <Grid item xs>
-          <QuestionListItemForm idx={itemIdx} />
+          <EditQuestionListItemForm idx={itemIdx} />
         </Grid>
       </Grid>
-    </StyledQuestionListItem>
+    </StyledEditQuestionListItem>
   )
 });
 
-export default QuestionListItem;
+export default EditQuestionListItem;

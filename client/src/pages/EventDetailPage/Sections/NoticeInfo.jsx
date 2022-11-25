@@ -1,25 +1,15 @@
-import { Box, Button, DialogActions } from '@mui/material';
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import { Box, Button, DialogActions, TableCell } from '@mui/material';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import ActionButtons from '../../../components/ActionButtons';
 import CommonDialog from '../../../components/CommonDialog';
 import DataTable from '../../../components/DataTable';
 import SectionTitle from '../../../components/SectionTitle';
-import { setNotice } from '../../../store/actions/notice_actions';
+import { loadNoticeList, setNotice } from '../../../store/actions/notice_actions';
+import { formatDate } from '../../../utils/function';
 import NoticeDetailDialogContent from './NoticeDetailDialogContent';
 import NoticeEditDialogContent from './NoticeEditDialogContent';
-
-// 화면 작업을 위한 임시 값, 추후 삭제
-const tempNoticeList = [
-  { id: 1, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 2, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 3, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 4, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 5, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 6, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 7, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 }
-];
-// 화면 작업을 위한 임시 값 끝
 
 const headers = [
   { text: "순서", align: "center", width: "7%", sx: { minWidth: "4rem" }, value: 'index', useIndex: true },
@@ -28,10 +18,13 @@ const headers = [
 ];
 
 const NoticeInfo = memo(() => {
-  const notice = useSelector(state => state.notice);
   const [page, setPage] = useState(1);
   const [openDialogNotice, setOpenDialogNotice] = useState(false);
   const [openDialogEditNotice, setOpenDialogEditNotice] = useState(false);
+  const event = useSelector(state => state.event);
+  const notice = useSelector(state => state.notice);
+  const { notices, createDate } = notice;
+  const { id } = useParams();
   const dispatch = useDispatch();
 
   const handleClose = useCallback(() => {
@@ -82,15 +75,34 @@ const NoticeInfo = memo(() => {
     );
   };
 
+  useEffect(() => {
+    if(id !== event._id) return;
+    
+    const variable = {
+      eventId: id
+    };
+
+    dispatch(loadNoticeList(variable));
+  }, [event]);
+
+  const ItemCellComponent = {
+    createDate: ({item}) => (
+      <TableCell align="center">
+        {formatDate(item.createDate)}
+      </TableCell>
+    )
+  };
+
   return (
     <>
       <SectionTitle title="이벤트 공지" sx={{ mt: 6 }} />
       <DataTable
         headers={headers}
-        items={tempNoticeList}
+        items={notices}
         page={page}
         rowsPerPage={5}
         sx={{ my: 3 }}
+        ItemCellComponent={ItemCellComponent}
         onChangePage={handleChangePage}
         onClickRow={onClickNotice}
       />
@@ -112,7 +124,7 @@ const NoticeInfo = memo(() => {
         onClose={handleClose}
         width={900}
         title="공지 상세"
-        subText={`생성일 - ${notice.createDate}`}
+        subText={`생성일 - ${formatDate(createDate)}`}
         closable
         ContentComponent={<NoticeDetailDialogContent />}
         ActionComponent={ActionComponent(detailButtons)}

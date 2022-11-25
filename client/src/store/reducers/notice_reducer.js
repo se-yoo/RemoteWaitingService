@@ -1,4 +1,5 @@
-import { 
+import {
+  LOAD_NOTICE_LIST,
   SET_NOTICE, 
   SET_NOTICE_DESCRIPTION, 
   SET_NOTICE_TARGET, 
@@ -10,11 +11,19 @@ const initialState = {
   title: "",
   description: "",
   target: NOTICE_TARGET.ALL,
-  createDate: ""
+  createDate: "",
+
+  notices: []
 };
 
 export default function(state = initialState, action) {
   switch(action.type){
+    case LOAD_NOTICE_LIST:
+      return {
+        ...state,
+        notices: [...action.payload.notices],
+        error: null
+      }
     case SET_NOTICE: {
       const newState = action.payload;
 

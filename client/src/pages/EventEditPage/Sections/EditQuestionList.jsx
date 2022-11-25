@@ -2,12 +2,12 @@ import { List } from '@mui/material';
 import React, { memo, useCallback } from 'react';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import QuestionListItem from './QuestionListItem';
+import EditQuestionListItem from './EditQuestionListItem';
 import { moveEventQuestion } from '../../../store/actions/event_actions';
 
 
 const SortableItem = SortableElement(({ itemIdx }) => (
-  <QuestionListItem
+  <EditQuestionListItem
     itemIdx={itemIdx} 
   />
 ));
@@ -17,7 +17,7 @@ const SortableList = SortableContainer(({ items, sx }) => {
     <List sx={sx}>
       {items.map((question, index) => (
         <SortableItem 
-          key={question.id}
+          key={question._id || question.tempId}
           index={index}
           itemIdx={index} 
         />)
@@ -26,7 +26,7 @@ const SortableList = SortableContainer(({ items, sx }) => {
   );
 });
 
-const QuestionList = memo(({ sx }) => {
+const EditQuestionList = memo(({ sx }) => {
   const questions = useSelector(state => state.event.questions);
   const dipatch = useDispatch();
 
@@ -44,4 +44,4 @@ const QuestionList = memo(({ sx }) => {
   );
 });
 
-export default QuestionList;
+export default EditQuestionList;

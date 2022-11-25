@@ -6,7 +6,7 @@ import { StyledDialogContent } from '../../../components/CommonDialog';
 const baseJoinUrl = `${window.location.protocol}//${window.location.host}/user/event/join`;
 
 const ShareDialogContent = memo(() => {
-  const eventId = useSelector(state => state.event.eventId);
+  const eventId = useSelector(state => state.event._id);
   const [shareUrl, setShareUrl] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
   const theme = useTheme();

@@ -4,9 +4,9 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteEventQuestion, updateEventQuestion } from '../../../store/actions/event_actions';
 import { ANSWER_TYPE, ANSWER_TYPE_TEXT } from '../../../utils/code';
-import QuestionListItemFormOption from './QuestionListItemFormOption';
+import EditQuestionListItemFormOption from './EditQuestionListItemFormOption';
 
-const QuestionListItemForm = memo((props) => {
+const EditQuestionListItemForm = memo((props) => {
   const { idx } = props;
   const questionInfo = useSelector(state => state.event.questions[idx]);
   const { question, answerType, required } = questionInfo;
@@ -49,7 +49,7 @@ const QuestionListItemForm = memo((props) => {
   const QuestionOption = useMemo(() => {
     return (
       (answerType === ANSWER_TYPE.RADIO || answerType === ANSWER_TYPE.CHECKBOX) &&
-      <QuestionListItemFormOption
+      <EditQuestionListItemFormOption
         idx={idx}
         onChangeOptions={onChangeOptions}
       />
@@ -113,4 +113,4 @@ const QuestionListItemForm = memo((props) => {
   );
 });
 
-export default QuestionListItemForm;
+export default EditQuestionListItemForm;

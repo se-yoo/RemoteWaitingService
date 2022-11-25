@@ -21,10 +21,13 @@ export const SET_EVENT_OPTION_CD = 'SET_EVENT_OPTION_CD';
 export const ERR_EVENT = 'ERR_EVENT';
 export const UPLOAD_EVENT = 'UPLOAD_EVENT';
 
-export const SET_NOTICE = 'set_notice';
-export const SET_NOTICE_TITLE = 'set_notice_title';
-export const SET_NOTICE_DESCRIPTION = 'set_notice_description';
-export const SET_NOTICE_TARGET = 'set_notice_target';
+export const LOAD_EVENT_ANSWER_LIST = 'LOAD_EVENT_ANSWER_LIST';
+
+export const LOAD_NOTICE_LIST = 'LOAD_NOTICE_LIST';
+export const SET_NOTICE = 'SET_NOTICE';
+export const SET_NOTICE_TITLE = 'SET_NOTICE_TITLE';
+export const SET_NOTICE_DESCRIPTION = 'SET_NOTICE_DESCRIPTION';
+export const SET_NOTICE_TARGET = 'SET_NOTICE_TARGET';
 
 
 export const SET_USER_EVENT_JOIN='set_user_evnet_join';

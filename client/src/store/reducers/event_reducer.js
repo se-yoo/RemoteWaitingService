@@ -19,8 +19,9 @@ import {
 import { EVENT_OPTION } from "../../utils/code";
 
 const initialState = {
-  eventId: "new",
+  _id: "new",
   title: "제목없는 이벤트",
+  participantCnt: 0,
   description: "",
   questions: [],
   notices: [],
@@ -53,7 +54,7 @@ export default function(state = initialState, action) {
     case LOAD_EVENT_DETAIL:
       return {
         ...state,
-        ...action.payload,
+        ...action.payload.event,
         error: null
       }
     case SET_EVENT_TITLE:
