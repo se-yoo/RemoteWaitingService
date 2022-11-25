@@ -10,7 +10,7 @@ import { loadEventDetail, resetEmptyEvent } from '../../store/actions/event_acti
 import BasicInfo from './Sections/BasicInfo';
 import NoticeInfo from './Sections/NoticeInfo';
 import ParticipantInfo from './Sections/ParticipantInfo';
-import QuestionList from './Sections/QuestionList';
+import QuestionInfo from './Sections/QuestionInfo';
 import ShareDialogContent from './Sections/ShareDialogContent';
 
 const EventDetailPage = () => {
@@ -38,11 +38,15 @@ const EventDetailPage = () => {
     setOpenDialogShare(true);
   }, []);
 
+  const onClickEdit = useCallback(() => {
+    navigate(`/event/edit/${id}`);
+  }, []);
+
   const buttons = useMemo(() => {
     return [
       { text: "삭제", color: "red" },
       { text: "공유", width: 200, variant: "outlined", onClick: onClickShare },
-      { text: "수정", width: 200 }
+      { text: "수정", width: 200, onClick: onClickEdit }
     ];
   }, []);
 
@@ -65,7 +69,7 @@ const EventDetailPage = () => {
       <BasicInfo />
       <ParticipantInfo />
       <NoticeInfo />
-      <QuestionList />
+      <QuestionInfo />
       <ActionButtons
         WrapComponent={Box}
         sx={{ mt: 6, display: "flex" , justifyContent: "end" }}

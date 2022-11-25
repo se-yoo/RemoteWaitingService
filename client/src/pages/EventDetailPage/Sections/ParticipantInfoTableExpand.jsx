@@ -1,9 +1,9 @@
 import { Box, Button } from '@mui/material';
 import React, { memo } from 'react';
+import AnswerList from '../../../components/AnswerList';
 import SectionTitle from '../../../components/SectionTitle';
 import { EVENT_OPTION } from '../../../utils/code';
 import { formatDatetime } from '../../../utils/function';
-import AnswerList from './AnswerList';
 
 const ParticipantInfoTableExpand = memo((props) => {
   const {item, questions, option} = props;
@@ -12,7 +12,7 @@ const ParticipantInfoTableExpand = memo((props) => {
     <>
       응답 시간 - {formatDatetime(item.participantDate)}
       <SectionTitle title="답변 내용" sx={{ mt: 3 }} />
-      <AnswerList 
+      <AnswerList
         questions={questions} 
         answers={item.answers} 
       />

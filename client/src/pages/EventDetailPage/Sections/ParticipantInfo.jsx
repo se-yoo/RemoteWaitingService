@@ -13,8 +13,7 @@ const ParticipantInfo = memo(() => {
   const [openDialogAllAnswer, setOpenDialogAllAnswer] = useState(false);
   const [openDialogSettingWin, setOpenDialogSettingWin] = useState(false);
   const event = useSelector(state => state.event);
-  const eventAnswers = useSelector(state => state.answer.eventAnswers);
-  const { optionCd } = event;
+  const { optionCd, participantCnt } = event;
 
   const headers = useMemo(() => {
     return [
@@ -40,10 +39,6 @@ const ParticipantInfo = memo(() => {
   const onClickSaveWinner = useCallback(() => {
 
   }, []);
-
-  const participantCnt = useMemo(() => {
-    return eventAnswers.length;
-  }, [eventAnswers.length]);
 
   const buttons = useMemo(() => {
     return [

@@ -2,7 +2,7 @@ import { Button, Grid, TextField } from '@mui/material';
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-const QuestionListItemFormOption = memo((props) => {
+const EditQuestionListItemFormOption = memo((props) => {
   const { idx, onChangeOptions } = props;
   const question = useSelector(state => state.event.questions[idx]);
   const { options } = question;
@@ -61,4 +61,4 @@ const QuestionListItemFormOption = memo((props) => {
   ), [options, idx]);
 });
 
-export default QuestionListItemFormOption;
+export default EditQuestionListItemFormOption;

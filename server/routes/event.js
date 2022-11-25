@@ -5,12 +5,39 @@ const { auth } = require("../middleware/auth");
 
 router.get("/", auth, (req, res) => {
   if(req.query.eventId) { // 단일 검색
-    Event.findOne({ "_id": req.query.eventId })
-      .populate("writer")
-      .exec((err, event) => {
-        if(err) return res.status(400).send(err);
-        res.status(200).json({ success: true, event });
-      })
+    Event.aggregate([
+      { $match: { writer: req.user._id } },
+      { $lookup: {
+          from: "eventanswers",
+          localField: "_id",
+          foreignField: "event",
+          as: "participantCnt"
+      }},
+      { $addFields: { 
+          participantCnt: { $size: "$participantCnt" }
+      }},
+      { $lookup: {
+          from: "users",
+          localField: "writer",
+          foreignField: "_id",
+          as: "writer"
+      }},
+      { $unwind: "$writer" },
+      {
+        $project: {
+          "writer.birthDay": 0,
+          "writer.email": 0,
+          "writer.password": 0,
+          "writer.phoneNumber": 0,
+          "writer.role": 0,
+          "writer.token": 0,
+          "writer.tokenExp": 0
+        }
+      }
+    ], (err, event) => {
+      if(err) return res.status(400).send(err);
+      res.status(200).json({ success: true, event: event[0] });
+    });
   } else { // 목록 검색
     const adminCondition = [
       { $match: { writer: req.user._id } },

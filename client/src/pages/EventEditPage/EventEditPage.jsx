@@ -11,7 +11,7 @@ import { rules } from '../../utils/resource';
 import EditDate from './Sections/EditDate';
 import EditDesc from './Sections/EditDesc';
 import EditOption from './Sections/EditOption';
-import EditQuestions from './Sections/EditQuestions';
+import EditQuestion from './Sections/EditQuestion';
 import EditTitle from './Sections/EditTitle';
 
 const validation = {
@@ -169,7 +169,7 @@ const EventEditPage = () => {
       />
       <EditTitle sx={{ mt: 8 }} formStatus={formStatus.title} />
       <EditDesc sx={{ mt: 4 }} formStatus={formStatus.description} />
-      <EditQuestions sx={{ mt: 4 }} formStatus={formStatus.questions} />
+      <EditQuestion sx={{ mt: 4 }} formStatus={formStatus.questions} />
       <EditDate sx={{ mt: 4 }} formStatus={formStatus.date} />
       <EditOption sx={{ mt: 4 }} />
       <ActionButtons

@@ -11,18 +11,6 @@ import { formatDate } from '../../../utils/function';
 import NoticeDetailDialogContent from './NoticeDetailDialogContent';
 import NoticeEditDialogContent from './NoticeEditDialogContent';
 
-// 화면 작업을 위한 임시 값, 추후 삭제
-const tempNoticeList = [
-  { id: 1, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 2, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 3, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 4, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 5, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 6, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 },
-  { id: 7, title: '공지사항 제목', createDate: '2022-09-26', description: "공지 내용입니다.", target: 0 }
-];
-// 화면 작업을 위한 임시 값 끝
-
 const headers = [
   { text: "순서", align: "center", width: "7%", sx: { minWidth: "4rem" }, value: 'index', useIndex: true },
   { text: "제목", align: "left", value: 'title' },

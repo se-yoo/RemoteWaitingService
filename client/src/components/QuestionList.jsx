@@ -1,15 +1,12 @@
 import { List } from '@mui/material';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import SectionTitle from '../../../components/SectionTitle';
+import React, { memo } from 'react';
 import QuestionListItem from './QuestionListItem';
 
-const QuestionList = () => {
-  const questions = useSelector(state => state.event.questions);
+const QuestionList = memo((props) => {
+  const { questions } = props;
 
   return (
     <>
-      <SectionTitle title="이벤트 문항" sx={{ mt: 6 }} />
       <List>
         {questions.map((question, index) => (
           <QuestionListItem
@@ -21,6 +18,6 @@ const QuestionList = () => {
       </List>
     </>
   );
-};
+});
 
 export default QuestionList;

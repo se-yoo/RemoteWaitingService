@@ -95,7 +95,7 @@ const DataTable = (props) => {
           )}
           {headers.map(header => (
             <DataTableCell 
-              key={`row-${item.id || index}-cell-${header.value || header.text}`}
+              key={`row-${item._id || index}-cell-${header.value || header.text}`}
               item={item}
               rowIndex={index}
               header={header}
@@ -210,7 +210,7 @@ const DataTable = (props) => {
           )}
           <TableBody>
             {pageItems.map((item, index) => (
-              <React.Fragment key={`row-${item.id || index}`} >
+              <React.Fragment key={`row-${item._id || index}`} >
                 <DataTableRow
                   item={item} 
                   index={index} 

@@ -31,7 +31,6 @@ const EditDate = (props) => {
         <DateInput
           label="오픈 시간"
           containTime
-          minDate={new Date()}
           maxDate={endDate}
           disabled={noLimitDate}
           value={startDate}

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Grid, ListItem } from '@mui/material';
 import React, { memo, useMemo } from 'react';
-import { ANSWER_TYPE } from '../../../utils/code';
+import { ANSWER_TYPE } from '../utils/code';
 
 const StyledAnswerListItem = styled(ListItem)({
   background: "#FFFFFF",
