@@ -24,11 +24,11 @@ const EventList = (props) => {
     <List sx={sx}>
       {events.map(event => (
         <EventListItem 
-          key={event.id} 
+          key={event._id} 
           title={event.title}
           content={getContent(event)} 
           status={event.status}
-          onClickEvent={() => {onClickEvent(event.id)}}
+          onClickEvent={() => {onClickEvent(event._id)}}
         />
       ))}
     </List>

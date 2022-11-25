@@ -224,17 +224,28 @@ const DataTable = (props) => {
               </React.Fragment>
             ))}
             {emptyRows > 0 && (
-              <TableRow style={{ height: 64 * emptyRows }} />
+              <TableRow style={{ height: 64 * emptyRows }}>
+                {rowCount === 0 && (
+                  <TableCell
+                    sx={{ textAlign: "center", color: "grey" }}
+                    colSpan={headers.length + (checkboxSelection? 2 : 1)}
+                  >
+                    데이터가 없습니다
+                  </TableCell>
+                )}
+              </TableRow>
             )}
           </TableBody>
         </Table>
       </TableContainer>
-      <Pagination 
-        count={pageCount} 
-        page={page} 
-        onChange={onChangePage}
-        sx={{ mt: 5 }}
-      />
+      {rowCount > 0 && (
+        <Pagination 
+          count={pageCount} 
+          page={page} 
+          onChange={onChangePage}
+          sx={{ mt: 5 }}
+        />
+      )}
     </>
   );
 };

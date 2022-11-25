@@ -1,28 +1,19 @@
 import { Box } from '@mui/material';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import SectionTitle from '../../../components/SectionTitle';
-import { formatKorTime } from '../../../utils/function';
-
-// 화면 작업을 위한 임시 값, 추후 삭제
-const tempEvent = { 
-  id: 1, 
-  title: '이벤트 제목', 
-  description: '이벤트 설명',
-  participantCnt: 10, 
-  createDate: '2022-09-27', 
-  startDate: '2022-09-27 15:00:00',
-  endDate: '2022-10-05 18:00:00',
-  option: 1
-}
+import { formatDate, formatKorTime } from '../../../utils/function';
 
 const BasicInfo = () => {
+  const event = useSelector(state => state.event);
   const { 
-    title, 
+    title,
     description,
-    createDate, 
+    createDate,
+    noLimitDate,
     startDate,
     endDate
-  } = tempEvent;
+  } = event;
 
   return (
     <>
@@ -39,13 +30,16 @@ const BasicInfo = () => {
         my={3}
         color={"#BCBCBC"}
       >
-        생성일: {createDate}
+        생성일: {formatDate(createDate)}
       </Box>
       <SectionTitle title="이벤트 설명" sx={{ mt: 6 }} />
       <Box>{description}</Box>
       <SectionTitle title="이벤트 기간" sx={{ mt: 6 }} />
       <Box>
-        {formatKorTime(startDate)} ~ {formatKorTime(endDate)}
+        {noLimitDate ? 
+          "제한 없음" 
+          : `${formatKorTime(startDate)} ~ ${formatKorTime(endDate)}`
+        }
       </Box>
     </>
   );

@@ -9,7 +9,7 @@ router.get("/", auth, (req, res) => {
       .populate("writer")
       .exec((err, event) => {
         if(err) return res.status(400).send(err);
-        res.status(200).json({ success: true, ...event });
+        res.status(200).json({ success: true, event });
       })
   } else { // 목록 검색
     const adminCondition = [

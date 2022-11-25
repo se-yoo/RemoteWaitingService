@@ -1,8 +1,12 @@
 import { Box } from '@mui/material';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import ActionButtons from '../../components/ActionButtons';
+import AlertDialog from '../../components/AlertDialog';
 import CommonDialog from '../../components/CommonDialog';
 import MenuTitle from '../../components/MenuTitle';
+import { loadEventDetail, resetEmptyEvent } from '../../store/actions/event_actions';
 import BasicInfo from './Sections/BasicInfo';
 import NoticeInfo from './Sections/NoticeInfo';
 import ParticipantInfo from './Sections/ParticipantInfo';
@@ -10,7 +14,21 @@ import QuestionList from './Sections/QuestionList';
 import ShareDialogContent from './Sections/ShareDialogContent';
 
 const EventDetailPage = () => {
+  const [openAlertError, setOpenAlertError] = useState(false);
+  const [errorDialogContent, setErrorDialogContent] = useState("");
   const [openDialogShare, setOpenDialogShare] = useState(false);
+  const event = useSelector(state => state.event);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const variable = {
+      eventId: id
+    };
+
+    dispatch(loadEventDetail(variable));
+  }, []);
 
   const handleClose = useCallback(() => {
     setOpenDialogShare(false);
@@ -26,6 +44,19 @@ const EventDetailPage = () => {
       { text: "공유", width: 200, variant: "outlined", onClick: onClickShare },
       { text: "수정", width: 200 }
     ];
+  }, []);
+
+  useEffect(() => {
+    if(event.error) {
+      const { message, error } = event.error;
+      setErrorDialogContent(`${message} 확인을 누르시면 메인으로 돌아갑니다. \n오류: ${error.toString()}`);
+      setOpenAlertError(true);
+    }
+  }, [event.error]);
+
+  const navigateMain = useCallback(() => {
+    dispatch(resetEmptyEvent());
+    navigate("/");
   }, []);
 
   return (
@@ -49,6 +80,13 @@ const EventDetailPage = () => {
         closable
         ContentComponent={<ShareDialogContent />}
       />
+      <AlertDialog
+        open={openAlertError}
+        onAgree={navigateMain}
+        title="오류 발생"
+        content={errorDialogContent}
+        hideDisagree
+      />  
     </div>
   );
 };

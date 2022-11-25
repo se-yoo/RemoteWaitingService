@@ -25,6 +25,18 @@ export const formatKorTime = (date) => {
 }
 
 /**
+ * @method formatDatetime
+ * @param {String} date 
+ * @returns {String} YYYY-MM-DD HH:mm:ss.SSS
+ * @note 시간 포맷 함수(YYYY-MM-DD HH:mm:ss.SSS)
+ */
+export const formatDatetime = (date) => {
+  const targetDate = new Date(date);
+  const format = `YYYY-MM-DD HH:mm:ss.SSS`;
+  return dayjs(targetDate).format(format);
+}
+
+/**
  * @method getPageCount
  * @param {Number} listLength 아이템 목록 전체 개수
  * @param {Number} rowsPerPage 페이지 별 아이템 전시 개수

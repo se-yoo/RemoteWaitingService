@@ -1,5 +1,6 @@
 import { Box, Button, DialogActions } from '@mui/material';
 import React, { memo, useCallback, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import ActionButtons from '../../../components/ActionButtons';
 import CommonDialog from '../../../components/CommonDialog';
 import SectionTitle from '../../../components/SectionTitle';
@@ -8,30 +9,20 @@ import AllAnswerDialogContent from './AllAnswerDialogContent';
 import ParticipantInfoTable from './ParticipantInfoTable';
 import SettingWinDialogContent from './SettingWinDialogContent';
 
-// 화면 작업을 위한 임시 값, 추후 삭제
-const tempEvent = { 
-  id: 1, 
-  title: '이벤트 제목', 
-  description: '이벤트 설명',
-  participantCnt: 10, 
-  createDate: '2022-09-27', 
-  startDate: '2022-09-27 15:00:00',
-  endDate: '2022-10-05 18:00:00',
-  option: 1
-};
-
 const ParticipantInfo = memo(() => {
   const [openDialogAllAnswer, setOpenDialogAllAnswer] = useState(false);
   const [openDialogSettingWin, setOpenDialogSettingWin] = useState(false);
-  const { participantCnt, option } = tempEvent;
+  const event = useSelector(state => state.event);
+  const eventAnswers = useSelector(state => state.answer.eventAnswers);
+  const { optionCd } = event;
 
   const headers = useMemo(() => {
     return [
       { text: "순서", align: "center", width: "7%", sx: { minWidth: "4rem" }, value: 'index', useIndex: true },
       { text: "응답 시간", align: "left", value: 'participantDate' },
-      { text: `${option === EVENT_OPTION.WAITING ? '입장' : '당첨'} 여부`, align: "center", value: 'status' }
+      { text: `${optionCd === EVENT_OPTION.WAITING ? '입장' : '당첨'} 여부`, align: "center", value: 'status' }
     ];
-  }, [option]);
+  }, [optionCd]);
 
   const handleClose = useCallback(() => {
     setOpenDialogAllAnswer(false);
@@ -49,6 +40,10 @@ const ParticipantInfo = memo(() => {
   const onClickSaveWinner = useCallback(() => {
 
   }, []);
+
+  const participantCnt = useMemo(() => {
+    return eventAnswers.length;
+  }, [eventAnswers.length]);
 
   const buttons = useMemo(() => {
     return [
@@ -84,7 +79,7 @@ const ParticipantInfo = memo(() => {
         >
           전체 답변 상세
         </Button>
-        {option !== EVENT_OPTION.WAITING && (
+        {optionCd !== EVENT_OPTION.WAITING && (
             <Button
               type="translucent"
               customsize="small"
