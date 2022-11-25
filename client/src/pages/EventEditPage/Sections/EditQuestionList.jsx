@@ -17,7 +17,7 @@ const SortableList = SortableContainer(({ items, sx }) => {
     <List sx={sx}>
       {items.map((question, index) => (
         <SortableItem 
-          key={question._id}
+          key={question._id || question.tempId}
           index={index}
           itemIdx={index} 
         />)

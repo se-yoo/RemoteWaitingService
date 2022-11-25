@@ -1,5 +1,6 @@
-import { Button, Grid, TextField } from '@mui/material';
+import { Button, Grid, IconButton, TextField } from '@mui/material';
 import React, { memo, useCallback, useMemo } from 'react';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSelector } from 'react-redux';
 
 const EditQuestionListItemFormOption = memo((props) => {
@@ -33,6 +34,13 @@ const EditQuestionListItemFormOption = memo((props) => {
     onChangeOptions(newOptions);
   }, [options, onChangeOptions]);
 
+  const onClickDeleteOption = useCallback((idx) => {
+    let newOptions = [...options];
+    newOptions.splice(idx, 1);
+
+    onChangeOptions(newOptions);
+  }, [options, onChangeOptions]);
+
   return useMemo(() => (
     <Grid
       container
@@ -46,6 +54,13 @@ const EditQuestionListItemFormOption = memo((props) => {
             key={option.value}
             value={option.text}
             sx={{ mb: 2 }}
+            InputProps={{
+              endAdornment: (
+                <IconButton onClick={() => {onClickDeleteOption(index)}}>
+                  <DeleteOutlineIcon color="primary" />
+                </IconButton>
+              )
+            }}
             onChange={(e) => {onChangeOption(e, index)}}
           />
         ))}

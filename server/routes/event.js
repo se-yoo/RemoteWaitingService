@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { Event } = require("../models/Event");
 const { auth } = require("../middleware/auth");
+const { mongoose } = require('mongoose');
 
 router.get("/", auth, (req, res) => {
   if(req.query.eventId) { // 단일 검색
     Event.aggregate([
-      { $match: { writer: req.user._id } },
+      { $match: { _id: new mongoose.Types.ObjectId(req.query.eventId) } },
       { $lookup: {
           from: "eventanswers",
           localField: "_id",
@@ -40,7 +41,7 @@ router.get("/", auth, (req, res) => {
     });
   } else { // 목록 검색
     const adminCondition = [
-      { $match: { writer: req.user._id } },
+      { $match: { writer: new mongoose.Types.ObjectId(req.user._id) } },
       { $lookup: {
           from: "eventanswers",
           localField: "_id",
