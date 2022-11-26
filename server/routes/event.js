@@ -92,7 +92,7 @@ router.post("/create", auth, (req, res) => {
 
 router.put("/update", auth, (req, res) => {
   Event.findOneAndUpdate(
-    { "_id": req.body.eventId }, 
+    { "_id": req.body._id }, 
     req.body,
     (err, doc) => {
       if (err) return res.json({ success: false, err });

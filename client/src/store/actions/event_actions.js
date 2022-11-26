@@ -64,7 +64,7 @@ export function createEvent(dataToSubmit) {
 }
 
 export function updateEvent(dataToSubmit) {
-  const request = axios.post(`${EVENT_SERVER}/update`, dataToSubmit)
+  const request = axios.put(`${EVENT_SERVER}/update`, dataToSubmit)
     .then(response => response.data);
   
   return {
