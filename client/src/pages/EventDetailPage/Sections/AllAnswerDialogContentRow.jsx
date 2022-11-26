@@ -1,6 +1,7 @@
 import { TableCell, TableRow } from '@mui/material';
 import React, { memo } from 'react';
 import { ANSWER_TYPE } from '../../../utils/code';
+import { formatDatetime } from '../../../utils/function';
 
 const answerText = (question, answer) => {
   switch(question.answerType) {
@@ -40,7 +41,9 @@ const AllAnswerDialogContentRow = memo((props) => {
           {answerText(question, item.answers[i]) || "-"}
         </TableCell>
       ))}
-      <TableCell align="center">{item.participantDate}</TableCell>
+      <TableCell align="center">
+        {formatDatetime(item.participantDate)}
+      </TableCell>
     </TableRow>
   );
 });
