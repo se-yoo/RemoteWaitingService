@@ -44,4 +44,14 @@ router.put("/update", auth, (req, res) => {
   )
 });
 
+router.delete("/delete", auth, (req, res) => {
+  Notice.findOneAndDelete(
+    { "_id": req.query.noticeId }, {},
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).json({ success: true });
+    }
+  )
+});
+
 module.exports = router;

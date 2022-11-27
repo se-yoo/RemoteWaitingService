@@ -7,7 +7,7 @@ import AlertDialog from '../../../components/AlertDialog';
 import CommonDialog from '../../../components/CommonDialog';
 import DataTable from '../../../components/DataTable';
 import SectionTitle from '../../../components/SectionTitle';
-import { createNotice, loadNoticeList, resetEmptyNotice, setNotice, updateNotice } from '../../../store/actions/notice_actions';
+import { createNotice, deleteNotice, loadNoticeList, resetEmptyNotice, setNotice, updateNotice } from '../../../store/actions/notice_actions';
 import { checkFormValidation, formatDate } from '../../../utils/function';
 import { rules } from '../../../utils/resource';
 import NoticeDetailDialogContent from './NoticeDetailDialogContent';
@@ -28,6 +28,7 @@ const NoticeInfo = memo(() => {
   const [page, setPage] = useState(1);
   const [openDialogNotice, setOpenDialogNotice] = useState(false);
   const [openDialogEditNotice, setOpenDialogEditNotice] = useState(false);
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [checkRealTime, setCheckRealTime] = useState(false);
   const [formStatus, setFormStatus] = useState({});
   const [openAlertError, setOpenAlertError] = useState(false);
@@ -55,6 +56,10 @@ const NoticeInfo = memo(() => {
   const handleCloseErrorDialog = useCallback(() => {
     setOpenAlertError(false);
   }, []);
+
+  const handleCloseConfirmDialog = useCallback(() => {
+    setOpenConfirmDelete(false);
+  }, []);
   
   const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage);
@@ -73,6 +78,7 @@ const NoticeInfo = memo(() => {
   }, []);
 
   const onClickDeleteNotice = useCallback(() => {
+    setOpenConfirmDelete(true);
   }, []);
 
   const onClickEditNotice = useCallback(() => {
@@ -168,6 +174,24 @@ const NoticeInfo = memo(() => {
     }
   }, [isNew, notice]);
 
+  const requestDeleteNotice = useCallback(() => {
+    const variable = {
+      noticeId: noticeId
+    };
+
+    dispatch(deleteNotice(variable))
+    .then( res => {
+      if(res.payload.success) {
+        getNoticeList();
+        setOpenDialogNotice(false);
+        setOpenConfirmDelete(false);
+      };
+    }).catch(err => {
+      setErrorDialogContent(`공지 삭제에 실패했습니다. \n오류: ${err.toString()}`);
+      setOpenAlertError(true);
+    });
+  }, [noticeId]);
+
   const detailButtons = useMemo(() => {
     return [
       { text: "삭제", color: "red", onClick: onClickDeleteNotice },
@@ -252,6 +276,13 @@ const NoticeInfo = memo(() => {
         title="오류 발생"
         content={errorDialogContent}
         hideDisagree
+      />  
+      <AlertDialog
+        open={openConfirmDelete}
+        onClose={handleCloseConfirmDialog}
+        onAgree={requestDeleteNotice}
+        title="공지 삭제"
+        content="정말로 공지를 삭제하시겠습니까? 삭제 후 다시 복구할 수 없습니다."
       />  
     </>
   );

@@ -47,6 +47,16 @@ export function updateNotice(dataToSubmit) {
   }
 }
 
+export function deleteNotice(dataToSubmit) {
+  const request = axios.delete(`${NOTICE_SERVER}/delete`, { params: dataToSubmit })
+    .then(response => response.data);
+  
+  return {
+    type: UPLOAD_NOTICE,
+    payload: request
+  }
+}
+
 export function resetEmptyNotice() {
   return { type: RESET_EMPTY_NOTICE }
 }
