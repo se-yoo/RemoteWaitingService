@@ -3,6 +3,7 @@ import {
   LOAD_EVENT_ANSWER_LIST,
   USER_ANSWER,
   USER_EVENT_LIST,
+  USER_EVENT_DETAIL,
 } from "./types";
 import { EVENT_ANSWER_SERVER } from "./api";
 import axios from "axios";
@@ -40,6 +41,17 @@ export function loadUserEventList(dataToSubmit){
 
   return {
     type: USER_EVENT_LIST,
+    payload: request
+  }
+}
+
+//사용자 이벤트 detail load
+export function loadUserEventDetail(dataToSubmit){
+  const request = axios.post(`${EVENT_ANSWER_SERVER}/userAnswerSelect`,dataToSubmit)
+  .then(response => response.data);
+
+  return {
+    type: USER_EVENT_DETAIL,
     payload: request
   }
 }

@@ -36,3 +36,4 @@ export const SET_USER_EVENT_JOIN='SET_USER_EVENT_JOIN';
 
 export const USER_ANSWER='user_answer';
 export const USER_EVENT_LIST='user_event_list';
+export const USER_EVENT_DETAIL='user_event_detail'

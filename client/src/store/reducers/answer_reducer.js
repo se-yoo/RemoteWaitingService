@@ -2,6 +2,7 @@ import {
   LOAD_EVENT_ANSWER_LIST,
   USER_ANSWER,
   USER_EVENT_LIST,
+  USER_EVENT_DETAIL,
 } from "../actions/types";
 import { PARTICIPANT_STATUS } from "../../utils/code";
 
@@ -33,6 +34,11 @@ export default function(state = initialState, action) {
       return {
         ...state, 
         userEventList: action.payload 
+      }
+    case USER_EVENT_DETAIL:
+      return {
+        ...state, 
+        userEventDetail: action.payload 
       }
     default:
       return state;

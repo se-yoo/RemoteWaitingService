@@ -31,6 +31,49 @@ router.post("/create", (req, res) => {
 });
 
 
+router.post("/userAnswerSelect",(req,res)=>{
+  EventAnswer.aggregate([
+    { $match:{ "writer" : new mongoose.Types.ObjectId(req.body.userId) , "event" : new mongoose.Types.ObjectId(req.body.eventId)}},
+    { $lookup:
+     {
+       from: "events",
+       localField: "event",
+       foreignField: "_id",
+       as: "eventDetail"
+     }
+    },
+    { $limit: 1 },
+    { $unwind: "$eventDetail" },
+    { $project:{
+        questions:"$eventDetail.questions",
+        createDate:"$eventDetail.createDate",
+        startDate:"$eventDetail.startDate",
+        endDate:"$eventDetail.endDate",
+        option:"$eventDetail.optionCd",
+        participantDate:1,
+        answers:1,
+        status:1
+      }
+    }
+
+  ],function(err, list){
+    if(err) {
+      return res.json({
+        success: false,
+        message:"list load를 실패했습니다.",
+        err
+      })
+    }
+    else{
+      return res.status(200).json({
+        success: true,
+        eventDetail:list
+      })
+    }
+  })
+})
+
+
 router.post("/userEventListSelect",(req,res)=>{
   EventAnswer.aggregate([
     { $match:{ "writer" : new mongoose.Types.ObjectId(req.body.userId) } },
@@ -47,9 +90,9 @@ router.post("/userEventListSelect",(req,res)=>{
         _id:"$eventDetail._id", 
         title:"$eventDetail.title", 
         createDate:"$eventDetail.createDate",
-         startDate:"$eventDetail.startDate",
-         endDate:"$eventDetail.endDate",
-         status:1
+        startDate:"$eventDetail.startDate",
+        endDate:"$eventDetail.endDate",
+        status:1
       },
     }
     
@@ -58,15 +101,14 @@ router.post("/userEventListSelect",(req,res)=>{
       if(err) {
         return res.json({
           success: false,
-          message:"listist load를 실패했습니다.",
+          message:"list load를 실패했습니다.",
           err
         })
       }
       else{
         return res.status(200).json({
           success: true,
-          eventList:list,
-          user:req.body.userId
+          eventList:list
         })
       }
   })

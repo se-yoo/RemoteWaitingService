@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import EventListItem from './EventListItem';
 import { EVENT_STATUS_TYPE, EVENT_RESULT_TYPE, PARTICIPANT_STATUS } from '../../../utils/code';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loadUserEventList } from '../../../store/actions/answer_actions';
 import moment from 'moment';
 
@@ -16,8 +16,7 @@ const EventList = (props) => {
   const dispatch = useDispatch();
   const [userEventList,setUserEventList] = useState([]);
   const userId = useParams().userId
- // const user= useSelector(state => state.user.userData);
- 
+
   const body={
     userId:userId
   }
@@ -28,13 +27,10 @@ const EventList = (props) => {
     .then(response=>{
       if(response.payload.success){
         setUserEventList(response.payload.eventList);
-        console.log("eventList : "+response.payload.success);
-        console.log("eventList : "+ JSON.stringify(response.payload.eventList));
-        console.log("eventList : "+response.payload.user);
+        // console.log("eventList : "+response.payload.success);
+         console.log("eventList : "+ JSON.stringify(response.payload.eventList));
       }
       else{
-        console.log("eventListError : "+response.payload.success);
-        console.log("eventListError : "+response.payload.message);
         console.log("eventListError : "+response.payload.err);
       }
     })
@@ -73,7 +69,7 @@ const EventList = (props) => {
   }, []);
 
   const onClickEvent = useCallback((eventId) => {
-    navigate(`/user/event/detail/${eventId}`);
+    navigate(`/user/event/detail/${eventId}/${userId}`);
   }, []);
 
 
