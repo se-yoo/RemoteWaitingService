@@ -96,7 +96,7 @@ const EventEditPage = () => {
     check = check || formStatus.date !== undefined;
     
     return check;
-  }, [event, user]);
+  }, [event]);
 
   useEffect(() => {
     if(checkRealTime) {
@@ -136,9 +136,18 @@ const EventEditPage = () => {
         setOpenAlertError(true);
       });
     } else {
-      dispatch(updateEvent(body));
+      dispatch(updateEvent(body))
+      .then( res => {
+        if(res.payload.success) {
+          navigate(`/event/detail/${id}`);
+        };
+      }).catch(err => {
+        setErrorDialogAgree(() => handleCloseErrorDialog);
+        setErrorDialogContent(`이벤트 수정에 실패했습니다. \n오류: ${err.toString()}`);
+        setOpenAlertError(true);
+      });
     }
-  }, [isNew, event, editType])
+  }, [isNew, event, user])
 
   const navigateMain = useCallback(() => {
     dispatch(resetEmptyEvent());

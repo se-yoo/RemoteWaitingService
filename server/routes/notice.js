@@ -27,12 +27,31 @@ router.get("/", auth, (req, res) => {
 router.post("/create", (req, res) => {
   const notice = new Notice(req.body);
 
-  notice.save((err,doc) => {
-    if(err) return res.json({success:false, err});
-    return res.status(200).json({
-      success:true
-    });
+  notice.save((err, doc) => {
+    if(err) return res.json({ success: false, err });
+    return res.status(200).json({ success: true });
   });
+});
+
+router.put("/update", auth, (req, res) => {
+  Notice.findOneAndUpdate(
+    { "_id": req.body._id }, 
+    req.body,
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).json({ success: true });
+    }
+  )
+});
+
+router.delete("/delete", auth, (req, res) => {
+  Notice.findOneAndDelete(
+    { "_id": req.query.noticeId }, {},
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).json({ success: true });
+    }
+  )
 });
 
 module.exports = router;

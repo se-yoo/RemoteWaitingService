@@ -24,13 +24,15 @@ export const UPLOAD_EVENT = 'UPLOAD_EVENT';
 export const LOAD_EVENT_ANSWER_LIST = 'LOAD_EVENT_ANSWER_LIST';
 
 export const LOAD_NOTICE_LIST = 'LOAD_NOTICE_LIST';
+export const RESET_EMPTY_NOTICE = 'RESET_EMPTY_NOTICE';
 export const SET_NOTICE = 'SET_NOTICE';
 export const SET_NOTICE_TITLE = 'SET_NOTICE_TITLE';
 export const SET_NOTICE_DESCRIPTION = 'SET_NOTICE_DESCRIPTION';
 export const SET_NOTICE_TARGET = 'SET_NOTICE_TARGET';
+export const UPLOAD_NOTICE = 'UPLOAD_NOTICE';
 
+export const SET_USER_EVENT_JOIN='SET_USER_EVENT_JOIN';
 
-export const SET_USER_EVENT_JOIN='set_user_evnet_join';
 
 export const USER_ANSWER='user_answer';
 export const USER_EVENT_LIST='user_event_list';

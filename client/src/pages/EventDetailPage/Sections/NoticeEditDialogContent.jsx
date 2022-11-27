@@ -6,10 +6,11 @@ import SectionTitle from '../../../components/SectionTitle';
 import { setNoticeDescription, setNoticeTarget, setNoticeTitle } from '../../../store/actions/notice_actions';
 import { NOTICE_TARGET_TEXT } from '../../../utils/code';
 
-const NoticeEditDialogContent = memo(() => {
+const NoticeEditDialogContent = memo((props) => {
   const title = useSelector(state => state.notice.title);
   const description = useSelector(state => state.notice.description);
   const target = useSelector(state => state.notice.target);
+  const { formStatus } = props;
   const dispatch = useDispatch();
 
   const onChangeTitle = useCallback((e) => {
@@ -32,6 +33,8 @@ const NoticeEditDialogContent = memo(() => {
         onChange={onChangeTitle}
         fullWidth
         placeholder="공지 제목"
+        error={formStatus.title !== undefined}
+        helperText={formStatus.title}
       />
       <SectionTitle title="공지 내용" sx={{ mt: 6 }} />
       <TextField
@@ -40,6 +43,8 @@ const NoticeEditDialogContent = memo(() => {
         multiline
         rows={5}
         placeholder="공지 내용을 작성해주세요"
+        error={formStatus.description !== undefined}
+        helperText={formStatus.description}
       />
       <SectionTitle title="공지 대상" sx={{ mt: 6 }} />
       <FormControl fullWidth>
