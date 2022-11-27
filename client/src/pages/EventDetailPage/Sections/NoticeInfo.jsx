@@ -3,11 +3,13 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ActionButtons from '../../../components/ActionButtons';
+import AlertDialog from '../../../components/AlertDialog';
 import CommonDialog from '../../../components/CommonDialog';
 import DataTable from '../../../components/DataTable';
 import SectionTitle from '../../../components/SectionTitle';
-import { loadNoticeList, setNotice } from '../../../store/actions/notice_actions';
-import { formatDate } from '../../../utils/function';
+import { createNotice, loadNoticeList, resetEmptyNotice, setNotice, updateNotice } from '../../../store/actions/notice_actions';
+import { checkFormValidation, formatDate } from '../../../utils/function';
+import { rules } from '../../../utils/resource';
 import NoticeDetailDialogContent from './NoticeDetailDialogContent';
 import NoticeEditDialogContent from './NoticeEditDialogContent';
 
@@ -17,19 +19,41 @@ const headers = [
   { text: "등록일", align: "center", width: "7%", sx: { minWidth: "10rem" }, value: 'createDate' }
 ];
 
+const validation = {
+  title: { rules: [rules.required] },
+  description: { rules: [rules.required] }
+};
+
 const NoticeInfo = memo(() => {
   const [page, setPage] = useState(1);
   const [openDialogNotice, setOpenDialogNotice] = useState(false);
   const [openDialogEditNotice, setOpenDialogEditNotice] = useState(false);
+  const [checkRealTime, setCheckRealTime] = useState(false);
+  const [formStatus, setFormStatus] = useState({});
+  const [openAlertError, setOpenAlertError] = useState(false);
+  const [errorDialogContent, setErrorDialogContent] = useState("");
   const event = useSelector(state => state.event);
   const notice = useSelector(state => state.notice);
   const { notices, createDate } = notice;
+  const noticeId = notice._id;
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  const isNew = useMemo(() => {
+    return noticeId === "new";
+  }, [noticeId]);
+
+  const editType = useMemo(() => {
+    return isNew ? "등록" : "수정";
+  }, [isNew]);
 
   const handleClose = useCallback(() => {
     setOpenDialogNotice(false);
     setOpenDialogEditNotice(false);
+  }, []);
+
+  const handleCloseErrorDialog = useCallback(() => {
+    setOpenAlertError(false);
   }, []);
   
   const handleChangePage = useCallback((event, newPage) => {
@@ -42,6 +66,9 @@ const NoticeInfo = memo(() => {
   }, []);
 
   const onClickAddNotice = useCallback(() => {
+    dispatch(resetEmptyNotice());
+    setCheckRealTime(false);
+    setFormStatus({});
     setOpenDialogEditNotice(true);
   }, []);
 
@@ -49,7 +76,97 @@ const NoticeInfo = memo(() => {
   }, []);
 
   const onClickEditNotice = useCallback(() => {
+    setCheckRealTime(false);
+    setFormStatus({});
+    setOpenDialogNotice(false);
+    setOpenDialogEditNotice(true);
   }, []);
+
+  const getNoticeList = useCallback(() => {    
+    const variable = {
+      eventId: id
+    };
+
+    dispatch(loadNoticeList(variable));
+  }, [id]);
+
+  const checkEditFormVaildation = useCallback(() => {
+    let check = false;
+
+    for(const key of Object.keys(validation)) {
+      const result = checkFormValidation(notice, key, validation[key].rules);
+
+      setFormStatus(prevFormStatus=> {
+        let newStatus = {};
+        newStatus[key] = result !== true ? result : undefined;
+
+        return {
+          ...prevFormStatus,
+          ...newStatus
+        };
+      });
+
+      if(result !== true) {
+        check = true;
+      }
+    }
+    
+    return check;
+  }, [notice]);
+
+  useEffect(() => {
+    if(id !== event._id) return;
+
+    getNoticeList();
+  }, [event]);
+
+  useEffect(() => {
+    if(checkRealTime) {
+      checkEditFormVaildation();
+    }
+  }, [checkRealTime, notice]);
+
+  const editNotice = useCallback(() => {
+    const check = checkEditFormVaildation();
+
+    if(check) {
+      setCheckRealTime(true);
+      return;
+    }
+
+    const body = {
+      _id: isNew ? undefined : noticeId,
+      title: notice.title,
+      description: notice.description,
+      target: notice.target,
+      event: event._id,
+    };
+
+    if(isNew) {
+      dispatch(createNotice(body))
+      .then( res => {
+        if(res.payload.success) {
+          getNoticeList();
+          setOpenDialogEditNotice(false);
+        };
+      }).catch(err => {
+        setErrorDialogContent(`공지 등록에 실패했습니다. \n오류: ${err.toString()}`);
+        setOpenAlertError(true);
+      });
+    } else {
+      dispatch(updateNotice(body))
+      .then( res => {
+        if(res.payload.success) {
+          getNoticeList();
+          setOpenDialogEditNotice(false);
+          setOpenDialogNotice(true);
+        };
+      }).catch(err => {
+        setErrorDialogContent(`공지 수정에 실패했습니다. \n오류: ${err.toString()}`);
+        setOpenAlertError(true);
+      });
+    }
+  }, [isNew, notice]);
 
   const detailButtons = useMemo(() => {
     return [
@@ -61,9 +178,9 @@ const NoticeInfo = memo(() => {
   const editButtons = useMemo(() => {
     return [
       { text: "취소", color: "grey", onClick: handleClose },
-      { text: "등록" }
+      { text: editType, onClick: editNotice }
     ];
-  }, [handleClose]);
+  }, [handleClose, editType, editNotice]);
 
   const ActionComponent = (buttons) => {
     return (
@@ -74,16 +191,6 @@ const NoticeInfo = memo(() => {
       />
     );
   };
-
-  useEffect(() => {
-    if(id !== event._id) return;
-    
-    const variable = {
-      eventId: id
-    };
-
-    dispatch(loadNoticeList(variable));
-  }, [event]);
 
   const ItemCellComponent = {
     createDate: ({item}) => (
@@ -136,9 +243,16 @@ const NoticeInfo = memo(() => {
         title="공지 "
         subText="이벤트에 대한 공지를 편집합니다"
         closable
-        ContentComponent={<NoticeEditDialogContent />}
+        ContentComponent={<NoticeEditDialogContent formStatus={formStatus} />}
         ActionComponent={ActionComponent(editButtons)}
       />
+      <AlertDialog
+        open={openAlertError}
+        onAgree={handleCloseErrorDialog}
+        title="오류 발생"
+        content={errorDialogContent}
+        hideDisagree
+      />  
     </>
   );
 });

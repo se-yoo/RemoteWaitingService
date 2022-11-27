@@ -35,7 +35,7 @@ const AllAnswerDialogContentRow = memo((props) => {
       <TableCell align="center">{index}</TableCell>
       {questions.map((question, i) => (
         <TableCell 
-          key={question.id}
+          key={question._id}
           align="left"
         >
           {answerText(question, item.answers[i]) || "-"}

@@ -96,7 +96,7 @@ const EventEditPage = () => {
     check = check || formStatus.date !== undefined;
     
     return check;
-  }, [event, user]);
+  }, [event]);
 
   useEffect(() => {
     if(checkRealTime) {
@@ -147,7 +147,7 @@ const EventEditPage = () => {
         setOpenAlertError(true);
       });
     }
-  }, [isNew, event, editType])
+  }, [isNew, event, user])
 
   const navigateMain = useCallback(() => {
     dispatch(resetEmptyEvent());

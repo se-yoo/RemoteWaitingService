@@ -1,9 +1,11 @@
 import {
   LOAD_NOTICE_LIST,
+  RESET_EMPTY_NOTICE,
   SET_NOTICE, 
   SET_NOTICE_DESCRIPTION, 
   SET_NOTICE_TARGET, 
-  SET_NOTICE_TITLE 
+  SET_NOTICE_TITLE, 
+  UPLOAD_NOTICE
 } from "../actions/types";
 import { NOTICE_TARGET } from "../../utils/code";
 
@@ -18,6 +20,16 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch(action.type){
+    case RESET_EMPTY_NOTICE: 
+      return {
+        ...state,
+        _id: "new",
+        title: "",
+        description: "",
+        target: NOTICE_TARGET.ALL,
+        createDate: "",
+        error: null
+      }
     case LOAD_NOTICE_LIST:
       return {
         ...state,
@@ -29,6 +41,7 @@ export default function(state = initialState, action) {
 
       return {
         ...state,
+        _id: newState._id,
         title: newState.title,
         description: newState.description,
         target: newState.target,
@@ -49,6 +62,11 @@ export default function(state = initialState, action) {
       return  {
         ...state,
         target: action.payload
+      }
+    case UPLOAD_NOTICE: 
+      return {
+        ...state,
+        success: action.payload
       }
     default:
       return state;

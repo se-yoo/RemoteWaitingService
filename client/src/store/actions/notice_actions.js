@@ -4,7 +4,9 @@ import {
   SET_NOTICE_DESCRIPTION, 
   SET_NOTICE_TARGET, 
   SET_NOTICE_TITLE,
-  ERR_EVENT
+  ERR_EVENT,
+  RESET_EMPTY_NOTICE,
+  UPLOAD_NOTICE
 } from "./types";
 import { NOTICE_SERVER } from "./api";
 import axios from "axios";
@@ -23,6 +25,30 @@ export function loadNoticeList(dataToSubmit) {
         }
       }));
   }
+}
+
+export function createNotice(dataToSubmit) {
+  const request = axios.post(`${NOTICE_SERVER}/create`, dataToSubmit)
+    .then(response => response.data);
+  
+  return {
+    type: UPLOAD_NOTICE,
+    payload: request
+  }
+}
+
+export function updateNotice(dataToSubmit) {
+  const request = axios.put(`${NOTICE_SERVER}/update`, dataToSubmit)
+    .then(response => response.data);
+  
+  return {
+    type: UPLOAD_NOTICE,
+    payload: request
+  }
+}
+
+export function resetEmptyNotice() {
+  return { type: RESET_EMPTY_NOTICE }
 }
 
 export function setNotice(newValue) {
