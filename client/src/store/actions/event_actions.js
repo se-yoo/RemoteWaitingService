@@ -85,6 +85,8 @@ export function loadUserEventJoin(eventId){
 }
 
 
+
+
 export function resetEmptyEvent() {
   return { type: RESET_EMPTY_EVENT }
 }

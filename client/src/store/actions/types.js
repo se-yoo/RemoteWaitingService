@@ -33,3 +33,4 @@ export const SET_NOTICE_TARGET = 'SET_NOTICE_TARGET';
 export const SET_USER_EVENT_JOIN='set_user_evnet_join';
 
 export const USER_ANSWER='user_answer';
+export const USER_EVENT_LIST='user_event_list';

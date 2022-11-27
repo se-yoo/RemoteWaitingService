@@ -1,4 +1,5 @@
 const { mongoose, Schema } = require("mongoose");
+const { EventAnswer } = require("../models/EventAnswer");
 
 const eventSchema = mongoose.Schema({
   title: {
@@ -52,6 +53,7 @@ const eventSchema = mongoose.Schema({
     updatedAt: "updateDate" 
   }
 });
+
 
 const Event = mongoose.model('Event', eventSchema);
 

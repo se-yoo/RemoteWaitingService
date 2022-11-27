@@ -4,11 +4,10 @@ import HelpList from './Sections/HelpList';
 import SearchInput from '../EventListPage/Sections/SearchInput';
 import { Grid } from '@mui/material';
 import EventList from './Sections/EventList';
-
 const UserEventListPage = () =>{
 
   const [searchKeyword, setSearchKeyword] = useState("");
-
+  
   const onChangeSearchKeyword = useCallback((searchKeyword) => {
     setSearchKeyword(searchKeyword);
   }, []);
@@ -16,6 +15,7 @@ const UserEventListPage = () =>{
   const onClickSearch = useCallback(() => {
     // 추후 검색 연결
   }, []);
+
 
   return(
     <>

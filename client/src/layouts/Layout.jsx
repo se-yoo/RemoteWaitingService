@@ -16,7 +16,8 @@ const Layout = () => {
       if(userData.isAdmin) {
         navigate("/event");
       } else {
-        navigate("/user/event/list");
+        navigate(`/user/event/list/${userData._id}`);
+        //`/user/event/detail/${eventId}`
       }
     }
     

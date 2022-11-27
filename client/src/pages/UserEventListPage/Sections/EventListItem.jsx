@@ -65,6 +65,7 @@ const stateFail={
 const EventListItem = (props) => {
   const { title, content, status, onClickEvent, eventResult } = props;
 
+
   return (
     <StyledEventListItem onClick={onClickEvent}>
       <ListItemText
@@ -80,7 +81,7 @@ const EventListItem = (props) => {
               sx={{ mr: 1.5 }}
             />
             {title}
-            {eventResult !== EVENT_RESULT_TYPE.IN_PROGRESS && (
+            {eventResult !== EVENT_RESULT_TYPE.DEFAULT && (
               <>
                 {eventResult===EVENT_RESULT_TYPE.WIN&&(
                   <StyledStateBox sx={{ backgroundColor:stateSuccess.BG_COLOR, color:stateSuccess.COLOR }}>

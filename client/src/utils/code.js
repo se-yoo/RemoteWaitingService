@@ -6,7 +6,7 @@ export const ROLE_TYPE = {
 }
 
 export const EVENT_RESULT_TYPE = {
-  IN_PROGRESS: 0,
+  DEFAULT: 0,
   WIN: 1,
   NOT_WON: 2
 }
