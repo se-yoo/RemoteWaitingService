@@ -4,6 +4,7 @@ import {
   USER_ANSWER,
   USER_EVENT_LIST,
   USER_EVENT_DETAIL,
+  UPDATE_ANSWER,
 } from "./types";
 import { EVENT_ANSWER_SERVER } from "./api";
 import axios from "axios";
@@ -30,6 +31,26 @@ export function createAnswer(dataToSubmit){
 
   return {
     type: USER_ANSWER,
+    payload: request
+  }
+}
+
+export function updateAnswer(dataToSubmit) {
+  const request = axios.put(`${EVENT_ANSWER_SERVER}/update`, dataToSubmit)
+    .then(response => response.data);
+  
+  return {
+    type: UPDATE_ANSWER,
+    payload: request
+  }
+}
+
+export function updateWinner(dataToSubmit) {
+  const request = axios.put(`${EVENT_ANSWER_SERVER}/updateWin`, dataToSubmit)
+    .then(response => response.data);
+  
+  return {
+    type: UPDATE_ANSWER,
     payload: request
   }
 }

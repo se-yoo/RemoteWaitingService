@@ -165,7 +165,7 @@ const DataTable = (props) => {
     }
 
     onChangeSelected([]);
-  }, []);
+  }, [items]);
 
   const onClickTableRowComponent = useCallback((event, row) => {
     if(onClickRow == null) return;

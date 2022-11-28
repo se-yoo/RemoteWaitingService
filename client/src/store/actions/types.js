@@ -22,6 +22,7 @@ export const ERR_EVENT = 'ERR_EVENT';
 export const UPLOAD_EVENT = 'UPLOAD_EVENT';
 
 export const LOAD_EVENT_ANSWER_LIST = 'LOAD_EVENT_ANSWER_LIST';
+export const UPDATE_ANSWER = 'UPDATE_ANSWER';
 
 export const LOAD_NOTICE_LIST = 'LOAD_NOTICE_LIST';
 export const RESET_EMPTY_NOTICE = 'RESET_EMPTY_NOTICE';
@@ -33,7 +34,6 @@ export const UPLOAD_NOTICE = 'UPLOAD_NOTICE';
 
 export const SET_USER_EVENT_JOIN='SET_USER_EVENT_JOIN';
 
-
-export const USER_ANSWER='user_answer';
-export const USER_EVENT_LIST='user_event_list';
-export const USER_EVENT_DETAIL='user_event_detail'
+export const USER_ANSWER='USER_ANSWER';
+export const USER_EVENT_LIST='USER_EVENT_LIST';
+export const USER_EVENT_DETAIL='USER_EVENT_DETAIL'

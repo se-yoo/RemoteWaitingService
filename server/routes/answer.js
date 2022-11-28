@@ -30,6 +30,30 @@ router.post("/create", (req, res) => {
   });
 });
 
+router.put("/update", (req, res) => {
+  EventAnswer.findOneAndUpdate(
+    { "_id": req.body._id }, 
+    req.body,
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).json({ success: true });
+    }
+  )
+});
+
+router.put("/updateWin", async (req, res) => {
+  const { eventId, winners } = req.body;
+  
+  await EventAnswer.updateMany({ "event": eventId }, { "$set": { "status": 0 } });
+
+  winners.forEach(async winner => {
+    await EventAnswer.findOneAndUpdate({ "_id": winner._id }, { "status": 1 });
+  });
+
+  return res.status(200).json({
+    success: true
+  });
+});
 
 router.post("/userAnswerSelect",(req,res)=>{
   EventAnswer.aggregate([

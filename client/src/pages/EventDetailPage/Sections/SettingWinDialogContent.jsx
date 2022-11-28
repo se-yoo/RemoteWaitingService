@@ -1,6 +1,8 @@
 import { Box, Checkbox, FormControlLabel, Grid, TextField } from '@mui/material';
 import React, { memo, useCallback, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { StyledDialogContent } from '../../../components/CommonDialog';
+import { EVENT_OPTION } from '../../../utils/code';
 import ParticipantInfoTable from './ParticipantInfoTable';
 
 const headers = [
@@ -8,10 +10,23 @@ const headers = [
   { text: "응답 시간", align: "left", value: 'participantDate' }
 ];
 
-const SettingWinDialogContent = memo(() => {
+function getRandomIndex(max) {
+  const candidate = Array(max).fill().map((v,i) => i);
+  const shuffleIndex = [];
+
+  while(candidate.length > 0) {
+    shuffleIndex.push(candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0]);
+  }
+
+  return shuffleIndex;
+}
+
+const SettingWinDialogContent = memo((props) => {
   const [directly, setDirectly] = useState(false);
-  const [winnerCount, setWinnerCount] = useState(null);
-  const [selected, setSelected] = useState([]);
+  const [winnerCount, setWinnerCount] = useState(0);
+  const { selected, onChange } = props;
+  const optionCd = useSelector(state => state.event.optionCd);
+  const answers = useSelector(state => state.answer.eventAnswers);
   
   const selectedCount = useMemo(() => {
     return selected.length;
@@ -22,12 +37,26 @@ const SettingWinDialogContent = memo(() => {
   }, []);
 
   const onChangeWinnerCount = useCallback((e) => {
-    setWinnerCount(e.target.value);
-  }, []);
+    const newWinnerCount = e.target.value;
+    setWinnerCount(newWinnerCount);
+
+    if(optionCd === EVENT_OPTION.FCFS) {
+      onChange([ ...answers.slice(0, newWinnerCount) ]);
+    } else {
+      let result = [];
+      const randomIndexs = getRandomIndex(answers.length);
+
+      for(let count = 0; count < newWinnerCount; count++) {
+        if(count >= answers.length) break;
+        result.push(answers[randomIndexs[count]]);
+      }
+      onChange(result);
+    }
+  }, [onChange, optionCd, answers]);
 
   const onChangeSelected = useCallback((newSelected) => {
-    setSelected(newSelected);
-  }, []);
+    onChange(newSelected);
+  }, [onChange]);
 
   return (
     <StyledDialogContent sx={{ mt: 6 }}>
