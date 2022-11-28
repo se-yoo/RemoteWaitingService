@@ -1,12 +1,34 @@
 import { Box, Button } from '@mui/material';
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import AnswerList from '../../../components/AnswerList';
 import SectionTitle from '../../../components/SectionTitle';
-import { EVENT_OPTION } from '../../../utils/code';
+import { loadEventAnswerList, updateAnswer } from '../../../store/actions/answer_actions';
+import { EVENT_OPTION, PARTICIPANT_STATUS } from '../../../utils/code';
 import { formatDatetime } from '../../../utils/function';
 
 const ParticipantInfoTableExpand = memo((props) => {
   const {item, questions, option} = props;
+  const dispatch = useDispatch();
+
+  const handleStatus = useCallback((status) => {
+    const body = {
+      ...item,
+      status: status
+    };
+
+    dispatch(updateAnswer(body))
+    .then( res => {
+      if(res.payload.success) {
+        const variable = {
+          eventId: item.event,
+          optionCd: option
+        };
+    
+        dispatch(loadEventAnswerList(variable));
+      }
+    });
+  }, [item]);
 
   return (
     <>
@@ -18,10 +40,20 @@ const ParticipantInfoTableExpand = memo((props) => {
       />
       {option === EVENT_OPTION.WAITING && (
         <Box display="flex" justifyContent="end">
-          <Button type="translucent" color="red" customsize="x-small">
+          <Button 
+            type="translucent" 
+            color="red" 
+            customsize="x-small"
+            onClick={() => handleStatus(PARTICIPANT_STATUS.ENTER_CANCEL)}
+          >
             입장 거절
           </Button>
-          <Button type="translucent" sx={{ ml: 2 }} customsize="x-small">
+          <Button 
+            type="translucent" 
+            sx={{ ml: 2 }} 
+            customsize="x-small"
+            onClick={() => handleStatus(PARTICIPANT_STATUS.ENTER)}
+          >
             입장 완료
           </Button>
         </Box>

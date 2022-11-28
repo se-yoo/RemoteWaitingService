@@ -90,7 +90,7 @@ const ParticipantInfoTable = memo((props) => {
         option={optionCd}
       />
     )
-  }, [optionCd]);
+  }, [optionCd, questions]);
 
   const HideButton = useCallback(({onClick}) => {
     return (
