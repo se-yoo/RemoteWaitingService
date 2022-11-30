@@ -28,7 +28,7 @@ const EventList = (props) => {
       if(response.payload.success){
         setUserEventList(response.payload.eventList);
         // console.log("eventList : "+response.payload.success);
-         console.log("eventList : "+ JSON.stringify(response.payload.eventList));
+         //console.log("eventList : "+ JSON.stringify(response.payload.eventList));
       }
       else{
         console.log("eventListError : "+response.payload.err);
@@ -38,7 +38,7 @@ const EventList = (props) => {
 
   const getResultOption=useCallback((event)=> {
     const eventStatus = getEventStatus(event);
-    console.log(EVENT_RESULT_TYPE.WON);
+    //console.log(EVENT_RESULT_TYPE.WON);
     if (eventStatus!==EVENT_STATUS_TYPE.ENDED) {
       return EVENT_RESULT_TYPE.DEFAULT
     }

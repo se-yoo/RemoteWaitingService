@@ -5,7 +5,8 @@ import {
   SET_NOTICE_DESCRIPTION, 
   SET_NOTICE_TARGET, 
   SET_NOTICE_TITLE, 
-  UPLOAD_NOTICE
+  UPLOAD_NOTICE,
+  LOAD_USER_NOTICE_LIST
 } from "../actions/types";
 import { NOTICE_TARGET } from "../../utils/code";
 
@@ -67,6 +68,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         success: action.payload
+      }
+    case LOAD_USER_NOTICE_LIST:
+      return {
+        ...state,
+        noticeList: action.payload
       }
     default:
       return state;

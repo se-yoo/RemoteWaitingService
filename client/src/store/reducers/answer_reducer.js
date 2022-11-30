@@ -4,6 +4,7 @@ import {
   USER_EVENT_LIST,
   USER_EVENT_DETAIL,
   UPDATE_ANSWER,
+  GUEST_ANSWER,
 } from "../actions/types";
 import { PARTICIPANT_STATUS } from "../../utils/code";
 
@@ -42,6 +43,11 @@ export default function(state = initialState, action) {
         userEventDetail: action.payload 
       }
     case UPDATE_ANSWER: 
+      return {
+        ...state,
+        success: action.payload
+      }
+    case GUEST_ANSWER:
       return {
         ...state,
         success: action.payload

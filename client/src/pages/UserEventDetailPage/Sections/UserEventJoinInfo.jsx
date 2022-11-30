@@ -2,8 +2,9 @@ import React, {  useCallback } from 'react';
 import { Box, styled } from '@mui/material';
 import SectionTitle from '../../../components/SectionTitle';
 import AnswerList from '../../../components/AnswerList';
-import { EVENT_STATUS_TYPE, EVENT_RESULT_TYPE, PARTICIPANT_STATUS, EVENT_OPTION } from '../../../utils/code';
+import { EVENT_STATUS_TYPE, EVENT_RESULT_TYPE, PARTICIPANT_STATUS, EVENT_OPTION, NOTICE_TARGET } from '../../../utils/code';
 import moment from 'moment';
+import UserNoticeInfo from './UserNoticeInfo';
 
 
 
@@ -32,9 +33,9 @@ const StyledStateBox = styled(Box)({
 
 const getResultColor = (status) => {
   switch(status) {
-    case EVENT_RESULT_TYPE.WIN || EVENT_RESULT_TYPE.ENTER:
+    case EVENT_RESULT_TYPE.WIN:
       return stateSuccess;
-    case EVENT_RESULT_TYPE.NOT_WON || EVENT_RESULT_TYPE.ENTER_CANCEL:
+    case EVENT_RESULT_TYPE.NOT_WON:
       return stateFail;
     default:
       return stateDefault;
@@ -64,22 +65,30 @@ const getResultComment=(result,option)=>{
 const UserEventJoinInfo = (props) => {
   const {eventDetail} = props;
 
+  
+  const setNoticeTarget=(status)=>{
+    switch(status){
+      case PARTICIPANT_STATUS.NONE: case PARTICIPANT_STATUS.ENTER_CANCEL:
+        return NOTICE_TARGET.NON_WINNER;
+      case PARTICIPANT_STATUS.WIN: case PARTICIPANT_STATUS.ENTER:
+        return NOTICE_TARGET.WINNER;
+      default:
+        return NOTICE_TARGET.ALL;
+    }
+  }
+
   const getResultOption=useCallback((event)=> {
     const eventStatus = getEventStatus(event);
-    console.log("eventStatus : "+eventStatus);
     if (eventStatus!==EVENT_STATUS_TYPE.ENDED) {
       return EVENT_RESULT_TYPE.DEFAULT
     }
     else{
-      if(event.status===PARTICIPANT_STATUS.NONE) return EVENT_RESULT_TYPE.NOT_WON;
+      if(event.status===PARTICIPANT_STATUS.NONE||event.status===PARTICIPANT_STATUS.ENTER_CANCEL) return EVENT_RESULT_TYPE.NOT_WON;
       else return EVENT_RESULT_TYPE.WIN;
     }
   },[])
 
   const getEventStatus = useCallback((event)=>{
-    console.log("participantDate : "+event.participantDate);
-    console.log("startDate : "+event.startDate);
-    console.log("endDate : "+event.endDate);
     const startDate = event.startDate;
     const endDate = event.endDate;
     const today = Date.now();
@@ -115,6 +124,7 @@ const UserEventJoinInfo = (props) => {
       >
         {getResultComment(getResultOption(eventDetail),eventDetail.option)}
       </StyledStateBox>
+      <UserNoticeInfo noticeTarget={setNoticeTarget(eventDetail.status)}/>
     </>
   );
 };

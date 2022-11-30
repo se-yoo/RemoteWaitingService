@@ -5,6 +5,7 @@ import {
   USER_EVENT_LIST,
   USER_EVENT_DETAIL,
   UPDATE_ANSWER,
+  GUEST_ANSWER,
 } from "./types";
 import { EVENT_ANSWER_SERVER } from "./api";
 import axios from "axios";
@@ -22,6 +23,16 @@ export function loadEventAnswerList(dataToSubmit) {
           from: LOAD_EVENT_ANSWER_LIST
         }
       }));
+  }
+}
+
+export function guestCreateAnswer(dataToSubmit){
+  const request = axios.post(`${EVENT_ANSWER_SERVER}/guestCreate`,dataToSubmit)
+  .then(response => response.data);
+
+  return {
+    type: GUEST_ANSWER,
+    payload: request
   }
 }
 

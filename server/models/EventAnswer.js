@@ -22,6 +22,7 @@ const answerSchema = mongoose.Schema({
   }
 });
 
+
 const EventAnswer = mongoose.model('EventAnswer', answerSchema);
 
 module.exports = { EventAnswer }

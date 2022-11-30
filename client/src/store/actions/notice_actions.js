@@ -6,10 +6,21 @@ import {
   SET_NOTICE_TITLE,
   ERR_EVENT,
   RESET_EMPTY_NOTICE,
-  UPLOAD_NOTICE
+  UPLOAD_NOTICE,
+  LOAD_USER_NOTICE_LIST
 } from "./types";
 import { NOTICE_SERVER } from "./api";
 import axios from "axios";
+
+export function loadUserNoticeList(dataToSubmit){
+  const request = axios.post(`${NOTICE_SERVER}/loadUserNoticeList`, dataToSubmit)
+    .then(response => response.data);
+  
+  return {
+    type: LOAD_USER_NOTICE_LIST,
+    payload: request
+  }
+}
 
 export function loadNoticeList(dataToSubmit) {
   return (dispatch) => {

@@ -16,7 +16,7 @@ const StyledLoginBox = styled(Box)({
 
 const TermsPage = () => {
     const [isChecked, setIsChecked] = useState(false);
-
+    
     const CheckedHandler = () => {
         setIsChecked(!isChecked);
 
@@ -35,7 +35,7 @@ const TermsPage = () => {
             회원가입
           </h1>
           
-          <textarea style={{
+          <textarea readOnly style={{
             width:"100%",
             height:"500px",
             border:"1px solid #496F46",

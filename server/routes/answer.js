@@ -18,6 +18,18 @@ router.get("/", auth, (req, res) => {
   }
 });
 
+router.post("/guestCreate",(req,res)=>{
+  EventAnswer.findByIdAndUpdate(req.body.writer,{"writer":req.body.writer},
+  (err, answer)=>{
+    if(err) return res.json({success:false, err});
+    return res.status(200).json({
+      success:true,
+      guestId:answer._id,
+      eventId:answer.event
+    });
+  })
+})
+
 router.post("/create", (req, res) => {
   const answer = new EventAnswer(req.body);
 
@@ -25,7 +37,9 @@ router.post("/create", (req, res) => {
     if(err) return res.json({success:false, err});
     return res.status(200).json({
       success:true,
-      answers:answer.answers
+      event:answer.event,
+      writer:answer.writer,
+      _id:answer._id
     });
   });
 });
