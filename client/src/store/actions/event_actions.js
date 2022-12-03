@@ -73,6 +73,16 @@ export function updateEvent(dataToSubmit) {
   }
 }
 
+export function deleteEvent(dataToSubmit) {
+  const request = axios.delete(`${EVENT_SERVER}/delete`, { params: dataToSubmit })
+    .then(response => response.data);
+  
+  return {
+    type: UPLOAD_EVENT,
+    payload: request
+  }
+}
+
 //사용자 참여 페이지 load
 export function loadUserEventJoin(eventId){
   const request = axios.post(`${EVENT_SERVER}/userEventSelect`,eventId)
