@@ -27,7 +27,7 @@ const QuestionList = (props) => {
         console.log(response.payload.err);
       }
     })
-  }, [dispatch])
+  }, [])
 
   return (
     <>

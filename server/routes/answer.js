@@ -33,15 +33,43 @@ router.post("/guestCreate",(req,res)=>{
 router.post("/create", (req, res) => {
   const answer = new EventAnswer(req.body);
 
-  answer.save((err, doc) => {
-    if(err) return res.json({success:false, err});
-    return res.status(200).json({
-      success:true,
-      event:answer.event,
-      writer:answer.writer,
-      _id:answer._id
+  if(req.body.writer){
+    EventAnswer.findOne({event:req.body.event, writer:req.body.writer},
+      (err, item)=>{
+        if(!item){
+          answer.save((err, doc) => {
+            if(err) return res.json({success:false, message:"Error!", err});
+            return res.status(200).json({
+              success:true,
+              event:answer.event,
+              writer:answer.writer,
+              _id:answer._id
+            });
+          });
+        }
+        else{
+          return res.json({
+            success: false,
+            message:"이미 참여한 이벤트 입니다.",
+            err
+          })
+        }
+    })
+  }
+  else{
+    answer.save((err, doc) => {
+      if(err) return res.json({success:false, message:"Error!", err});
+      return res.status(200).json({
+        success:true,
+        event:answer.event,
+        writer:answer.writer,
+        _id:answer._id
+      });
     });
-  });
+  }
+  
+
+  
 });
 
 router.put("/update", (req, res) => {
@@ -130,10 +158,12 @@ router.post("/userEventListSelect",(req,res)=>{
         createDate:"$eventDetail.createDate",
         startDate:"$eventDetail.startDate",
         endDate:"$eventDetail.endDate",
-        status:1
+        noLimitDate:"$eventDetail.noLimitDate",
+        status:1,
+        participantDate:1
       },
-    }
-    
+    },
+    { $sort: { participantDate: -1 } }
   
   ], function(err, list){
       if(err) {

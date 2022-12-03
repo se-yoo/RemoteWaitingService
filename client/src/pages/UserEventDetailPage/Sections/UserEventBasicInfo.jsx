@@ -20,13 +20,24 @@ const UserEventBasicInfo = () => {
     dispatch(loadUserEventJoin(body))
     .then(response=>{
       if(response.payload.success){
+        const tempEvent = response.payload.event;
+        if(tempEvent.noLimitDate!==true){//응답기간에 제한이 있을경우에만
+          const today = new Date();
+          console.log(tempEvent)
+          console.log(tempEvent.startDate > today.toISOString());
+          console.log(tempEvent.endDate < today.toISOString());
+          if(tempEvent.startDate > today.toISOString() || today.toISOString() > tempEvent.endDate  ){
+            console.log("이벤트 참여 기간이 아닙니다.");
+          }
+        }
+
         setUserJoinEvent(response.payload.event);
       }
       else{
         console.log(response.payload.err);
       }
     })
-  }, [dispatch])
+  }, [])
 
 
   return (
@@ -41,7 +52,16 @@ const UserEventBasicInfo = () => {
       <SectionTitle title={"이벤트 설명"} sx={{ mt: 12 }} />
       <Box>{userJoinEvent.description}</Box>
       <SectionTitle title={"이벤트 기간"} sx={{ mt: 6 }}/>
-      <Box>{moment(userJoinEvent.startDate).format('YYYY-MM-DD HH:mm:ss')} ~ {moment(userJoinEvent.endDate).format('YYYY-MM-DD HH:mm:ss')}</Box>
+      {userJoinEvent.noLimitDate===true && (
+        <Box>
+          제한없음
+        </Box>
+      )}
+      {userJoinEvent.noLimitDate===false && (
+        <Box>
+          {moment(userJoinEvent.startDate).format('YYYY-MM-DD HH:mm:ss')} ~ {moment(userJoinEvent.endDate).format('YYYY-MM-DD HH:mm:ss')}
+        </Box>
+      )}
     </>
   );
 }

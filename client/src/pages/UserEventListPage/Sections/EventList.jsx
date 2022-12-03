@@ -27,8 +27,8 @@ const EventList = (props) => {
     .then(response=>{
       if(response.payload.success){
         setUserEventList(response.payload.eventList);
-        // console.log("eventList : "+response.payload.success);
-         //console.log("eventList : "+ JSON.stringify(response.payload.eventList));
+        //console.log("eventList : "+response.payload.success);
+        //console.log("eventList : "+ JSON.stringify(response.payload.eventList));
       }
       else{
         console.log("eventListError : "+response.payload.err);
@@ -52,6 +52,9 @@ const EventList = (props) => {
     const startDate = event.startDate;
     const endDate = event.endDate;
     const today = Date.now();
+    if(event.noLimitDate){
+      return EVENT_STATUS_TYPE.IN_PROGRESS;
+    }
     if(startDate > today){
       return EVENT_STATUS_TYPE.OPEN_SOON;
     }
@@ -64,9 +67,13 @@ const EventList = (props) => {
   },[])
 
   const getContent = useCallback((event) => {
-    //moment(userJoinEvent.startDate).format('YYYY-MM-DD HH:mm:ss')
-    return `${moment(event.startDate).format('YYYY-MM-DD HH:mm:ss')} ~ ${moment(event.endDate).format('YYYY-MM-DD HH:mm:ss')}`;
-  }, []);
+    if(event.noLimitDate){
+      return "제한없음";
+    }
+    else{
+      return `${moment(event.startDate).format('YYYY-MM-DD HH:mm:ss')} ~ ${moment(event.endDate).format('YYYY-MM-DD HH:mm:ss')}`;
+    }
+      }, []);
 
   const onClickEvent = useCallback((eventId) => {
     navigate(`/user/event/detail/${eventId}/${userId}`);

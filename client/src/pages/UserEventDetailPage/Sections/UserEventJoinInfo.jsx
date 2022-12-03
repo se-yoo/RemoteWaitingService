@@ -59,6 +59,14 @@ const getResultComment=(result,option)=>{
       return "아쉽지만 당첨되지 않았습니다."
     }
   }
+  else {
+    if(option===EVENT_OPTION.WAITING){
+      return "웨이팅 대기"
+    }
+    else{
+      return "진행중인 이벤트 입니다."
+    }
+  }
 }
 
 
@@ -83,7 +91,15 @@ const UserEventJoinInfo = (props) => {
       return EVENT_RESULT_TYPE.DEFAULT
     }
     else{
-      if(event.status===PARTICIPANT_STATUS.NONE||event.status===PARTICIPANT_STATUS.ENTER_CANCEL) return EVENT_RESULT_TYPE.NOT_WON;
+      if(event.status===PARTICIPANT_STATUS.NONE) {
+        if(event.option===EVENT_OPTION.WAITING){
+          return EVENT_RESULT_TYPE.DEFAULT;
+        }
+        return EVENT_RESULT_TYPE.NOT_WON;
+      }
+      else if (event.status===PARTICIPANT_STATUS.ENTER_CANCEL){
+        return EVENT_RESULT_TYPE.NOT_WON;
+      }
       else return EVENT_RESULT_TYPE.WIN;
     }
   },[])

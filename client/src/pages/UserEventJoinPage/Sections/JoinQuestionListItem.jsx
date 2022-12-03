@@ -90,6 +90,11 @@ const QuestionListItem = (props) => {
             <TextField onChange={(e)=>onChangeAnswerItems(e,index-1,ANSWER_TYPE.TEXT)} placeholder={`${question.question}을 입력하세요`} />
           </Box>
         )}
+        {answerType === ANSWER_TYPE.NUMBER && (
+          <Box mt={2} color="grey">
+            <TextField type="number" onChange={(e)=>onChangeAnswerItems(e,index-1,ANSWER_TYPE.NUMBER)} placeholder={`${question.question}을 입력하세요`} />
+          </Box>
+        )}
         {answerType === ANSWER_TYPE.TEXT_TELNO && (
           <Box mt={2} color="grey">
             <TextField onChange={(e)=>onChangeAnswerItems(e,index-1,ANSWER_TYPE.TEXT_TELNO)} placeholder={`${question.question}을 입력하세요`} 

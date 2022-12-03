@@ -74,7 +74,7 @@ router.post("/loadUserNoticeList",(req,res)=>{
         description:1,
         target:1,
         event:1,
-        createDate:{ $dateToString: { format: "%Y-%m-%d %H:%M:%S", date: "$createDate" } },
+        createDate:{ $dateToString: { format: "%Y-%m-%d", date: "$createDate" } },
         updateDate:1
       }
     }

@@ -77,8 +77,8 @@ const UserEventJoinPage = () =>{
             .then(response=>{
               if(response.payload.success){
                 navigate("/guest/event/detail/"+response.payload.eventId+"/"+response.payload.guestId);
-                console.log("guest guestId : "+response.payload.guestId);
-                console.log("guest eventId : "+response.payload.eventId);
+                //console.log("guest guestId : "+response.payload.guestId);
+                //console.log("guest eventId : "+response.payload.eventId);
                 alert("비회원 참여완료")
               }
               else{
@@ -91,13 +91,9 @@ const UserEventJoinPage = () =>{
         }
         else{
           console.log("err : "+JSON.stringify(response.payload.err));
-          alert('Error!');
+          alert(response.payload.message);
         }
       })
-
-      // console.log("answers "+body.answers);
-      // console.log("writer "+body.writer);
-      // console.log("event "+body.event);
     }
     else{
       alert("필수입력값을 입력하세요");
