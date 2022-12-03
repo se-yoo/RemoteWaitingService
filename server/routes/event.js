@@ -101,6 +101,16 @@ router.put("/update", auth, (req, res) => {
   )
 });
 
+router.delete("/delete", auth, (req, res) => {
+  Event.findOneAndDelete(
+    { "_id": req.query.eventId }, {},
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).json({ success: true });
+    }
+  )
+});
+
 router.post("/userEventSelect",(req,res)=>{
   Event.findById(req.body.eventId,(err,item)=>{
     if(!item){
