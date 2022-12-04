@@ -97,6 +97,36 @@ router.put("/updateWin", async (req, res) => {
   });
 });
 
+
+
+router.post("/AnswerRowNum",(req,res)=>{
+  EventAnswer.aggregate([
+    { $match:{ "event" : new mongoose.Types.ObjectId(req.body.eventId)}},
+    { $project:{
+      _id:1,
+      status:1
+    }},
+    { $setWindowFields: {
+      sortBy: { participantDate: -1 },
+      output: { rowNum: { $documentNumber: {} } }
+    }}
+  ],function(err, list){
+    if(err) {
+      return res.json({
+        success: false,
+        message:"list load를 실패했습니다.",
+        err
+      })
+    }
+    else{
+      return res.status(200).json({
+        success: true,
+        eventList:list
+      })
+    }
+  })
+})
+
 router.post("/userAnswerSelect",(req,res)=>{
   EventAnswer.aggregate([
     { $match:{ "writer" : new mongoose.Types.ObjectId(req.body.userId) , "event" : new mongoose.Types.ObjectId(req.body.eventId)}},
@@ -116,6 +146,7 @@ router.post("/userAnswerSelect",(req,res)=>{
         startDate:"$eventDetail.startDate",
         endDate:"$eventDetail.endDate",
         option:"$eventDetail.optionCd",
+        eventId:"$eventDetail._id",
         participantDate:1,
         answers:1,
         status:1

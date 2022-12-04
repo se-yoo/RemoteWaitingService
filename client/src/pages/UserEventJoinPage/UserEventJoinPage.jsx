@@ -124,7 +124,7 @@ const UserEventJoinPage = () =>{
       }}
     >
       <MenuTitle title={"이벤트 참여"} />
-      <UserEventBasicInfo />
+      <UserEventBasicInfo type={"join"}/>
       <JoinQuestionList value={answers} onChangeAnswer={setAnswers} required={inputRequired} onChangeRequired={setInputRequired}  />
       <FormControlLabel control={<Checkbox checked={isChecked} sx={{
           color: "#496F46",

@@ -17,6 +17,8 @@ import UserEventDetailPage from './pages/UserEventDetailPage/UserEventDetailPage
 import UserEventJoinPage from './pages/UserEventJoinPage/UserEventJoinPage';
 import UserEventListPage from './pages/UserEventListPage/UserEventListPage';
 import GuestEventDetailPage from './pages/UserEventDetailPage/GuestEventDetailPage';
+import EndPage from './pages/DefaultPage/EndPage';
+import DefaultPage from './pages/DefaultPage/DefaultPage';
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/join" element={<JoinPage />} />
+            <Route path="/end" element={<EndPage />} />
+            <Route path="/default" element={<DefaultPage />} />
             <Route path="/user/event/join/:eventId" element={<UserEventJoinPage />} />
             <Route path="/guest/event/detail/:eventId/:userId" element={<GuestEventDetailPage />} />
             <Route path="/" element={<Layout />}>

@@ -1,11 +1,13 @@
-import React, {  useCallback } from 'react';
+import React, {  useCallback,useState } from 'react';
 import { Box, styled } from '@mui/material';
 import SectionTitle from '../../../components/SectionTitle';
 import AnswerList from '../../../components/AnswerList';
 import { EVENT_STATUS_TYPE, EVENT_RESULT_TYPE, PARTICIPANT_STATUS, EVENT_OPTION, NOTICE_TARGET } from '../../../utils/code';
 import moment from 'moment';
 import UserNoticeInfo from './UserNoticeInfo';
-
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { answerRowNum } from '../../../store/actions/answer_actions';
 
 
 const stateSuccess={
@@ -42,10 +44,48 @@ const getResultColor = (status) => {
   }
 }
 
-const getResultComment=(result,option)=>{
+const waitingMent = (eventId,answerId)=>{
+  const dispatch = useDispatch();
+  const body={
+    eventId:eventId
+  }
+
+  const [stateList, setStateList] = useState([]);
+
+  let myNum = -1;
+  let frontWaitingNum=0;
+
+  useEffect(()=>{
+    dispatch(answerRowNum(body))
+    .then(response=>{
+      if(response.payload.success){
+        //console.log("rowRum : "+JSON.stringify(response.payload.eventList));
+        setStateList(response.payload.eventList);
+      }
+      else{
+        console.log(response.payload.err);
+      }
+    })
+  },[])
+
+
+  stateList.map((event)=>(
+    answerId===event._id ? myNum = event.rowNum : ""
+  ))
+
+  stateList.map((event, index)=>(
+    index+1<myNum ? (event.status !== 0 ? (frontWaitingNum+=1) : ""):""
+  ))
+
+  return "대기 번호 "+myNum+"번 / 현재 내 앞 대기팀 "+frontWaitingNum+"팀";
+
+}
+
+const getResultComment=(result,option,eventId,answerId)=>{
+  
   if(result===EVENT_RESULT_TYPE.WIN){
     if(option===EVENT_OPTION.WAITING){
-      return "웨이팅 입장"
+      return "웨이팅 입장이 승인되었습니다. 입장을 진행해주세요."
     }
     else{
       return "축하합니다 당첨되셨습니다."
@@ -53,7 +93,7 @@ const getResultComment=(result,option)=>{
   }
   else if (result===EVENT_RESULT_TYPE.NOT_WON) {
     if(option===EVENT_OPTION.WAITING){
-      return "웨이팅 입장하지 못하셨습니다."
+      return "웨이팅 입장이 거절되었습니다. 자세한 내용은 가게에 문의바랍니다."
     }
     else{
       return "아쉽지만 당첨되지 않았습니다."
@@ -61,7 +101,7 @@ const getResultComment=(result,option)=>{
   }
   else {
     if(option===EVENT_OPTION.WAITING){
-      return "웨이팅 대기"
+      return waitingMent(eventId,answerId);
     }
     else{
       return "진행중인 이벤트 입니다."
@@ -138,7 +178,7 @@ const UserEventJoinInfo = (props) => {
           color:stateColor.COLOR 
         }}
       >
-        {getResultComment(getResultOption(eventDetail),eventDetail.option)}
+        {getResultComment(getResultOption(eventDetail),eventDetail.option,eventDetail.eventId, eventDetail._id)}
       </StyledStateBox>
       <UserNoticeInfo noticeTarget={setNoticeTarget(eventDetail.status)}/>
     </>
