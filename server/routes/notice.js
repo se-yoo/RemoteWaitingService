@@ -3,6 +3,8 @@ const router = express.Router();
 const { Notice } = require("../models/Notice");
 const { auth } = require("../middleware/auth");
 const { mongoose } = require('mongoose');
+const { EventAnswer } = require('../models/EventAnswer');
+const send_message = require('../utils/send');
 
 router.get("/", auth, (req, res) => {
   if(req.user.role === 1) { // 관리자
@@ -26,11 +28,35 @@ router.get("/", auth, (req, res) => {
 });
 
 router.post("/create", (req, res) => {
-  const notice = new Notice(req.body);
+  const notice = new Notice(req.body.notice);
 
   notice.save((err, doc) => {
     if(err) return res.json({ success: false, err });
-    return res.status(200).json({ success: true });
+
+    if(req.body.telnoIndex >= 0) {
+      let targetStatus = [0, 1, 2, 3];
+
+      if(doc.target == 1) {
+        targetStatus = [1, 2];
+      } else if (doc.target == 2) {
+        targetStatus = [0, 3];
+      }
+
+      EventAnswer.find({"event": doc.event, "status": { $in: targetStatus }})
+      .exec(async (err2, answers) => {
+        if(err2) return res.json({ success: false, err: err2 });
+        const result = answers.map(answer => answer.answers[req.body.telnoIndex]);
+
+        if(result.length > 0) {
+          const content = `[웨잇] 참여 이벤트 공지사항 알림\n제목:${doc.title}`;
+          await send_message(result, content);
+          return res.status(200).json({ success: true });
+        } else {
+          return res.status(200).json({ success: true });
+        }
+      });
+    } else {
+      return res.status(200).json({ success: true });}
   });
 });
 

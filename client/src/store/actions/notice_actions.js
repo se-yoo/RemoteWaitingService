@@ -38,8 +38,13 @@ export function loadNoticeList(dataToSubmit) {
   }
 }
 
-export function createNotice(dataToSubmit) {
-  const request = axios.post(`${NOTICE_SERVER}/create`, dataToSubmit)
+export function createNotice(dataToSubmit, telnoIndex) {
+  const params = {
+    notice: dataToSubmit,
+    telnoIndex: telnoIndex
+  };
+
+  const request = axios.post(`${NOTICE_SERVER}/create`, params)
     .then(response => response.data);
   
   return {

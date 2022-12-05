@@ -8,6 +8,7 @@ import CommonDialog from '../../../components/CommonDialog';
 import DataTable from '../../../components/DataTable';
 import SectionTitle from '../../../components/SectionTitle';
 import { createNotice, deleteNotice, loadNoticeList, resetEmptyNotice, setNotice, updateNotice } from '../../../store/actions/notice_actions';
+import { ANSWER_TYPE } from '../../../utils/code';
 import { checkFormValidation, formatDate } from '../../../utils/function';
 import { rules } from '../../../utils/resource';
 import NoticeDetailDialogContent from './NoticeDetailDialogContent';
@@ -29,6 +30,7 @@ const NoticeInfo = memo(() => {
   const [openDialogNotice, setOpenDialogNotice] = useState(false);
   const [openDialogEditNotice, setOpenDialogEditNotice] = useState(false);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [openConfirmNotice, setOpenConfirmNotice] = useState(false);
   const [checkRealTime, setCheckRealTime] = useState(false);
   const [formStatus, setFormStatus] = useState({});
   const [openAlertError, setOpenAlertError] = useState(false);
@@ -48,6 +50,12 @@ const NoticeInfo = memo(() => {
     return isNew ? "등록" : "수정";
   }, [isNew]);
 
+  const telnoIndex = useMemo(() => {
+    const { questions } = event;
+
+    return questions.findIndex(question => question.answerType === ANSWER_TYPE.TEXT_TELNO);
+  }, [event]);
+
   const handleClose = useCallback(() => {
     setOpenDialogNotice(false);
     setOpenDialogEditNotice(false);
@@ -59,6 +67,7 @@ const NoticeInfo = memo(() => {
 
   const handleCloseConfirmDialog = useCallback(() => {
     setOpenConfirmDelete(false);
+    setOpenConfirmNotice(false);
   }, []);
   
   const handleChangePage = useCallback((event, newPage) => {
@@ -133,23 +142,18 @@ const NoticeInfo = memo(() => {
   }, [checkRealTime, notice]);
 
   const editNotice = useCallback(() => {
-    const check = checkEditFormVaildation();
-
-    if(check) {
-      setCheckRealTime(true);
-      return;
-    }
+    setOpenConfirmNotice(false);
 
     const body = {
       _id: isNew ? undefined : noticeId,
       title: notice.title,
       description: notice.description,
       target: notice.target,
-      event: event._id,
+      event: event._id
     };
 
     if(isNew) {
-      dispatch(createNotice(body))
+      dispatch(createNotice(body, telnoIndex))
       .then( res => {
         if(res.payload.success) {
           getNoticeList();
@@ -173,6 +177,21 @@ const NoticeInfo = memo(() => {
       });
     }
   }, [isNew, notice]);
+
+  const onClickDialogEditNotice = useCallback(() => {
+    const check = checkEditFormVaildation();
+
+    if(check) {
+      setCheckRealTime(true);
+      return;
+    }
+
+    if(isNew && telnoIndex < 0) {
+      setOpenConfirmNotice(true);
+    } else {
+      editNotice();
+    }
+  }, [isNew, telnoIndex, checkEditFormVaildation, editNotice]);
 
   const requestDeleteNotice = useCallback(() => {
     const variable = {
@@ -202,9 +221,9 @@ const NoticeInfo = memo(() => {
   const editButtons = useMemo(() => {
     return [
       { text: "취소", color: "grey", onClick: handleClose },
-      { text: editType, onClick: editNotice }
+      { text: editType, onClick: onClickDialogEditNotice }
     ];
-  }, [handleClose, editType, editNotice]);
+  }, [handleClose, editType, onClickDialogEditNotice]);
 
   const ActionComponent = (buttons) => {
     return (
@@ -283,7 +302,14 @@ const NoticeInfo = memo(() => {
         onAgree={requestDeleteNotice}
         title="공지 삭제"
         content="정말로 공지를 삭제하시겠습니까? 삭제 후 다시 복구할 수 없습니다."
-      />  
+      /> 
+      <AlertDialog
+        open={openConfirmNotice}
+        onClose={handleCloseConfirmDialog}
+        onAgree={editNotice}
+        title="공지 등록"
+        content="해당 이벤트는 전화번호 입력 문항이 없는 이벤트이므로 대상에게 알림이 전달되지 않을 수 있습니다. (회원 참여자만 조회 페이지에서 가능) 정말로 공지를 등록하시겠습니까?"
+      /> 
     </>
   );
 });
