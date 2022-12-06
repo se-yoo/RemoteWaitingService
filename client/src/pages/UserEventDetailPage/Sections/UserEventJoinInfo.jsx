@@ -145,9 +145,10 @@ const UserEventJoinInfo = (props) => {
   },[])
 
   const getEventStatus = useCallback((event)=>{
-    const startDate = event.startDate;
-    const endDate = event.endDate;
+    const startDate = new Date(event.startDate).getTime();
+    const endDate = new Date(event.endDate).getTime();
     const today = Date.now();
+    
     if(startDate > today){
       return EVENT_STATUS_TYPE.OPEN_SOON;
     }
