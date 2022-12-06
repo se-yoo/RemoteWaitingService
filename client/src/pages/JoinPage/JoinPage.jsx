@@ -99,8 +99,8 @@ const JoinPage = () => {
     dispatch(registerUser(body))
     .then(response => {
       if(response.payload.success){
-        navigate('/');
         alert('회원가입을 축하합니다! 로그인 후 이용해주세요');
+        navigate('/login');
       }
       else{
         alert('Error!');
