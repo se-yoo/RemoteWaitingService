@@ -2,6 +2,8 @@ import React,{ useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import {Box,Button,Checkbox,FormControlLabel, styled} from '@mui/material';
 import Auth from '../../hoc/Auth';
+import terms  from './terms.txt';
+import { useEffect } from 'react';
 
 const StyledLoginBox = styled(Box)({
   maxWidth: "440px",
@@ -16,6 +18,7 @@ const StyledLoginBox = styled(Box)({
 
 const TermsPage = () => {
     const [isChecked, setIsChecked] = useState(false);
+    const [termsText, setTermsText] = useState("");
     
     const CheckedHandler = () => {
         setIsChecked(!isChecked);
@@ -28,6 +31,15 @@ const TermsPage = () => {
         navigate("/join");
     };
 
+    useEffect(()=>{
+      fetch(terms)
+      .then(r => r.text())
+      .then(text => {
+        console.log('결과 : ', text);
+        setTermsText(text);
+      });
+    },[])
+
 
     return (
       <StyledLoginBox>
@@ -35,17 +47,17 @@ const TermsPage = () => {
             회원가입
           </h1>
           
-          <textarea readOnly style={{
+          <textarea readOnly value={termsText} style={{
             width:"100%",
             height:"500px",
             border:"1px solid #496F46",
             borderRadius:"20px",
             padding:"15px",
             //color:"#496F46",
-            fontSize:"18px",
+            fontSize:"14px",
             resize:"none"
           }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            
           </textarea>
 
           <div style={{width:"100%"}}>
