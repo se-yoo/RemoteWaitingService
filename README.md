@@ -1,5 +1,7 @@
 # RemoteWaitingService
-원격웨이팅서비스(웨잇)
+<img src="https://user-images.githubusercontent.com/26541472/223731343-d9b64c0f-b530-40dc-9aac-ce9b081466b4.png" width="150" />
+
+### 원격웨이팅서비스(웨잇) ###
 
 - 식당, 공연 등의 입장순서를 예약받을 수 있는 웹 서비스
 <div>
