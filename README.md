@@ -17,10 +17,10 @@
 
 ## 설계 ##
 - 운영 개념도
-<img src="https://user-images.githubusercontent.com/26541472/223728894-78212a57-7146-4862-8868-9503504c7b34.png" />
+<img src="https://user-images.githubusercontent.com/26541472/223730886-2c8531db-f894-46cd-9c1d-6b7a4b47b5fd.png" width="650" />
 
 - 기능 구성도
-<img src="https://user-images.githubusercontent.com/26541472/223728989-04ad8f2c-17e5-42d2-83d5-2d377caa72f3.png" />
+<img src="https://user-images.githubusercontent.com/26541472/223730647-eb9595f3-bf6d-4434-8767-8a69208cadeb.png" width="650" />
 
 - ER-Diagram
 <img src="https://user-images.githubusercontent.com/26541472/223729096-c4a57ae2-f9e5-454c-9b5f-d501e630e7ee.png" />
