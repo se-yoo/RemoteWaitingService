@@ -5,10 +5,10 @@
 
 - 식당, 공연 등의 입장순서를 예약받을 수 있는 웹 서비스
 <div>
-  <a href="https://ko.reactjs.org/" target="_blank"><img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=Swift&logoColor=white"/></a>
-  <a href="https://ko.redux.js.org/" target="_blank"><img src="https://img.shields.io/badge/Redux-764ABC?style=flat-square&logo=Swift&logoColor=white"/></a>
-  <a href="https://nodejs.org/ko/" target="_blank"><img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=Swift&logoColor=white"/></a>
-  <a href="https://www.mongodb.com/" target="_blank"><img src="https://img.shields.io/badge/MongoDB.js-47A248?style=flat-square&logo=Swift&logoColor=white"/></a>
+  <a href="https://ko.reactjs.org/" target="_blank"><img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white"/></a>
+  <a href="https://ko.redux.js.org/" target="_blank"><img src="https://img.shields.io/badge/Redux-764ABC?style=flat-square&logo=redux&logoColor=white"/></a>
+  <a href="https://nodejs.org/ko/" target="_blank"><img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white"/></a>
+  <a href="https://www.mongodb.com/" target="_blank"><img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white"/></a>
 </div>
 <br>
 
