@@ -1,53 +1,48 @@
-import React, { useCallback } from 'react';
-import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
-import Image from 'mui-image';
-import Logo from '../assets/images/logo.png';
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import OutputIcon from '@mui/icons-material/Output';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useState } from "react";
+import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
+import Image from "mui-image";
+import Logo from "../assets/images/logo.png";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import OutputIcon from "@mui/icons-material/Output";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from '../store/actions/user_actions';
+import { logoutUser } from "../store/actions/user_actions";
+import AlertDialog from "../components/AlertDialog";
 
 const iconStyle = {
-  width: '30px',
-  height: '30px',
-  color: "#496F46"
+  width: "30px",
+  height: "30px",
+  color: "#496F46",
 };
 
 const LayoutHeader = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [openAlertError, setOpenAlertError] = useState(false);
 
   const onClickLogo = useCallback(() => {
-    navigate('/');
+    navigate("/");
   }, []);
 
   const onClickMyPage = useCallback(() => {
-    navigate('/mypage');
+    navigate("/mypage");
   }, []);
 
-  // const onClickLogout = useCallback(() => {
-  //   // 추후 로그아웃 처리
-  //   navigate('/login');
-  // }, []);
-
-
   //로그아웃
-  const onClickLogoutHandler = () =>{
-    dispatch(logoutUser())
-    .then(response=>{
-      if(response.payload.success) {
-        navigate('/login');
-        alert('로그아웃');
+  const onClickLogoutHandler = () => {
+    dispatch(logoutUser()).then((response) => {
+      if (response.payload.success) {
+        navigate("/login");
+      } else {
+        setOpenAlertError(true);
       }
-      else{
-        alert('로그아웃을 실패했습니다.')
-      }
-    })
-  }
+    });
+  };
 
-  
-  
+  const handleClose = useCallback(() => {
+    setOpenAlertError(false);
+  }, []);
+
   return (
     <AppBar
       position="sticky"
@@ -70,12 +65,19 @@ const LayoutHeader = () => {
         />
         <Box sx={{ flexGrow: 1 }} />
         <IconButton onClick={onClickMyPage}>
-          <PermIdentityIcon sx={iconStyle}/>
+          <PermIdentityIcon sx={iconStyle} />
         </IconButton>
-        <IconButton sx={{ ml: '8px' }} onClick={onClickLogoutHandler}>
-          <OutputIcon sx={iconStyle}/>
+        <IconButton sx={{ ml: "8px" }} onClick={onClickLogoutHandler}>
+          <OutputIcon sx={iconStyle} />
         </IconButton>
       </Toolbar>
+      <AlertDialog
+        open={openAlertError}
+        onClose={handleClose}
+        title="오류 발생"
+        content="로그아웃에 실패했습니다."
+        hideDisagree
+      />
     </AppBar>
   );
 };
