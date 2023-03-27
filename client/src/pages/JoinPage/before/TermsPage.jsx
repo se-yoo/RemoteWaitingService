@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Checkbox, FormControlLabel, styled } from "@mui/material";
 import Auth from "../../hoc/Auth";
 import terms from "./terms.txt";
-import { useEffect } from "react";
+import { theme } from "../../styles/theme";
 
-const StyledLoginBox = styled(Box)({
+const StyledTermsBox = styled(Box)({
   maxWidth: "440px",
   width: "80%",
   margin: "auto",
@@ -39,9 +39,8 @@ const TermsPage = () => {
   }, []);
 
   return (
-    <StyledLoginBox>
-      <h1 sx={{ color: "#496F46" }}>회원가입</h1>
-
+    <StyledTermsBox>
+      <Box component="h1">회원가입</Box>
       <textarea
         readOnly
         value={termsText}
@@ -88,7 +87,7 @@ const TermsPage = () => {
       >
         회원가입
       </Button>
-    </StyledLoginBox>
+    </StyledTermsBox>
   );
 };
 
