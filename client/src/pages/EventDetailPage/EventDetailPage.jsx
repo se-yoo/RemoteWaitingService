@@ -16,7 +16,7 @@ import ShareDialogContent from './Sections/ShareDialogContent';
 const EventDetailPage = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
   const [errorDialogContent, setErrorDialogContent] = useState("");
-  const [errorDialogAgree, setErrorDialogAgree] = useState(() => {});
+  const [errorDialogAgree, setErrorDialogAgree] = useState(() => { });
   const [openDialogShare, setOpenDialogShare] = useState(false);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const event = useSelector(state => state.event);
@@ -32,7 +32,7 @@ const EventDetailPage = () => {
     dispatch(loadEventDetail(variable));
   }, []);
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenDialogShare(false);
     setOpenConfirmDelete(false);
   }, []);
@@ -55,12 +55,12 @@ const EventDetailPage = () => {
     };
 
     dispatch(deleteEvent(body))
-    .then( res => {
-        if(res.payload.success) {
+      .then(res => {
+        if (res.payload.success) {
           navigate(`/event`);
         };
       }).catch(err => {
-        setErrorDialogAgree(() => handleClose);
+        setErrorDialogAgree(() => onClose);
         setErrorDialogContent(`이벤트 삭제에 실패했습니다. \n오류: ${err.toString()}`);
         setOpenAlertError(true);
       });
@@ -80,7 +80,7 @@ const EventDetailPage = () => {
   }, []);
 
   useEffect(() => {
-    if(event.error) {
+    if (event.error) {
       const { message, error } = event.error;
       setErrorDialogAgree(() => navigateMain);
       setErrorDialogContent(`${message} 확인을 누르시면 메인으로 돌아갑니다. \n오류: ${error.toString()}`);
@@ -97,12 +97,12 @@ const EventDetailPage = () => {
       <QuestionInfo />
       <ActionButtons
         WrapComponent={Box}
-        sx={{ mt: 6, display: "flex" , justifyContent: "end" }}
+        sx={{ mt: 6, display: "flex", justifyContent: "end" }}
         buttons={buttons}
       />
       <CommonDialog
         open={openDialogShare}
-        onClose={handleClose}
+        onClose={onClose}
         width={900}
         title="이벤트 공유"
         subText="생성한 이벤트의 참여 페이지를 공유합니다"
@@ -118,11 +118,11 @@ const EventDetailPage = () => {
       />
       <AlertDialog
         open={openConfirmDelete}
-        onClose={handleClose}
+        onClose={onClose}
         onAgree={onClickDeleteAgree}
         title="이벤트 삭제"
         content="정말로 이벤트를 삭제하시겠습니까? 삭제 후 복원할 수 없습니다"
-      />  
+      />
     </div>
   );
 };

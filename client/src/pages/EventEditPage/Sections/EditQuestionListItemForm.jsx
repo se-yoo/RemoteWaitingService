@@ -25,11 +25,11 @@ const EditQuestionListItemForm = memo((props) => {
     const newAnswerType = e.target.value;
     let newOptions = undefined;
 
-    if(newAnswerType === ANSWER_TYPE.CHECKBOX || newAnswerType === ANSWER_TYPE.RADIO) {
+    if (newAnswerType === ANSWER_TYPE.CHECKBOX || newAnswerType === ANSWER_TYPE.RADIO) {
       newOptions = [{ value: 1, text: "새로운 답변" }];
     }
 
-    const newValue = { 
+    const newValue = {
       answerType: newAnswerType,
       options: newOptions
     };
@@ -73,9 +73,9 @@ const EditQuestionListItemForm = memo((props) => {
           </IconButton>
         </Grid>
       </Grid>
-      <Grid 
-        container 
-        spacing={2} 
+      <Grid
+        container
+        spacing={2}
         alignItems="center"
         sx={{ mt: 2 }}
       >

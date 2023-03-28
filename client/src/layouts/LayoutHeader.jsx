@@ -29,7 +29,7 @@ const LayoutHeader = () => {
   }, []);
 
   //로그아웃
-  const onClickLogoutHandler = () => {
+  const onClickLogout = () => {
     dispatch(logoutUser()).then((response) => {
       if (response.payload.success) {
         navigate("/login");
@@ -39,7 +39,7 @@ const LayoutHeader = () => {
     });
   };
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenAlertError(false);
   }, []);
 
@@ -67,13 +67,13 @@ const LayoutHeader = () => {
         <IconButton onClick={onClickMyPage}>
           <PermIdentityIcon sx={iconStyle} />
         </IconButton>
-        <IconButton sx={{ ml: "8px" }} onClick={onClickLogoutHandler}>
+        <IconButton sx={{ ml: "8px" }} onClick={onClickLogout}>
           <OutputIcon sx={iconStyle} />
         </IconButton>
       </Toolbar>
       <AlertDialog
         open={openAlertError}
-        onClose={handleClose}
+        onClose={onClose}
         title="오류 발생"
         content="로그아웃에 실패했습니다."
         hideDisagree

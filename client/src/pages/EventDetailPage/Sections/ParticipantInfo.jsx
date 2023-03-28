@@ -26,7 +26,7 @@ const ParticipantInfo = memo(() => {
     ];
   }, [optionCd]);
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenDialogAllAnswer(false);
     setOpenDialogSettingWin(false);
   }, []);
@@ -47,26 +47,26 @@ const ParticipantInfo = memo(() => {
     };
 
     dispatch(updateWinner(body))
-    .then( res => {
-      if(res.payload.success) {
-        setOpenDialogSettingWin(false);
+      .then(res => {
+        if (res.payload.success) {
+          setOpenDialogSettingWin(false);
 
-        const variable = {
-          eventId: event._id,
-          optionCd: optionCd
-        };
-    
-        dispatch(loadEventAnswerList(variable));
-      }
-    });   
+          const variable = {
+            eventId: event._id,
+            optionCd: optionCd
+          };
+
+          dispatch(loadEventAnswerList(variable));
+        }
+      });
   }, [event, selected, optionCd]);
 
   const buttons = useMemo(() => {
     return [
-      { text: "취소", color: "grey", onClick: handleClose },
+      { text: "취소", color: "grey", onClick: onClose },
       { text: "저장", onClick: onClickSaveWinner }
     ];
-  }, [handleClose, onClickSaveWinner]);
+  }, [onClose, onClickSaveWinner]);
 
   const ActionComponent = useMemo(() => {
     return (
@@ -96,19 +96,19 @@ const ParticipantInfo = memo(() => {
           전체 답변 상세
         </Button>
         {optionCd !== EVENT_OPTION.WAITING && (
-            <Button
-              type="translucent"
-              customsize="small"
-              sx={{ ml: 2 }}
-              onClick={onClickSettingWin}
-            >
-              당첨 설정
+          <Button
+            type="translucent"
+            customsize="small"
+            sx={{ ml: 2 }}
+            onClick={onClickSettingWin}
+          >
+            당첨 설정
             </Button>
         )}
       </Box>
       <CommonDialog
         open={openDialogAllAnswer}
-        onClose={handleClose}
+        onClose={onClose}
         width={1500}
         title="전체 답변 상세"
         closable
@@ -116,13 +116,13 @@ const ParticipantInfo = memo(() => {
       />
       <CommonDialog
         open={openDialogSettingWin}
-        onClose={handleClose}
+        onClose={onClose}
         width={900}
         title="당첨 설정"
         subText="참여자 목록에서 당첨 인원을 선정합니다"
         closable
         ContentComponent={
-          <SettingWinDialogContent 
+          <SettingWinDialogContent
             selected={selected}
             onChange={setSelected}
           />

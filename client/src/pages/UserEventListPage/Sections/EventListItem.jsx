@@ -30,17 +30,17 @@ const StyledStateBox = styled(Box)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  width:"80px",
-  height:"40px", 
-  borderRadius:"20px",
-  fontSize:"16px",
-  marginLeft:"12px",
-  fontWeight:"normal"
+  width: "80px",
+  height: "40px",
+  borderRadius: "20px",
+  fontSize: "16px",
+  marginLeft: "12px",
+  fontWeight: "normal"
 });
 
 
 const getStatusColor = (status) => {
-  switch(status) {
+  switch (status) {
     case EVENT_STATUS_TYPE.OPEN_SOON:
       return EVENT_STATUS_COLOR.OPEN_SOON;
     case EVENT_STATUS_TYPE.IN_PROGRESS:
@@ -52,30 +52,29 @@ const getStatusColor = (status) => {
   }
 };
 
-const stateSuccess={
-  BG_COLOR:"rgba(73,111,70,0.1)",
-  COLOR:"#496F46"
+const stateSuccess = {
+  BG_COLOR: "rgba(73,111,70,0.1)",
+  COLOR: "#496F46"
 }
 
-const stateFail={
-  BG_COLOR:"rgba(202,55,55,0.1)",
-  COLOR:"#CA3737"
+const stateFail = {
+  BG_COLOR: "rgba(202,55,55,0.1)",
+  COLOR: "#CA3737"
 }
 
 const EventListItem = (props) => {
   const { title, content, status, onClickEvent, eventResult } = props;
 
-
   return (
     <StyledEventListItem onClick={onClickEvent}>
       <ListItemText
         primary={
-          <StyledEventListItemTitle 
+          <StyledEventListItemTitle
             display="flex"
             alignItems="center"
             component="span"
           >
-            <LocalActivityOutlinedIcon 
+            <LocalActivityOutlinedIcon
               color={getStatusColor(status)}
               fontSize="large"
               sx={{ mr: 1.5 }}
@@ -83,13 +82,13 @@ const EventListItem = (props) => {
             {title}
             {eventResult !== EVENT_RESULT_TYPE.DEFAULT && (
               <>
-                {eventResult===EVENT_RESULT_TYPE.WIN&&(
-                  <StyledStateBox sx={{ backgroundColor:stateSuccess.BG_COLOR, color:stateSuccess.COLOR }}>
+                {eventResult === EVENT_RESULT_TYPE.WIN && (
+                  <StyledStateBox sx={{ backgroundColor: stateSuccess.BG_COLOR, color: stateSuccess.COLOR }}>
                     당첨
                   </StyledStateBox>
                 )}
-                {eventResult===EVENT_RESULT_TYPE.NOT_WON&&(
-                  <StyledStateBox sx={{ backgroundColor:stateFail.BG_COLOR, color:stateFail.COLOR }}>
+                {eventResult === EVENT_RESULT_TYPE.NOT_WON && (
+                  <StyledStateBox sx={{ backgroundColor: stateFail.BG_COLOR, color: stateFail.COLOR }}>
                     미당첨
                   </StyledStateBox>
                 )}

@@ -1,5 +1,10 @@
 import { theme } from "../styles/theme"
 
+export const JOIN_STEP = {
+  TERMS: 0,
+  INPUT: 1
+}
+
 export const ROLE_TYPE = {
   EVENT_PARTICIPANT: 0,
   EVENT_MANAGER: 1

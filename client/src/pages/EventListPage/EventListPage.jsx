@@ -22,7 +22,7 @@ const EventListPage = () => {
   }, []);
 
   useEffect(() => {
-    if(event.error) {
+    if (event.error) {
       const { message, error } = event.error;
       setErrorDialogContent(`${message} \n오류: ${error.toString()}`);
       setOpenAlertError(true);
@@ -33,7 +33,7 @@ const EventListPage = () => {
     }
   }, [event.error]);
 
-  const handleCloseErrorDialog = useCallback(() => {
+  const onCloseErrorDialog = useCallback(() => {
     setOpenAlertError(false);
   }, []);
 
@@ -52,7 +52,7 @@ const EventListPage = () => {
   return (
     <div>
       <MenuTitle title="이벤트 목록" />
-      <Grid 
+      <Grid
         container
         justifyContent="space-between"
         alignItems="end"
@@ -69,10 +69,10 @@ const EventListPage = () => {
             이벤트 등록
           </Button>
         </Grid>
-        <Grid 
-          item 
-          xs={8} 
-          sm={6} 
+        <Grid
+          item
+          xs={8}
+          sm={6}
           lg={4}
         >
           <HelpList />
@@ -82,7 +82,7 @@ const EventListPage = () => {
       <EventList sx={{ mt: 3 }} />
       <AlertDialog
         open={openAlertError}
-        onAgree={handleCloseErrorDialog}
+        onAgree={onCloseErrorDialog}
         title="오류 발생"
         content={errorDialogContent}
         hideDisagree

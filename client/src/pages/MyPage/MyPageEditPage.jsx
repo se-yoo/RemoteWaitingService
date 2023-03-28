@@ -19,7 +19,7 @@ const MyPageEditPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [userID, setUserID] = useState("");
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [pwCheck, setpwCheck] = useState("");
   const [name, setName] = useState("");
@@ -34,7 +34,7 @@ const MyPageEditPage = () => {
   useEffect(() => {
     dispatch(mypageUser()).then((response) => {
       if (response.payload.success) {
-        setUserID(response.payload.userId);
+        setUserId(response.payload.userId);
         setName(response.payload.name);
         setBirthDay(response.payload.birthDay);
         setPhoneNumber(response.payload.phoneNumber);
@@ -47,13 +47,13 @@ const MyPageEditPage = () => {
     });
   }, [dispatch]);
 
-  const onSubmitHandler = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
 
     let body;
     if (password === "") {
       body = {
-        userId: userID,
+        userId: userId,
         name: name,
         birthDay: birthDay,
         phoneNumber: phoneNumber,
@@ -61,7 +61,7 @@ const MyPageEditPage = () => {
       };
     } else {
       body = {
-        userId: userID,
+        userId: userId,
         password: password,
         name: name,
         birthDay: birthDay,
@@ -94,7 +94,7 @@ const MyPageEditPage = () => {
       if (
         emailValid === "pass" &&
         phoneValid === "pass" &&
-        userID !== "" &&
+        userId !== "" &&
         name !== "" &&
         birthDay !== ""
       )
@@ -106,7 +106,7 @@ const MyPageEditPage = () => {
         pwValid === "pass" &&
         pwCheckValid === "pass" &&
         phoneValid === "pass" &&
-        userID !== "" &&
+        userId !== "" &&
         name !== "" &&
         birthDay !== ""
       )
@@ -153,7 +153,7 @@ const MyPageEditPage = () => {
     return !phoneCheck.test(phoneNumber);
   };
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenAlertError(false);
   }, []);
 
@@ -162,7 +162,7 @@ const MyPageEditPage = () => {
   }, []);
 
   return (
-    <Box component="form" onSubmit={onSubmitHandler}>
+    <Box component="form" onSubmit={onSubmit}>
       <MenuTitle
         title={"마이페이지"}
         subText={"계정 정보를 수정합니다."}
@@ -170,9 +170,9 @@ const MyPageEditPage = () => {
         subTextSx={{ mb: "10px" }}
       />
       <MyPageEditItem
-        onChangeValue={setUserID}
+        onChangeValue={setUserId}
         sectionName={"아이디"}
-        sectionContent={userID}
+        sectionContent={userId}
         sx={{ mt: "59px" }}
       />
       <MyPageEditItem
@@ -250,7 +250,7 @@ const MyPageEditPage = () => {
       />
       <AlertDialog
         open={openAlertError}
-        onClose={handleClose}
+        onClose={onClose}
         title="오류 발생"
         content={errorDialogContent}
         hideDisagree

@@ -16,26 +16,26 @@ const ParticipantInfoTable = memo((props) => {
   const event = useSelector(state => state.event);
   const answers = useSelector(state => state.answer.eventAnswers);
   const { optionCd, questions } = event;
-  const { 
-    headers, 
-    sx, 
-    checkboxSelection, 
+  const {
+    headers,
+    sx,
+    checkboxSelection,
     checkboxReadonly,
-    selected, 
-    onChangeSelected, 
-    rowsPerPage 
+    selected,
+    onChangeSelected,
+    rowsPerPage
   } = props;
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const handleChangePage = useCallback((event, newPage) => {
+  const onChangePage = useCallback((event, newPage) => {
     setPage(newPage);
   }, []);
 
   useEffect(() => {
-    if(id !== event._id) return;
+    if (id !== event._id) return;
 
-    switch(optionCd) {
+    switch (optionCd) {
       case EVENT_OPTION.WAITING:
         setStatusInfos(WAITING_PARTICIPANT_STATUS_INFO);
         break;
@@ -47,7 +47,7 @@ const ParticipantInfoTable = memo((props) => {
         setStatusInfos(PARTICIPANT_STATUS_INFO);
         break;
     }
-    
+
     const variable = {
       eventId: id,
       optionCd: optionCd
@@ -58,23 +58,23 @@ const ParticipantInfoTable = memo((props) => {
 
   const statusText = useCallback((status) => {
     const statusInfo = statusInfos.find(item => item.value === status);
-    return statusInfo? statusInfo.text : '-';
+    return statusInfo ? statusInfo.text : '-';
   }, [statusInfos]);
 
   const statusColor = useCallback((status) => {
     const statusInfo = statusInfos.find(item => item.value === status);
-    return statusInfo? statusInfo.color : 'black';
+    return statusInfo ? statusInfo.color : 'black';
   }, [statusInfos]);
 
   const ItemCellComponent = {
-    participantDate: ({item}) => (
+    participantDate: ({ item }) => (
       <TableCell align="left">
         {formatDatetime(item.participantDate)}
       </TableCell>
     ),
-    status: ({item}) => (
-      <TableCell 
-        align="center" 
+    status: ({ item }) => (
+      <TableCell
+        align="center"
         sx={{ color: `${statusColor(item.status)} !important` }}
       >
         {statusText(item.status)}
@@ -82,7 +82,7 @@ const ParticipantInfoTable = memo((props) => {
     )
   };
 
-  const CollapseContentComponent = useCallback(({item}) => {
+  const CollapseContentComponent = useCallback(({ item }) => {
     return (
       <ParticipantInfoTableExpand
         item={item}
@@ -92,7 +92,7 @@ const ParticipantInfoTable = memo((props) => {
     )
   }, [optionCd, questions]);
 
-  const HideButton = useCallback(({onClick}) => {
+  const HideButton = useCallback(({ onClick }) => {
     return (
       <Button type="innerTable" customsize="x-small" onClick={onClick}>
         닫기 <ExpandLessIcon />
@@ -100,7 +100,7 @@ const ParticipantInfoTable = memo((props) => {
     )
   }, []);
 
-  const ShowButton = useCallback(({onClick}) => {
+  const ShowButton = useCallback(({ onClick }) => {
     return (
       <Button type="innerTable" customsize="x-small" onClick={onClick}>
         조회 <ExpandMoreOutlinedIcon />
@@ -120,7 +120,7 @@ const ParticipantInfoTable = memo((props) => {
       HideControlComponent={HideButton}
       ExpandControlComponent={ShowButton}
       CollapseContentComponent={CollapseContentComponent}
-      onChangePage={handleChangePage}
+      onChangePage={onChangePage}
       ItemCellComponent={ItemCellComponent}
       checkboxSelection={checkboxSelection}
       checkboxReadonly={checkboxReadonly}

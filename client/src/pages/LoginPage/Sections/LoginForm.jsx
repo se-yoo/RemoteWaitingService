@@ -8,23 +8,23 @@ import AlertDialog from "../../../components/AlertDialog";
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [userID, setUserID] = useState("");
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [openAlertError, setOpenAlertError] = useState(false);
 
-  const onUserIDHandler = (event) => {
-    setUserID(event.currentTarget.value);
+  const onChangeUserId = (event) => {
+    setUserId(event.target.value);
   };
 
-  const onPasswordHandler = (event) => {
-    setPassword(event.currentTarget.value);
+  const onChangePassword = (event) => {
+    setPassword(event.target.value);
   };
 
-  const onSubmitHandler = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
 
     let body = {
-      userId: userID,
+      userId: userId,
       password: password,
     };
 
@@ -38,7 +38,7 @@ const LoginForm = () => {
     });
   };
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenAlertError(false);
   }, []);
 
@@ -47,12 +47,12 @@ const LoginForm = () => {
       component="form"
       noValidate
       autoComplete="off"
-      onSubmit={onSubmitHandler}
+      onSubmit={onSubmit}
     >
-      <TextField label="아이디" value={userID} onChange={onUserIDHandler} />
+      <TextField label="아이디" value={userId} onChange={onChangeUserId} />
       <TextField
         value={password}
-        onChange={onPasswordHandler}
+        onChange={onChangePassword}
         type="password"
         label="비밀번호"
         sx={{ mt: 2.5 }}
@@ -70,7 +70,7 @@ const LoginForm = () => {
       </Button>
       <AlertDialog
         open={openAlertError}
-        onClose={handleClose}
+        onClose={onClose}
         title="오류 발생"
         content="로그인에 실패했습니다. 입력 정보를 다시 확인해주세요."
         hideDisagree

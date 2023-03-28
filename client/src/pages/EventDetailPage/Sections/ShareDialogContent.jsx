@@ -20,7 +20,7 @@ const ShareDialogContent = memo(() => {
     setOpenAlert(true);
   }, [shareUrl]);
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenAlert(false);
   }, []);
 
@@ -44,16 +44,16 @@ const ShareDialogContent = memo(() => {
           </Button>
         </Grid>
       </Grid>
-      <Snackbar 
+      <Snackbar
         open={openAlert}
         autoHideDuration={2000}
-        onClose={handleClose}
+        onClose={onClose}
         message="URL이 클립보드에 복사되었습니다"
         ContentProps={{
           sx: { backgroundColor: theme.palette.primary.main }
         }}
-        anchorOrigin={{ 
-          vertical: "bottom", 
+        anchorOrigin={{
+          vertical: "bottom",
           horizontal: "center"
         }}
       />

@@ -25,7 +25,7 @@ const UserEventJoinPage = () => {
   const [errorDialogContent, setErrorDialogContent] = useState("");
   const [resultUrl, setResultUrl] = useState("");
 
-  const CheckedHandler = () => {
+  const onChangeChecked = () => {
     setisChecked(!isChecked);
   };
 
@@ -50,7 +50,7 @@ const UserEventJoinPage = () => {
     else return true;
   };
 
-  const onSubmitHandler = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
 
     if (requiredChecked()) {
@@ -102,7 +102,7 @@ const UserEventJoinPage = () => {
     }
   };
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenAlertError(false);
   }, []);
 
@@ -117,7 +117,7 @@ const UserEventJoinPage = () => {
   return (
     <Box
       component="form"
-      onSubmit={onSubmitHandler}
+      onSubmit={onSubmit}
       sx={{
         width: {
           xs: "100%",
@@ -152,7 +152,7 @@ const UserEventJoinPage = () => {
             }}
           />
         }
-        onChange={CheckedHandler}
+        onChange={onChangeChecked}
         label="개인정보 수집 이용에 동의합니다."
       />
 
@@ -174,7 +174,7 @@ const UserEventJoinPage = () => {
       />
       <AlertDialog
         open={openAlertError}
-        onClose={handleClose}
+        onClose={onClose}
         title="오류 발생"
         content={errorDialogContent}
         hideDisagree

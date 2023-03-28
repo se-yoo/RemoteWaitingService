@@ -12,7 +12,7 @@ const MyPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [userID, setUserID] = useState("");
+  const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [birthDay, setBirthDay] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -27,7 +27,7 @@ const MyPage = () => {
   useEffect(() => {
     dispatch(mypageUser()).then((response) => {
       if (response.payload.success) {
-        setUserID(response.payload.userId);
+        setUserId(response.payload.userId);
         setName(response.payload.name);
         setBirthDay(response.payload.birthDay);
         setPhoneNumber(response.payload.phoneNumber);
@@ -39,7 +39,7 @@ const MyPage = () => {
     });
   }, [dispatch]);
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenAlertError(false);
   }, []);
 
@@ -53,7 +53,7 @@ const MyPage = () => {
       />
       <MyPageInfoItem
         sectionName={"아이디"}
-        sectionContent={userID}
+        sectionContent={userId}
         sx={{ mt: "59px" }}
       />
       <MyPageInfoItem sectionName={"이름"} sectionContent={name} />
@@ -77,7 +77,7 @@ const MyPage = () => {
       </Grid>
       <AlertDialog
         open={openAlertError}
-        onClose={handleClose}
+        onClose={onClose}
         title="오류 발생"
         content="정보 조회에 실패했습니다."
         hideDisagree

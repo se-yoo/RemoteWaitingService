@@ -10,11 +10,11 @@ const EventAddDialog = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenDialog(false);
   }, []);
 
-  const handleListItemClick = useCallback(id => {
+  const onClickItem = useCallback(id => {
     setSelectedId(id);
   });
 
@@ -23,15 +23,15 @@ const EventAddDialog = () => {
   }, []);
 
   const onClickSelected = useCallback(() => {
-    navigate('/event/edit/new', { state: { preset: selectedId }})
+    navigate('/event/edit/new', { state: { preset: selectedId } })
   }, []);
 
   const buttons = useMemo(() => {
     return [
-      { text: "취소", color: "grey", onClick: handleClose },
+      { text: "취소", color: "grey", onClick: onClose },
       { text: "선택", onClick: onClickSelected }
     ];
-  }, [handleClose, onClickSelected]);
+  }, [onClose, onClickSelected]);
 
   const ActionComponent = useMemo(() => {
     return (
@@ -57,15 +57,15 @@ const EventAddDialog = () => {
       </Button>
       <CommonDialog
         open={openDialog}
-        onClose={handleClose}
+        onClose={onClose}
         width={900}
         title="이벤트 등록"
         subText="새로 생성할 이벤트 참여 양식의 템플릿을 선택합니다"
         closable
         ContentComponent={
-          <EventAddDialogContent 
+          <EventAddDialogContent
             selectedId={selectedId}
-            onSelected={handleListItemClick} 
+            onSelected={onClickItem}
           />
         }
         ActionComponent={ActionComponent}

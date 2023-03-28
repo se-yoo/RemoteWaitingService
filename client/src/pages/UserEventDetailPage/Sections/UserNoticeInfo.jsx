@@ -16,7 +16,7 @@ const headers = [
 
 
 const UserNoticeInfo = memo((props) => {
-  const {noticeTarget} = props;
+  const { noticeTarget } = props;
   const notice = useSelector(state => state.notice);
   const [page, setPage] = React.useState(1);
   const [openDialogNotice, setOpenDialogNotice] = useState(false);
@@ -24,29 +24,29 @@ const UserNoticeInfo = memo((props) => {
   const [noticeList, setNoticeList] = useState([]);
   const eventId = useParams().eventId;
 
-  const body={
-    target:noticeTarget,
-    eventId:eventId
+  const body = {
+    target: noticeTarget,
+    eventId: eventId
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(loadUserNoticeList(body))
-    .then(response=>{
-      if(response.payload.success){
-        setNoticeList(response.payload.noticeList);
-        //console.log(JSON.stringify(response.payload.noticeList));
-      }
-      else{
-        console.log(response.payload.err);
-      }
-    })
+      .then(response => {
+        if (response.payload.success) {
+          setNoticeList(response.payload.noticeList);
+          //console.log(JSON.stringify(response.payload.noticeList));
+        }
+        else {
+          console.log(response.payload.err);
+        }
+      })
   }, [dispatch])
-  
-  const handleChangePage = useCallback((event, newPage) => {
+
+  const onChangePage = useCallback((event, newPage) => {
     setPage(newPage);
   }, []);
-  
-  const handleClose = useCallback(() => {
+
+  const onClose = useCallback(() => {
     setOpenDialogNotice(false);
   }, []);
 
@@ -64,12 +64,12 @@ const UserNoticeInfo = memo((props) => {
         page={page}
         rowsPerPage={5}
         sx={{ my: 3 }}
-        onChangePage={handleChangePage}
+        onChangePage={onChangePage}
         onClickRow={onClickNotice}
       />
       <CommonDialog
         open={openDialogNotice}
-        onClose={handleClose}
+        onClose={onClose}
         width={900}
         title="공지 상세"
         subText={`생성일 - ${notice.createDate}`}
