@@ -61,7 +61,7 @@ const EditDate = (props) => {
         />
       </Box>
       {formStatus && (
-        <FormHelperText error sx={{mt: 1, ml: 2}}>
+        <FormHelperText error sx={{ mt: 1, ml: 2 }}>
           {formStatus}
         </FormHelperText>
       )}

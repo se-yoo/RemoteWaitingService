@@ -10,6 +10,11 @@ export const ROLE_TYPE = {
   EVENT_MANAGER: 1
 }
 
+export const ROLE_TYPE_TEXT = [
+  { text: '이벤트 참여자', value: ROLE_TYPE.EVENT_PARTICIPANT },
+  { text: '이벤트 관리자', value: ROLE_TYPE.EVENT_MANAGER }
+]
+
 export const EVENT_RESULT_TYPE = {
   DEFAULT: 0,
   WIN: 1,

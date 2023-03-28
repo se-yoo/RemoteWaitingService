@@ -1,50 +1,25 @@
 import React, { useCallback, useState } from "react";
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-} from "@mui/material";
+import { Box } from "@mui/material";
+import JoinTerms from "./Sections/JoinTerms";
+import JoinForm from "./Sections/JoinForm";
 import Auth from "../../hoc/Auth";
-import { terms } from "../../utils/resource";
+import { JOIN_STEP } from "../../utils/code";
 
 const JoinPage = () => {
-  const [agree, setAgree] = useState(false);
+  const [step, setStep] = useState(JOIN_STEP.TERMS);
 
-  const onChangeAgree = useCallback((e) => {
-    setAgree(e.target.checked);
+  const onClickNext = useCallback(() => {
+    setStep(JOIN_STEP.INPUT);
   }, []);
 
   return (
     <Box className="com-center-area">
       <Box component="h1">회원가입</Box>
-      <TextField
-        value={terms}
-        multiline
-        maxRows="20"
-        InputProps={{
-          readOnly: true,
-          disabled: true,
-        }}
-      />
-      <FormControlLabel
-        label="동의합니다."
-        sx={{ marginRight: "auto", marginTop: "1em" }}
-        control={<Checkbox checked={agree} onChange={onChangeAgree} />}
-      />
-      <Button
-        disabled={!agree}
-        sx={{
-          height: "90px",
-          fontSize: "32px",
-          mt: 4,
-        }}
-        fullWidth
-      >
-        회원가입
-      </Button>
-    </Box>
+      {step === JOIN_STEP.TERMS ?
+        <JoinTerms onClickNext={onClickNext} />
+        : <JoinForm />
+      }
+    </Box >
   );
 };
 

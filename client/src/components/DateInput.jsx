@@ -46,6 +46,8 @@ const DateInput = (props) => {
             <TextField
               sx={sx}
               {...params}
+              error={error}
+              helperText={helperText}
             />
           )}
         />
@@ -65,6 +67,8 @@ const DateInput = (props) => {
               <TextField
                 sx={sx}
                 {...params}
+                error={error}
+                helperText={helperText}
               />
             )}
           />
