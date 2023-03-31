@@ -12,31 +12,32 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [openAlertError, setOpenAlertError] = useState(false);
 
-  const onChangeUserId = (event) => {
-    setUserId(event.target.value);
-  };
+  const onChangeUserId = useCallback((e) => {
+    setUserId(e.target.value);
+  }, []);
 
-  const onChangePassword = (event) => {
-    setPassword(event.target.value);
-  };
+  const onChangePassword = useCallback((e) => {
+    setPassword(e.target.value);
+  }, []);
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = useCallback((e) => {
+    e.preventDefault();
 
-    let body = {
-      userId: userId,
-      password: password,
+    const body = {
+      userId,
+      password,
     };
 
     //로그인 액션
-    dispatch(loginUser(body)).then((response) => {
-      if (response.payload.loginSuccess) {
-        navigate("/");
-      } else {
-        setOpenAlertError(true);
-      }
-    });
-  };
+    dispatch(loginUser(body))
+      .then((response) => {
+        if (response.payload.loginSuccess) {
+          navigate("/");
+        } else {
+          setOpenAlertError(true);
+        }
+      });
+  }, []);
 
   const onClose = useCallback(() => {
     setOpenAlertError(false);
@@ -45,16 +46,18 @@ const LoginForm = () => {
   return (
     <Box
       component="form"
-      noValidate
-      autoComplete="off"
       onSubmit={onSubmit}
     >
-      <TextField label="아이디" value={userId} onChange={onChangeUserId} />
       <TextField
-        value={password}
-        onChange={onChangePassword}
+        label="아이디"
+        value={userId}
+        onChange={onChangeUserId}
+      />
+      <TextField
         type="password"
         label="비밀번호"
+        value={password}
+        onChange={onChangePassword}
         sx={{ mt: 2.5 }}
       />
       <Button
