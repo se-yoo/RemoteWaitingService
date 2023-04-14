@@ -14,7 +14,6 @@ import MyPageEditPage from "./pages/MyPage/MyPageEditPage";
 import EventDetailPage from "./pages/EventDetailPage/EventDetailPage";
 import UserEventDetailPage from "./pages/UserEventDetailPage/UserEventDetailPage";
 import UserEventJoinPage from "./pages/UserEventJoinPage/UserEventJoinPage";
-import UserEventListPage from "./pages/UserEventListPage/UserEventListPage";
 import GuestEventDetailPage from "./pages/UserEventDetailPage/GuestEventDetailPage";
 import EndPage from "./pages/DefaultPage/EndPage";
 import DefaultPage from "./pages/DefaultPage/DefaultPage";
@@ -44,10 +43,6 @@ function App() {
               <Route path="/event/detail/:id" element={<EventDetailPage />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/mypage/edit" element={<MyPageEditPage />} />
-              <Route
-                path="/user/event/list/:userId"
-                element={<UserEventListPage />}
-              />
               <Route
                 path="/user/event/detail/:eventId/:userId"
                 element={<UserEventDetailPage />}

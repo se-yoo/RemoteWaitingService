@@ -37,7 +37,7 @@ const LoginForm = () => {
           setOpenAlertError(true);
         }
       });
-  }, []);
+  }, [userId, password]);
 
   const onClose = useCallback(() => {
     setOpenAlertError(false);

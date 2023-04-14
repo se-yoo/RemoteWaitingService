@@ -12,19 +12,10 @@ const Layout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(location.pathname === "/" && userData) {
-      if(userData.isAdmin) {
-        navigate("/event");
-      } else {
-        if(userData._id === undefined){
-          navigate("/mypage");
-        }
-        else{
-          navigate(`/user/event/list/${userData._id}`);
-        }
-      }
+    if (location.pathname === "/" && userData) {
+      navigate("/event");
     }
-    
+
     windowScrollTop();
   }, [location, userData]);
 
@@ -33,7 +24,7 @@ const Layout = () => {
       <LayoutHeader />
       <main>
         <Box
-          sx={{ 
+          sx={{
             width: {
               xs: '100%',
               md: '80%',

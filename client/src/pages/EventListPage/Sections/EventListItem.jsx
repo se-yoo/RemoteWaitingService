@@ -1,33 +1,52 @@
-import React from 'react';
-import { Box, ListItemButton, ListItemText } from '@mui/material';
-import styled from '@emotion/styled';
-import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined';
-import { EVENT_STATUS_COLOR, EVENT_STATUS_TYPE } from '../../../utils/code';
+import React from "react";
+import { Box, ListItemButton, ListItemText } from "@mui/material";
+import styled from "@emotion/styled";
+import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
+import {
+  EVENT_STATUS_COLOR,
+  EVENT_STATUS_TYPE,
+  PARTICIPANT_STATUS,
+  PARTICIPANT_STATUS_INFO,
+  WAITING_PARTICIPANT_STATUS_INFO,
+} from "../../../utils/code";
+import { theme } from "../../../styles/theme";
 
 const StyledEventListItem = styled(ListItemButton)({
   background: "#FFFFFF",
   boxShadow: "0px 0px 10px 2px rgba(0, 0, 0, 0.1)",
   borderRadius: "20px",
   marginBottom: "24px",
-  padding: "16px 24px"
+  padding: "16px 24px",
 });
 
 const StyledEventListItemTitle = styled(Box)({
   fontWeight: 600,
   fontSize: "20px",
   lineHeight: "44px",
-  marginBottom: "12px"
+  marginBottom: "12px",
 });
 
 const StyledEventListItemContent = styled(Box)({
   fontWeight: 400,
   fontSize: "16px",
   lineHeight: "19px",
-  color: "black"
-})
+  color: "black",
+});
+
+const StyledStateBox = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "80px",
+  height: "40px",
+  borderRadius: "20px",
+  fontSize: "16px",
+  marginLeft: "12px",
+  fontWeight: "normal",
+});
 
 const getStatusColor = (status) => {
-  switch(status) {
+  switch (status) {
     case EVENT_STATUS_TYPE.OPEN_SOON:
       return EVENT_STATUS_COLOR.OPEN_SOON;
     case EVENT_STATUS_TYPE.IN_PROGRESS:
@@ -39,24 +58,62 @@ const getStatusColor = (status) => {
   }
 };
 
+const getResultColor = (status) => {
+  switch (status) {
+    case PARTICIPANT_STATUS.WIN:
+    case PARTICIPANT_STATUS.ENTER:
+      return theme.palette.primary.main;
+    case PARTICIPANT_STATUS.ENTER_CANCEL:
+      return theme.palette.red.main;
+    default:
+      return theme.palette.grey.main;
+  }
+};
+
+const getResultText = (status) => {
+  switch (status) {
+    case PARTICIPANT_STATUS.WIN:
+      return PARTICIPANT_STATUS_INFO.find(
+        (item) => item.value === PARTICIPANT_STATUS.WIN,
+      ).text;
+    case PARTICIPANT_STATUS.ENTER:
+    case PARTICIPANT_STATUS.ENTER_CANCEL:
+      return WAITING_PARTICIPANT_STATUS_INFO.find(
+        (item) => item.value === PARTICIPANT_STATUS.WIN,
+      ).text;
+    default:
+      return "-";
+  }
+};
+
 const EventListItem = (props) => {
-  const { title, content, status, onClickEvent } = props;
+  const { title, content, status, result, onClickEvent } = props;
 
   return (
     <StyledEventListItem onClick={onClickEvent}>
       <ListItemText
         primary={
-          <StyledEventListItemTitle 
+          <StyledEventListItemTitle
             display="flex"
             alignItems="center"
             component="span"
           >
-            <LocalActivityOutlinedIcon 
+            <LocalActivityOutlinedIcon
               color={getStatusColor(status)}
               fontSize="large"
               sx={{ mr: 1.5 }}
             />
             {title}
+            {result !== PARTICIPANT_STATUS.NONE && (
+              <StyledStateBox
+                sx={{
+                  backgroundColor: `${getResultColor(result)}1a`,
+                  color: getResultColor(result),
+                }}
+              >
+                {getResultText(result)}
+              </StyledStateBox>
+            )}
           </StyledEventListItemTitle>
         }
         secondary={

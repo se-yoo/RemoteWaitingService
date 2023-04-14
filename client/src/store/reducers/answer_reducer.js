@@ -1,7 +1,6 @@
 import {
   LOAD_EVENT_ANSWER_LIST,
   USER_ANSWER,
-  USER_EVENT_LIST,
   USER_EVENT_DETAIL,
   UPDATE_ANSWER,
   GUEST_ANSWER,
@@ -15,43 +14,37 @@ const initialState = {
   answers: [],
   participantDate: "",
 
-  eventAnswers: []
+  eventAnswers: [],
 };
 
-export default function(state = initialState, action) {
-  switch(action.type){
+export default function (state = initialState, action) {
+  switch (action.type) {
     case LOAD_EVENT_ANSWER_LIST:
       return {
         ...state,
         eventAnswers: [...action.payload.answers],
-        error: null
-      }
+        error: null,
+      };
     case USER_ANSWER:
       return {
-        ...state, 
-        answer: action.payload 
-      }
-      
-    case USER_EVENT_LIST:
-      return {
-        ...state, 
-        userEventList: action.payload 
-      }
+        ...state,
+        answer: action.payload,
+      };
     case USER_EVENT_DETAIL:
       return {
-        ...state, 
-        userEventDetail: action.payload 
-      }
-    case UPDATE_ANSWER: 
+        ...state,
+        userEventDetail: action.payload,
+      };
+    case UPDATE_ANSWER:
       return {
         ...state,
-        success: action.payload
-      }
+        success: action.payload,
+      };
     case GUEST_ANSWER:
       return {
         ...state,
-        success: action.payload
-      }
+        success: action.payload,
+      };
     default:
       return state;
   }

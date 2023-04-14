@@ -1,34 +1,55 @@
-import { List } from '@mui/material';
-import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../../../utils/function';
-import EventListItem from './EventListItem';
-
+import { List } from "@mui/material";
+import React, { useCallback } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../../utils/function";
+import EventListItem from "./EventListItem";
 
 const EventList = (props) => {
-  const events = useSelector(state => state.event.events);
   const { sx } = props;
+  const events = useSelector((state) => state.event.events);
+  const userData = useSelector((state) => state.user.userData);
+  const { isAdmin } = userData || { isAdmin: false };
   const navigate = useNavigate();
 
-  const getContent = useCallback((event) => {
-    // 추후 권한별 내용 변경
-    return `${event.participantCnt}명 참여 | ${formatDate(event.createDate)}`;
-  }, []);
+  const getContent = useCallback(
+    (event) => {
+      if (isAdmin) {
+        return `${event.participantCnt}명 참여 | ${formatDate(
+          event.createDate,
+        )}`;
+      } else {
+        return event.noLimitDate
+          ? "상시 참여 가능"
+          : `${event.startDate} ~ ${event.endDate}`;
+      }
+    },
+    [isAdmin],
+  );
 
-  const onClickEvent = useCallback((eventId) => {
-    navigate(`/event/detail/${eventId}`);
-  }, []);
+  const onClickEvent = useCallback(
+    (eventId) => {
+      if (isAdmin) {
+        navigate(`/event/detail/${eventId}`);
+      } else {
+        navigate(`/user/event/detail/${eventId}/${userData.userId}`);
+      }
+    },
+    [isAdmin, userData],
+  );
 
   return (
     <List sx={sx}>
-      {events.map(event => (
-        <EventListItem 
-          key={event._id} 
+      {events.map((event) => (
+        <EventListItem
+          key={event._id}
           title={event.title}
-          content={getContent(event)} 
+          content={getContent(event)}
           status={event.status}
-          onClickEvent={() => {onClickEvent(event._id)}}
+          result={event.result}
+          onClickEvent={() => {
+            onClickEvent(event._id);
+          }}
         />
       ))}
     </List>

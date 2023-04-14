@@ -1,5 +1,5 @@
 import { Button, Grid } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AlertDialog from '../../components/AlertDialog';
@@ -13,9 +13,15 @@ const EventListPage = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
   const [errorDialogContent, setErrorDialogContent] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
+  const userData = useSelector(state => state.user.userData);
   const event = useSelector(state => state.event);
+  const { isAdmin } = userData || { isAdmin: false };
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const title = useMemo(() => {
+    return isAdmin ? "이벤트 목록" : "참여 이벤트 목록";
+  }, [isAdmin]);
 
   useEffect(() => {
     dispatch(loadEventList());
@@ -51,23 +57,25 @@ const EventListPage = () => {
 
   return (
     <div>
-      <MenuTitle title="이벤트 목록" />
+      <MenuTitle title={title} />
       <Grid
         container
         justifyContent="space-between"
         alignItems="end"
       >
         <Grid item xs={4}>
-          <Button
-            sx={{
-              width: "200px",
-              height: "60px",
-              fontSize: "24px"
-            }}
-            onClick={onClickAddEvent}
-          >
-            이벤트 등록
-          </Button>
+          {isAdmin &&
+            <Button
+              sx={{
+                width: "200px",
+                height: "60px",
+                fontSize: "24px"
+              }}
+              onClick={onClickAddEvent}
+            >
+              이벤트 등록
+            </Button>
+          }
         </Grid>
         <Grid
           item
