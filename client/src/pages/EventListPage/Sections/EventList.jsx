@@ -29,11 +29,7 @@ const EventList = (props) => {
 
   const onClickEvent = useCallback(
     (eventId) => {
-      if (isAdmin) {
-        navigate(`/event/detail/${eventId}`);
-      } else {
-        navigate(`/user/event/detail/${eventId}/${userData.userId}`);
-      }
+      navigate(`/event/detail/${eventId}`);
     },
     [isAdmin, userData],
   );

@@ -1,11 +1,8 @@
 import {
   ERR_EVENT,
   LOAD_EVENT_ANSWER_LIST,
-  USER_ANSWER,
-  USER_EVENT_DETAIL,
-  UPDATE_ANSWER,
-  GUEST_ANSWER,
-  ANSWER_NUMBER,
+  LOAD_EVENT_ANSWER_DETAIL,
+  EDIT_ANSWER,
 } from "./types";
 import { EVENT_ANSWER_SERVER } from "./api";
 import axios from "axios";
@@ -30,14 +27,23 @@ export function loadEventAnswerList(dataToSubmit) {
   };
 }
 
-export function answerRowNum(dataToSubmit) {
-  const request = axios
-    .post(`${EVENT_ANSWER_SERVER}/AnswerRowNum`, dataToSubmit)
-    .then((response) => response.data);
-
-  return {
-    type: ANSWER_NUMBER,
-    payload: request,
+export function loadEventAnswerDetail(dataToSubmit) {
+  return (dispatch) => {
+    axios
+      .get(`${EVENT_ANSWER_SERVER}`, { params: dataToSubmit })
+      .then((res) =>
+        dispatch({ type: LOAD_EVENT_ANSWER_DETAIL, payload: res.data }),
+      )
+      .catch((err) =>
+        dispatch({
+          type: ERR_EVENT,
+          payload: {
+            error: err,
+            message: "이벤트의 답변 정보를 불러오는데 실패하였습니다.",
+            from: LOAD_EVENT_ANSWER_DETAIL,
+          },
+        }),
+      );
   };
 }
 
@@ -47,7 +53,7 @@ export function guestCreateAnswer(dataToSubmit) {
     .then((response) => response.data);
 
   return {
-    type: GUEST_ANSWER,
+    type: EDIT_ANSWER,
     payload: request,
   };
 }
@@ -58,7 +64,7 @@ export function createAnswer(dataToSubmit) {
     .then((response) => response.data);
 
   return {
-    type: USER_ANSWER,
+    type: EDIT_ANSWER,
     payload: request,
   };
 }
@@ -69,7 +75,7 @@ export function updateAnswer(dataToSubmit) {
     .then((response) => response.data);
 
   return {
-    type: UPDATE_ANSWER,
+    type: EDIT_ANSWER,
     payload: request,
   };
 }
@@ -80,19 +86,7 @@ export function updateWinner(dataToSubmit) {
     .then((response) => response.data);
 
   return {
-    type: UPDATE_ANSWER,
-    payload: request,
-  };
-}
-
-//사용자 이벤트 detail load
-export function loadUserEventDetail(dataToSubmit) {
-  const request = axios
-    .post(`${EVENT_ANSWER_SERVER}/userAnswerSelect`, dataToSubmit)
-    .then((response) => response.data);
-
-  return {
-    type: USER_EVENT_DETAIL,
+    type: EDIT_ANSWER,
     payload: request,
   };
 }

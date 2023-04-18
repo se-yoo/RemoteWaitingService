@@ -1,18 +1,18 @@
-import { 
-  RESET_EMPTY_EVENT, 
-  ADD_EVENT_QUESTION, 
-  DELETE_EVENT_QUESTION, 
-  MOVE_EVENT_QUESTION, 
-  SET_EVENT_DESCRIPTION, 
-  SET_EVENT_END_DATE, 
-  SET_EVENT_NO_LIMIT_DATE, 
-  SET_EVENT_OPTION_CD, 
-  SET_EVENT_START_DATE, 
-  SET_EVENT_TITLE, 
+import {
+  RESET_EMPTY_EVENT,
+  ADD_EVENT_QUESTION,
+  DELETE_EVENT_QUESTION,
+  MOVE_EVENT_QUESTION,
+  SET_EVENT_DESCRIPTION,
+  SET_EVENT_END_DATE,
+  SET_EVENT_NO_LIMIT_DATE,
+  SET_EVENT_OPTION_CD,
+  SET_EVENT_START_DATE,
+  SET_EVENT_TITLE,
   UPDATE_EVENT_QUESTION,
   LOAD_EVENT_DETAIL,
   ERR_EVENT,
-  UPLOAD_EVENT,
+  EDIT_EVENT,
   LOAD_EVENT_LIST,
   SET_USER_EVENT_JOIN,
 } from "../actions/types";
@@ -34,112 +34,112 @@ const initialState = {
 
   events: [],
 
-  error: null
+  error: null,
 };
 
-export default function(state = initialState, action) {
-  switch(action.type){
-    case RESET_EMPTY_EVENT: 
+export default function (state = initialState, action) {
+  switch (action.type) {
+    case RESET_EMPTY_EVENT:
       return {
         ...state,
         ...initialState,
-        error: null
-      }
+        error: null,
+      };
     case LOAD_EVENT_LIST:
       return {
         ...state,
         events: [...action.payload.events],
-        error: null
-      }
+        error: null,
+      };
     case LOAD_EVENT_DETAIL:
       return {
         ...state,
         ...action.payload.event,
-        error: null
-      }
+        error: null,
+      };
     case SET_EVENT_TITLE:
-      return  {
+      return {
         ...state,
-        title: action.payload
-      }
+        title: action.payload,
+      };
     case SET_EVENT_DESCRIPTION:
-      return  {
+      return {
         ...state,
-        description: action.payload
-      }
+        description: action.payload,
+      };
     case ADD_EVENT_QUESTION: {
       const questions = [...state.questions, action.payload];
-      return  {
+      return {
         ...state,
-        questions: questions
-      }
+        questions: questions,
+      };
     }
     case MOVE_EVENT_QUESTION: {
       const questions = [...action.payload];
 
-      return  {
+      return {
         ...state,
-        questions: questions
-      }
+        questions: questions,
+      };
     }
     case UPDATE_EVENT_QUESTION: {
       let questions = [...state.questions];
       questions[action.payload.index] = {
         ...state.questions[action.payload.index],
-        ...action.payload.newValue
+        ...action.payload.newValue,
       };
-      
-      return  {
+
+      return {
         ...state,
-        questions: questions
-      }
+        questions: questions,
+      };
     }
     case DELETE_EVENT_QUESTION: {
       let questions = [...state.questions];
       questions.splice(action.payload, 1);
 
-      return  {
+      return {
         ...state,
-        questions: questions
-      }
+        questions: questions,
+      };
     }
     case SET_EVENT_START_DATE:
-      return  {
+      return {
         ...state,
-        startDate: action.payload
-      }
+        startDate: action.payload,
+      };
     case SET_EVENT_END_DATE:
-      return  {
+      return {
         ...state,
-        endDate: action.payload
-      }
+        endDate: action.payload,
+      };
     case SET_EVENT_NO_LIMIT_DATE:
-      return  {
+      return {
         ...state,
         startDate: null,
         endDate: null,
-        noLimitDate: action.payload
-      }
+        noLimitDate: action.payload,
+      };
     case SET_EVENT_OPTION_CD:
-      return  {
+      return {
         ...state,
-        optionCd: action.payload
-      }
+        optionCd: action.payload,
+      };
     case ERR_EVENT:
       return {
         ...state,
-        error: {...action.payload}
-      }
-    case UPLOAD_EVENT: 
+        error: { ...action.payload },
+      };
+    case EDIT_EVENT:
       return {
         ...state,
-        success: action.payload
-      }
+        success: action.payload,
+      };
     case SET_USER_EVENT_JOIN:
       return {
-        ...state, 
-        questions: action.payload 
-      }
+        ...state,
+        questions: action.payload,
+      };
     default:
       return state;
   }

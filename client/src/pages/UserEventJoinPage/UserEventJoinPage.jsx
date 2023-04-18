@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import { Checkbox, FormControlLabel, Grid, Button, Box } from "@mui/material";
-import UserEventBasicInfo from "../UserEventDetailPage/Sections/UserEventBasicInfo";
 import MenuTitle from "../../components/MenuTitle";
 import JoinQuestionList from "./Sections/JoinQuestionList";
 import { useNavigate, useParams } from "react-router-dom";
@@ -133,7 +132,7 @@ const UserEventJoinPage = () => {
       }}
     >
       <MenuTitle title={"이벤트 참여"} />
-      <UserEventBasicInfo type={"join"} />
+      {/* <UserEventBasicInfo type={"join"} /> */}
       <JoinQuestionList
         value={answers}
         onChangeAnswer={setAnswers}

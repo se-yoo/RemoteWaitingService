@@ -1,31 +1,51 @@
-import { Box, Button, DialogActions, TableCell } from '@mui/material';
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import ActionButtons from '../../../components/ActionButtons';
-import AlertDialog from '../../../components/AlertDialog';
-import CommonDialog from '../../../components/CommonDialog';
-import DataTable from '../../../components/DataTable';
-import SectionTitle from '../../../components/SectionTitle';
-import { createNotice, deleteNotice, loadNoticeList, resetEmptyNotice, setNotice, updateNotice } from '../../../store/actions/notice_actions';
-import { ANSWER_TYPE } from '../../../utils/code';
-import { checkFormValidation, formatDate } from '../../../utils/function';
-import { rules } from '../../../utils/resource';
-import NoticeDetailDialogContent from './NoticeDetailDialogContent';
-import NoticeEditDialogContent from './NoticeEditDialogContent';
+import { Box, Button, DialogActions, TableCell } from "@mui/material";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import ActionButtons from "../../../components/ActionButtons";
+import AlertDialog from "../../../components/AlertDialog";
+import CommonDialog from "../../../components/CommonDialog";
+import DataTable from "../../../components/DataTable";
+import SectionTitle from "../../../components/SectionTitle";
+import {
+  createNotice,
+  deleteNotice,
+  loadNoticeList,
+  resetEmptyNotice,
+  setNotice,
+  updateNotice,
+} from "../../../store/actions/notice_actions";
+import { ANSWER_TYPE } from "../../../utils/code";
+import { checkFormValidation, formatDate } from "../../../utils/function";
+import { rules } from "../../../utils/resource";
+import NoticeDetailDialogContent from "./NoticeDetailDialogContent";
+import NoticeEditDialogContent from "./NoticeEditDialogContent";
 
 const headers = [
-  { text: "순서", align: "center", width: "7%", sx: { minWidth: "4rem" }, value: 'index', useIndex: true },
-  { text: "제목", align: "left", value: 'title' },
-  { text: "등록일", align: "center", width: "7%", sx: { minWidth: "10rem" }, value: 'createDate' }
+  {
+    text: "순서",
+    align: "center",
+    width: "7%",
+    sx: { minWidth: "4rem" },
+    value: "index",
+    useIndex: true,
+  },
+  { text: "제목", align: "left", value: "title" },
+  {
+    text: "등록일",
+    align: "center",
+    width: "7%",
+    sx: { minWidth: "10rem" },
+    value: "createDate",
+  },
 ];
 
 const validation = {
   title: { rules: [rules.required] },
-  description: { rules: [rules.required] }
+  description: { rules: [rules.required] },
 };
 
-const NoticeInfo = memo(() => {
+const NoticeInfo = memo((props) => {
   const [page, setPage] = useState(1);
   const [openDialogNotice, setOpenDialogNotice] = useState(false);
   const [openDialogEditNotice, setOpenDialogEditNotice] = useState(false);
@@ -35,12 +55,13 @@ const NoticeInfo = memo(() => {
   const [formStatus, setFormStatus] = useState({});
   const [openAlertError, setOpenAlertError] = useState(false);
   const [errorDialogContent, setErrorDialogContent] = useState("");
-  const event = useSelector(state => state.event);
-  const notice = useSelector(state => state.notice);
+  const event = useSelector((state) => state.event);
+  const notice = useSelector((state) => state.notice);
   const { notices, createDate } = notice;
   const noticeId = notice._id;
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { editable } = props;
 
   const isNew = useMemo(() => {
     return noticeId === "new";
@@ -53,7 +74,9 @@ const NoticeInfo = memo(() => {
   const telnoIndex = useMemo(() => {
     const { questions } = event;
 
-    return questions.findIndex(question => question.answerType === ANSWER_TYPE.TEXT_TELNO);
+    return questions.findIndex(
+      (question) => question.answerType === ANSWER_TYPE.TEXT_TELNO,
+    );
   }, [event]);
 
   const onClose = useCallback(() => {
@@ -99,7 +122,7 @@ const NoticeInfo = memo(() => {
 
   const getNoticeList = useCallback(() => {
     const variable = {
-      eventId: id
+      eventId: id,
     };
 
     dispatch(loadNoticeList(variable));
@@ -111,13 +134,13 @@ const NoticeInfo = memo(() => {
     for (const key of Object.keys(validation)) {
       const result = checkFormValidation(notice, key, validation[key].rules);
 
-      setFormStatus(prevFormStatus => {
+      setFormStatus((prevFormStatus) => {
         let newStatus = {};
         newStatus[key] = result !== true ? result : undefined;
 
         return {
           ...prevFormStatus,
-          ...newStatus
+          ...newStatus,
         };
       });
 
@@ -149,30 +172,36 @@ const NoticeInfo = memo(() => {
       title: notice.title,
       description: notice.description,
       target: notice.target,
-      event: event._id
+      event: event._id,
     };
 
     if (isNew) {
       dispatch(createNotice(body, telnoIndex))
-        .then(res => {
+        .then((res) => {
           if (res.payload.success) {
             getNoticeList();
             setOpenDialogEditNotice(false);
-          };
-        }).catch(err => {
-          setErrorDialogContent(`공지 등록에 실패했습니다. \n오류: ${err.toString()}`);
+          }
+        })
+        .catch((err) => {
+          setErrorDialogContent(
+            `공지 등록에 실패했습니다. \n오류: ${err.toString()}`,
+          );
           setOpenAlertError(true);
         });
     } else {
       dispatch(updateNotice(body))
-        .then(res => {
+        .then((res) => {
           if (res.payload.success) {
             getNoticeList();
             setOpenDialogEditNotice(false);
             setOpenDialogNotice(true);
-          };
-        }).catch(err => {
-          setErrorDialogContent(`공지 수정에 실패했습니다. \n오류: ${err.toString()}`);
+          }
+        })
+        .catch((err) => {
+          setErrorDialogContent(
+            `공지 수정에 실패했습니다. \n오류: ${err.toString()}`,
+          );
           setOpenAlertError(true);
         });
     }
@@ -195,18 +224,21 @@ const NoticeInfo = memo(() => {
 
   const requestDeleteNotice = useCallback(() => {
     const variable = {
-      noticeId: noticeId
+      noticeId: noticeId,
     };
 
     dispatch(deleteNotice(variable))
-      .then(res => {
+      .then((res) => {
         if (res.payload.success) {
           getNoticeList();
           setOpenDialogNotice(false);
           setOpenConfirmDelete(false);
-        };
-      }).catch(err => {
-        setErrorDialogContent(`공지 삭제에 실패했습니다. \n오류: ${err.toString()}`);
+        }
+      })
+      .catch((err) => {
+        setErrorDialogContent(
+          `공지 삭제에 실패했습니다. \n오류: ${err.toString()}`,
+        );
         setOpenAlertError(true);
       });
   }, [noticeId]);
@@ -214,14 +246,14 @@ const NoticeInfo = memo(() => {
   const detailButtons = useMemo(() => {
     return [
       { text: "삭제", color: "red", onClick: onClickDeleteNotice },
-      { text: "수정", onClick: onClickEditNotice }
+      { text: "수정", onClick: onClickEditNotice },
     ];
   }, [onClickDeleteNotice, onClickEditNotice]);
 
   const editButtons = useMemo(() => {
     return [
       { text: "취소", color: "grey", onClick: onClose },
-      { text: editType, onClick: onClickDialogEditNotice }
+      { text: editType, onClick: onClickDialogEditNotice },
     ];
   }, [onClose, editType, onClickDialogEditNotice]);
 
@@ -237,10 +269,8 @@ const NoticeInfo = memo(() => {
 
   const ItemCellComponent = {
     createDate: ({ item }) => (
-      <TableCell align="center">
-        {formatDate(item.createDate)}
-      </TableCell>
-    )
+      <TableCell align="center">{formatDate(item.createDate)}</TableCell>
+    ),
   };
 
   return (
@@ -256,19 +286,17 @@ const NoticeInfo = memo(() => {
         onChangePage={onChangePage}
         onClickRow={onClickNotice}
       />
-      <Box
-        display="flex"
-        justifyContent="end"
-        mt={4}
-      >
-        <Button
-          type="translucent"
-          customsize="small"
-          onClick={onClickAddNotice}
-        >
-          공지하기
-        </Button>
-      </Box>
+      {editable && (
+        <Box display="flex" justifyContent="end" mt={4}>
+          <Button
+            type="translucent"
+            customsize="small"
+            onClick={onClickAddNotice}
+          >
+            공지하기
+          </Button>
+        </Box>
+      )}
       <CommonDialog
         open={openDialogNotice}
         onClose={onClose}
@@ -276,14 +304,14 @@ const NoticeInfo = memo(() => {
         title="공지 상세"
         subText={`생성일 - ${formatDate(createDate)}`}
         closable
-        ContentComponent={<NoticeDetailDialogContent />}
-        ActionComponent={ActionComponent(detailButtons)}
+        ContentComponent={<NoticeDetailDialogContent isAdmin={editable} />}
+        ActionComponent={editable && ActionComponent(detailButtons)}
       />
       <CommonDialog
         open={openDialogEditNotice}
         onClose={onClose}
         width={900}
-        title="공지 "
+        title={`공지 ${editType}`}
         subText="이벤트에 대한 공지를 편집합니다"
         closable
         ContentComponent={<NoticeEditDialogContent formStatus={formStatus} />}

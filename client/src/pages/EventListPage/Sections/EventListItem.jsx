@@ -2,6 +2,7 @@ import React from "react";
 import { Box, ListItemButton, ListItemText } from "@mui/material";
 import styled from "@emotion/styled";
 import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
+import { theme } from "../../../styles/theme";
 import {
   EVENT_STATUS_COLOR,
   EVENT_STATUS_TYPE,
@@ -9,7 +10,6 @@ import {
   PARTICIPANT_STATUS_INFO,
   WAITING_PARTICIPANT_STATUS_INFO,
 } from "../../../utils/code";
-import { theme } from "../../../styles/theme";
 
 const StyledEventListItem = styled(ListItemButton)({
   background: "#FFFFFF",
@@ -104,7 +104,7 @@ const EventListItem = (props) => {
               sx={{ mr: 1.5 }}
             />
             {title}
-            {result !== PARTICIPANT_STATUS.NONE && (
+            {result !== undefined && result !== PARTICIPANT_STATUS.NONE && (
               <StyledStateBox
                 sx={{
                   backgroundColor: `${getResultColor(result)}1a`,

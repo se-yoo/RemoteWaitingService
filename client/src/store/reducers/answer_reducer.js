@@ -1,14 +1,12 @@
 import {
   LOAD_EVENT_ANSWER_LIST,
-  USER_ANSWER,
-  USER_EVENT_DETAIL,
-  UPDATE_ANSWER,
-  GUEST_ANSWER,
+  LOAD_EVENT_ANSWER_DETAIL,
+  EDIT_ANSWER,
 } from "../actions/types";
 import { PARTICIPANT_STATUS } from "../../utils/code";
 
 const initialState = {
-  answerId: "new",
+  _id: "new",
   status: PARTICIPANT_STATUS.NONE,
   writer: {},
   answers: [],
@@ -22,25 +20,16 @@ export default function (state = initialState, action) {
     case LOAD_EVENT_ANSWER_LIST:
       return {
         ...state,
-        eventAnswers: [...action.payload.answers],
+        eventAnswers: [...action.payload.eventAnswers],
         error: null,
       };
-    case USER_ANSWER:
+    case LOAD_EVENT_ANSWER_DETAIL:
       return {
         ...state,
-        answer: action.payload,
+        ...action.payload.eventAnswer,
+        error: null,
       };
-    case USER_EVENT_DETAIL:
-      return {
-        ...state,
-        userEventDetail: action.payload,
-      };
-    case UPDATE_ANSWER:
-      return {
-        ...state,
-        success: action.payload,
-      };
-    case GUEST_ANSWER:
+    case EDIT_ANSWER:
       return {
         ...state,
         success: action.payload,
