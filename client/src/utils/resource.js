@@ -1,5 +1,8 @@
 export const rules = {
-  required: (value) => !!value || "필수 입력사항입니다.",
+  required: (value) =>
+    (!Array.isArray(value) && !!value) ||
+    (Array.isArray(value) && value.length > 0) ||
+    "필수 입력사항입니다.",
   email: (value) => {
     const pattern = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
     // 이메일 값 없을때도 통과 (필수 아닐 시)
@@ -17,8 +20,13 @@ export const rules = {
   },
   phoneNumber: (value) => {
     const pattern = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
-    return pattern.test(value) || "000-0000-0000 형식으로 입력해주세요.";
-  }
+    return (
+      value === "" ||
+      value === undefined ||
+      pattern.test(value) ||
+      "000-0000-0000 형식으로 입력해주세요."
+    );
+  },
 };
 
 export const terms = `개인정보보호법에 따라 웨잇에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.

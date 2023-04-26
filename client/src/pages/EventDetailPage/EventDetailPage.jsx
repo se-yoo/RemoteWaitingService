@@ -6,17 +6,18 @@ import ActionButtons from "../../components/ActionButtons";
 import AlertDialog from "../../components/AlertDialog";
 import CommonDialog from "../../components/CommonDialog";
 import MenuTitle from "../../components/MenuTitle";
+import EventBasicInfo from "../../components/EventBasicInfo";
 import {
   deleteEvent,
   loadEventDetail,
   resetEmptyEvent,
 } from "../../store/actions/event_actions";
-import BasicInfo from "./Sections/BasicInfo";
 import NoticeInfo from "./Sections/NoticeInfo";
 import ParticipantInfo from "./Sections/ParticipantInfo";
 import QuestionInfo from "./Sections/QuestionInfo";
 import ShareDialogContent from "./Sections/ShareDialogContent";
 import UserParticipant from "./Sections/UserParticipant";
+import Auth from "../../hoc/Auth";
 
 const EventDetailPage = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
@@ -103,7 +104,7 @@ const EventDetailPage = () => {
   return (
     <div>
       <MenuTitle title="이벤트 상세" />
-      <BasicInfo />
+      <EventBasicInfo />
       {isAdmin ? <ParticipantInfo /> : <UserParticipant />}
       <NoticeInfo editable={isAdmin} />
       {isAdmin && (
@@ -143,4 +144,4 @@ const EventDetailPage = () => {
   );
 };
 
-export default EventDetailPage;
+export default Auth(EventDetailPage, true);

@@ -1,14 +1,27 @@
-import React, { memo, useCallback, useMemo } from 'react';
-import { Checkbox, FormControl, FormControlLabel, Grid, IconButton, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteEventQuestion, updateEventQuestion } from '../../../store/actions/event_actions';
-import { ANSWER_TYPE, ANSWER_TYPE_TEXT } from '../../../utils/code';
-import EditQuestionListItemFormOption from './EditQuestionListItemFormOption';
+import React, { memo, useCallback, useMemo } from "react";
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteEventQuestion,
+  updateEventQuestion,
+} from "../../../store/actions/event_actions";
+import { ANSWER_TYPE, ANSWER_TYPE_TEXT } from "../../../utils/code";
+import EditQuestionListItemFormOption from "./EditQuestionListItemFormOption";
 
 const EditQuestionListItemForm = memo((props) => {
   const { idx } = props;
-  const questionInfo = useSelector(state => state.event.questions[idx]);
+  const questionInfo = useSelector((state) => state.event.questions[idx]);
   const { question, answerType, required } = questionInfo;
   const dispatch = useDispatch();
 
@@ -16,43 +29,60 @@ const EditQuestionListItemForm = memo((props) => {
     dispatch(deleteEventQuestion(idx));
   }, [idx]);
 
-  const onChangeQuestion = useCallback((e) => {
-    const newValue = { question: e.target.value };
-    dispatch(updateEventQuestion(idx, newValue));
-  }, [idx]);
+  const onChangeQuestion = useCallback(
+    (e) => {
+      const newValue = { question: e.target.value };
+      dispatch(updateEventQuestion(idx, newValue));
+    },
+    [idx],
+  );
 
-  const onChangeAnswerType = useCallback((e) => {
-    const newAnswerType = e.target.value;
-    let newOptions = undefined;
+  const onChangeAnswerType = useCallback(
+    (e) => {
+      const newAnswerType = e.target.value;
+      let newOptions = undefined;
 
-    if (newAnswerType === ANSWER_TYPE.CHECKBOX || newAnswerType === ANSWER_TYPE.RADIO) {
-      newOptions = [{ value: 1, text: "새로운 답변" }];
-    }
+      if (
+        newAnswerType === ANSWER_TYPE.CHECKBOX ||
+        newAnswerType === ANSWER_TYPE.RADIO
+      ) {
+        newOptions = [{ value: 1, text: "새로운 답변" }];
+      }
 
-    const newValue = {
-      answerType: newAnswerType,
-      options: newOptions
-    };
-    dispatch(updateEventQuestion(idx, newValue));
-  }, [idx]);
+      const newValue = {
+        answerType: newAnswerType,
+        options: newOptions,
+      };
+      dispatch(updateEventQuestion(idx, newValue));
+    },
+    [idx],
+  );
 
-  const onChangeRequired = useCallback((e) => {
-    const newValue = { required: e.target.checked };
-    dispatch(updateEventQuestion(idx, newValue));
-  }, [idx]);
+  const onChangeRequired = useCallback(
+    (e) => {
+      const newValue = { required: e.target.checked };
+      dispatch(updateEventQuestion(idx, newValue));
+    },
+    [idx],
+  );
 
-  const onChangeOptions = useCallback((options) => {
-    const newValue = { options };
-    dispatch(updateEventQuestion(idx, newValue));
-  }, [idx]);
+  const onChangeOptions = useCallback(
+    (options) => {
+      const newValue = { options };
+      dispatch(updateEventQuestion(idx, newValue));
+    },
+    [idx],
+  );
 
   const QuestionOption = useMemo(() => {
     return (
-      (answerType === ANSWER_TYPE.RADIO || answerType === ANSWER_TYPE.CHECKBOX) &&
-      <EditQuestionListItemFormOption
-        idx={idx}
-        onChangeOptions={onChangeOptions}
-      />
+      (answerType === ANSWER_TYPE.RADIO ||
+        answerType === ANSWER_TYPE.CHECKBOX) && (
+        <EditQuestionListItemFormOption
+          idx={idx}
+          onChangeOptions={onChangeOptions}
+        />
+      )
     );
   }, [answerType, idx]);
 
@@ -73,12 +103,7 @@ const EditQuestionListItemForm = memo((props) => {
           </IconButton>
         </Grid>
       </Grid>
-      <Grid
-        container
-        spacing={2}
-        alignItems="center"
-        sx={{ mt: 2 }}
-      >
+      <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
         <Grid item xs={3}>
           <FormControl fullWidth>
             <InputLabel id="type-select-label" selectlabel="true">
@@ -90,8 +115,10 @@ const EditQuestionListItemForm = memo((props) => {
               value={answerType}
               onChange={onChangeAnswerType}
             >
-              {ANSWER_TYPE_TEXT.map(type => (
-                <MenuItem key={type.value} value={type.value}>{type.text}</MenuItem>
+              {ANSWER_TYPE_TEXT.map((type) => (
+                <MenuItem key={type.value} value={type.value}>
+                  {type.text}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -100,10 +127,7 @@ const EditQuestionListItemForm = memo((props) => {
           <FormControlLabel
             label="필수값"
             control={
-              <Checkbox
-                checked={required}
-                onChange={onChangeRequired}
-              />
+              <Checkbox checked={required} onChange={onChangeRequired} />
             }
           />
         </Grid>

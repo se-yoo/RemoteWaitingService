@@ -1,7 +1,8 @@
 import {
   LOAD_EVENT_ANSWER_LIST,
   LOAD_EVENT_ANSWER_DETAIL,
-  EDIT_ANSWER,
+  EDIT_EVENT_ANSWER,
+  SET_ANSWER,
 } from "../actions/types";
 import { PARTICIPANT_STATUS } from "../../utils/code";
 
@@ -29,11 +30,20 @@ export default function (state = initialState, action) {
         ...action.payload.eventAnswer,
         error: null,
       };
-    case EDIT_ANSWER:
+    case EDIT_EVENT_ANSWER:
       return {
         ...state,
         success: action.payload,
       };
+    case SET_ANSWER: {
+      let answers = [...state.answers];
+      answers[action.payload.index] = action.payload.newValue;
+
+      return {
+        ...state,
+        answers: answers,
+      };
+    }
     default:
       return state;
   }

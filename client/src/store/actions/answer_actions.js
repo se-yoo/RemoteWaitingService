@@ -2,7 +2,8 @@ import {
   ERR_EVENT,
   LOAD_EVENT_ANSWER_LIST,
   LOAD_EVENT_ANSWER_DETAIL,
-  EDIT_ANSWER,
+  EDIT_EVENT_ANSWER,
+  SET_ANSWER,
 } from "./types";
 import { EVENT_ANSWER_SERVER } from "./api";
 import axios from "axios";
@@ -53,7 +54,7 @@ export function guestCreateAnswer(dataToSubmit) {
     .then((response) => response.data);
 
   return {
-    type: EDIT_ANSWER,
+    type: EDIT_EVENT_ANSWER,
     payload: request,
   };
 }
@@ -64,7 +65,7 @@ export function createAnswer(dataToSubmit) {
     .then((response) => response.data);
 
   return {
-    type: EDIT_ANSWER,
+    type: EDIT_EVENT_ANSWER,
     payload: request,
   };
 }
@@ -75,7 +76,7 @@ export function updateAnswer(dataToSubmit) {
     .then((response) => response.data);
 
   return {
-    type: EDIT_ANSWER,
+    type: EDIT_EVENT_ANSWER,
     payload: request,
   };
 }
@@ -86,7 +87,17 @@ export function updateWinner(dataToSubmit) {
     .then((response) => response.data);
 
   return {
-    type: EDIT_ANSWER,
+    type: EDIT_EVENT_ANSWER,
     payload: request,
+  };
+}
+
+export function setAnswer(index, newValue) {
+  return {
+    type: SET_ANSWER,
+    payload: {
+      index,
+      newValue,
+    },
   };
 }

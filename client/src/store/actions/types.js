@@ -21,9 +21,12 @@ export const SET_EVENT_OPTION_CD = "SET_EVENT_OPTION_CD";
 export const ERR_EVENT = "ERR_EVENT";
 export const EDIT_EVENT = "EDIT_EVENT";
 
+// EVENT_ANSWER: 답변 전체 정보(작성일, 결과 등) 포괄
+// ANSWER: 작성자 선택 답변 정보
 export const LOAD_EVENT_ANSWER_LIST = "LOAD_EVENT_ANSWER_LIST";
 export const LOAD_EVENT_ANSWER_DETAIL = "LOAD_EVENT_ANSWER_DETAIL";
-export const EDIT_ANSWER = "EDIT_ANSWER";
+export const EDIT_EVENT_ANSWER = "EDIT_EVENT_ANSWER";
+export const SET_ANSWER = "SET_ANSWER";
 
 export const LOAD_NOTICE_LIST = "LOAD_NOTICE_LIST";
 export const RESET_EMPTY_NOTICE = "RESET_EMPTY_NOTICE";
