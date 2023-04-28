@@ -60,12 +60,6 @@ const QuestionListItem = (props) => {
     [answer],
   );
 
-  useEffect(() => {
-    if (answerType === ANSWER_TYPE.CHECKBOX) {
-      console.log(Array.isArray(answer) && answer.includes("2"));
-    }
-  }, [answer, answerType]);
-
   return (
     <Grid container component={StyledQuestionListItem} alignItems="start">
       <Grid item xs="auto" sx={{ fontWeight: 700, pr: 3 }}>

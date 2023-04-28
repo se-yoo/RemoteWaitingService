@@ -13,6 +13,7 @@ import AlertDialog from "../../components/AlertDialog";
 import { checkFormValidation } from "../../utils/function";
 import { rules } from "../../utils/resource";
 import { ANSWER_TYPE } from "../../utils/code";
+import { createAnswer } from "../../store/actions/answer_actions";
 
 const UserEventJoinPage = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
@@ -25,6 +26,7 @@ const UserEventJoinPage = () => {
   const navigate = useNavigate();
   const event = useSelector((state) => state.event);
   const answers = useSelector((state) => state.answer.answers);
+  const userData = useSelector((state) => state.user.userData);
   const { questions } = event;
 
   useEffect(() => {
@@ -106,8 +108,22 @@ const UserEventJoinPage = () => {
       return;
     }
 
-    alert("완료");
-  }, [questions, answers, agree]);
+    const body = {
+      answers: answers,
+      writer: userData._id ? userData._id : null,
+      event: id,
+    };
+
+    dispatch(createAnswer(body))
+      .then((res) => {
+        if (res.payload.success) {
+          navigate(`/event/detail/${id}`);
+        }
+      })
+      .catch(() => {
+        setOpenAlertError(true);
+      });
+  }, [id, questions, answers, agree]);
 
   return (
     <div>

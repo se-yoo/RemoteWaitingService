@@ -59,6 +59,7 @@ router.get("/", auth, (req, res) => {
   }
 });
 
+// 관련코드 삭제 필요
 router.post("/guestCreate", (req, res) => {
   EventAnswer.findByIdAndUpdate(
     req.body.writer,
@@ -74,44 +75,13 @@ router.post("/guestCreate", (req, res) => {
   );
 });
 
-router.post("/create", (req, res) => {
-  const answer = new EventAnswer(req.body);
+router.post("/create", auth, (req, res) => {
+  const eventAnswer = new EventAnswer(req.body);
 
-  if (req.body.writer) {
-    EventAnswer.findOne(
-      { event: req.body.event, writer: req.body.writer },
-      (err, item) => {
-        if (!item) {
-          answer.save((err, doc) => {
-            if (err)
-              return res.json({ success: false, message: "Error!", err });
-            return res.status(200).json({
-              success: true,
-              event: answer.event,
-              writer: answer.writer,
-              _id: answer._id,
-            });
-          });
-        } else {
-          return res.json({
-            success: false,
-            message: "이미 참여한 이벤트 입니다.",
-            err,
-          });
-        }
-      },
-    );
-  } else {
-    answer.save((err, doc) => {
-      if (err) return res.json({ success: false, message: "Error!", err });
-      return res.status(200).json({
-        success: true,
-        event: answer.event,
-        writer: answer.writer,
-        _id: answer._id,
-      });
-    });
-  }
+  eventAnswer.save((err, doc) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({ success: true });
+  });
 });
 
 router.put("/update", (req, res) => {
