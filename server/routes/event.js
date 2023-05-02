@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { Event } = require("../models/Event");
-const { auth } = require("../middleware/auth");
+const { auth, auth_info } = require("../middleware/auth");
 const { mongoose } = require("mongoose");
 
-router.get("/", auth, (req, res) => {
+router.get("/", auth_info, (req, res) => {
   if (req.query.eventId) {
     // 단일 검색
     const adminCondition = [
@@ -71,13 +71,14 @@ router.get("/", auth, (req, res) => {
       },
     ];
 
-    const condition = req.user.role === 1 ? adminCondition : userCondition;
+    const condition =
+      req.user && req.user.role === 1 ? adminCondition : userCondition;
 
     Event.aggregate(condition, (err, event) => {
       if (err) return res.status(400).send(err);
       res.status(200).json({ success: true, event: event[0] });
     });
-  } else {
+  } else if (req.user) {
     // 목록 검색
     const adminCondition = [
       { $match: { writer: new mongoose.Types.ObjectId(req.user._id) } },
@@ -178,6 +179,8 @@ router.get("/", auth, (req, res) => {
       if (err) return res.status(400).send(err);
       res.status(200).json({ success: true, events });
     });
+  } else {
+    return res.status(400).send("권한 없음");
   }
 });
 
