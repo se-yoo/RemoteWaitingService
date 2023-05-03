@@ -48,17 +48,6 @@ export function loadEventAnswerDetail(dataToSubmit) {
   };
 }
 
-export function guestCreateAnswer(dataToSubmit) {
-  const request = axios
-    .post(`${EVENT_ANSWER_SERVER}/guestCreate`, dataToSubmit)
-    .then((response) => response.data);
-
-  return {
-    type: EDIT_EVENT_ANSWER,
-    payload: request,
-  };
-}
-
 export function createAnswer(dataToSubmit) {
   const request = axios
     .post(`${EVENT_ANSWER_SERVER}/create`, dataToSubmit)

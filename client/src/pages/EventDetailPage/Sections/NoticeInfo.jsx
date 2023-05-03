@@ -56,10 +56,11 @@ const NoticeInfo = memo((props) => {
   const [openAlertError, setOpenAlertError] = useState(false);
   const [errorDialogContent, setErrorDialogContent] = useState("");
   const event = useSelector((state) => state.event);
+  const answer = useSelector((state) => state.answer);
   const notice = useSelector((state) => state.notice);
   const { notices, createDate } = notice;
   const noticeId = notice._id;
-  const { id } = useParams();
+  const { eventId } = useParams();
   const dispatch = useDispatch();
   const { editable } = props;
 
@@ -122,11 +123,12 @@ const NoticeInfo = memo((props) => {
 
   const getNoticeList = useCallback(() => {
     const variable = {
-      eventId: id,
+      eventId: eventId,
+      status: answer.status,
     };
 
     dispatch(loadNoticeList(variable));
-  }, [id]);
+  }, [eventId, answer.status]);
 
   const checkEditFormVaildation = useCallback(() => {
     let check = false;
@@ -153,7 +155,7 @@ const NoticeInfo = memo((props) => {
   }, [notice]);
 
   useEffect(() => {
-    if (id !== event._id) return;
+    if (eventId !== event._id) return;
 
     getNoticeList();
   }, [event]);

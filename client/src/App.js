@@ -26,20 +26,19 @@ function App() {
             <Route path="/join" element={<JoinPage />} />
             <Route path="/end" element={<EndPage />} />
             <Route path="/default" element={<DefaultPage />} />
-            {/* <Route
-              path="/user/event/join/:eventId"
-              element={<UserEventJoinPage />}
-            />
-            <Route
-              path="/guest/event/detail/:eventId/:userId"
-              element={<GuestEventDetailPage />}
-            /> */}
             <Route path="/" element={<Layout />}>
               <Route path="/event" element={<EventListPage />} />
-              <Route path="/event/edit/:id" element={<EventEditPage />} />
-              <Route path="/event/detail/:id" element={<EventDetailPage />} />
+              <Route path="/event/edit/:eventId" element={<EventEditPage />} />
               <Route
-                path="/event/participant/:id"
+                path="/event/detail/:eventId"
+                element={<EventDetailPage />}
+              />
+              <Route
+                path="/event/detail/:eventId/:answerId"
+                element={<EventDetailPage />}
+              />
+              <Route
+                path="/event/participant/:eventId"
                 element={<EventParticipantPage />}
               />
               <Route path="/mypage" element={<MyPage />} />

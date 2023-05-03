@@ -25,7 +25,7 @@ const EventDetailPage = () => {
   const [errorDialogAgree, setErrorDialogAgree] = useState(() => {});
   const [openDialogShare, setOpenDialogShare] = useState(false);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
-  const { id } = useParams();
+  const { eventId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const event = useSelector((state) => state.event);
@@ -34,7 +34,7 @@ const EventDetailPage = () => {
 
   useEffect(() => {
     const variable = {
-      eventId: id,
+      eventId: eventId,
     };
 
     dispatch(loadEventDetail(variable));
@@ -50,7 +50,7 @@ const EventDetailPage = () => {
   }, []);
 
   const onClickEdit = useCallback(() => {
-    navigate(`/event/edit/${id}`);
+    navigate(`/event/edit/${eventId}`);
   }, []);
 
   const onClickDelete = useCallback(() => {
@@ -59,7 +59,7 @@ const EventDetailPage = () => {
 
   const onClickDeleteAgree = useCallback(() => {
     const body = {
-      eventId: id,
+      eventId: eventId,
     };
 
     dispatch(deleteEvent(body))
@@ -75,7 +75,7 @@ const EventDetailPage = () => {
         );
         setOpenAlertError(true);
       });
-  }, [id]);
+  }, [eventId]);
 
   const buttons = useMemo(() => {
     return [
@@ -125,13 +125,6 @@ const EventDetailPage = () => {
             ContentComponent={<ShareDialogContent />}
           />
           <AlertDialog
-            open={openAlertError}
-            onAgree={errorDialogAgree}
-            title="오류 발생"
-            content={errorDialogContent}
-            hideDisagree
-          />
-          <AlertDialog
             open={openConfirmDelete}
             onClose={onClose}
             onAgree={onClickDeleteAgree}
@@ -140,8 +133,15 @@ const EventDetailPage = () => {
           />
         </>
       )}
+      <AlertDialog
+        open={openAlertError}
+        onAgree={errorDialogAgree}
+        title="오류 발생"
+        content={errorDialogContent}
+        hideDisagree
+      />
     </div>
   );
 };
 
-export default Auth(EventDetailPage, true);
+export default Auth(EventDetailPage, null);

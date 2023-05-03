@@ -1,11 +1,11 @@
 const express = require("express");
-const { auth } = require("../middleware/auth");
+const { auth_info } = require("../middleware/auth");
 const router = express.Router();
 const { EventAnswer } = require("../models/EventAnswer");
 const { mongoose } = require("mongoose");
 
-router.get("/", auth, (req, res) => {
-  if (req.user.role === 1) {
+router.get("/", auth_info, (req, res) => {
+  if (req.user && req.user.role === 1) {
     // 관리자(목록 검색)
     EventAnswer.find({ event: req.query.eventId })
       .populate("writer")
@@ -15,13 +15,23 @@ router.get("/", auth, (req, res) => {
         res.status(200).json({ success: true, eventAnswers });
       });
   } else {
+    if (!req.user && !req.query.answerId) {
+      return res.status(401).send({
+        error: "찾을 수 없음",
+      });
+    }
+
     // 사용자(참여자) (단일 검색)
+    const condition = req.user
+      ? { writer: new mongoose.Types.ObjectId(req.user._id) }
+      : { _id: new mongoose.Types.ObjectId(req.query.answerId) };
+
     EventAnswer.aggregate(
       [
         {
           $match: {
             event: new mongoose.Types.ObjectId(req.query.eventId),
-            writer: new mongoose.Types.ObjectId(req.user._id),
+            ...condition,
           },
         },
         {
@@ -59,36 +69,24 @@ router.get("/", auth, (req, res) => {
   }
 });
 
-// 관련코드 삭제 필요
-router.post("/guestCreate", (req, res) => {
-  EventAnswer.findByIdAndUpdate(
-    req.body.writer,
-    { writer: req.body.writer },
-    (err, answer) => {
-      if (err) return res.json({ success: false, err });
-      return res.status(200).json({
-        success: true,
-        guestId: answer._id,
-        eventId: answer.event,
-      });
-    },
-  );
-});
-
-router.post("/create", auth, (req, res) => {
+router.post("/create", (req, res) => {
   const eventAnswer = new EventAnswer(req.body);
 
-  eventAnswer.save((err, doc) => {
+  eventAnswer.save((err, eventAnswer) => {
     if (err) return res.json({ success: false, err });
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, eventAnswer });
   });
 });
 
 router.put("/update", (req, res) => {
-  EventAnswer.findOneAndUpdate({ _id: req.body._id }, req.body, (err, doc) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).json({ success: true });
-  });
+  EventAnswer.findOneAndUpdate(
+    { _id: req.body._id },
+    req.body,
+    (err, eventAnswer) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).json({ success: true, eventAnswer });
+    },
+  );
 });
 
 router.put("/updateWin", async (req, res) => {

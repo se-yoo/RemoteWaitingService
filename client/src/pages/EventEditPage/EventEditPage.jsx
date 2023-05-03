@@ -39,20 +39,20 @@ const EventEditPage = () => {
   const [formStatus, setFormStatus] = useState({});
   const event = useSelector((state) => state.event);
   const user = useSelector((state) => state.user);
-  const { id } = useParams();
+  const { eventId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isNew = useMemo(() => {
-    return id === "new";
-  }, [id]);
+    return eventId === "new";
+  }, [eventId]);
 
   useEffect(() => {
     if (isNew) {
       dispatch(resetEmptyEvent());
     } else {
       const variable = {
-        eventId: id,
+        eventId: eventId,
       };
 
       dispatch(loadEventDetail(variable));
@@ -124,7 +124,7 @@ const EventEditPage = () => {
     }
 
     const body = {
-      _id: isNew ? undefined : id,
+      _id: isNew ? undefined : eventId,
       title: event.title,
       description: event.description,
       questions: event.questions,
@@ -153,7 +153,7 @@ const EventEditPage = () => {
       dispatch(updateEvent(body))
         .then((res) => {
           if (res.payload.success) {
-            navigate(`/event/detail/${id}`);
+            navigate(`/event/detail/${eventId}`);
           }
         })
         .catch((err) => {

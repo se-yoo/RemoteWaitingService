@@ -17,7 +17,7 @@ let auth = (req, res, next) => {
   });
 };
 
-// 로그인 필수 X, 로그인 정보는 불러올 수 있개
+// 로그인 필수 X, 로그인 정보는 불러올 수 있게
 let auth_info = (req, res, next) => {
   let token = req.cookies.x_auth;
 

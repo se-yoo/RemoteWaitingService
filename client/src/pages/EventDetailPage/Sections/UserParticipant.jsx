@@ -40,19 +40,20 @@ const UserParticipant = memo(() => {
   const answer = useSelector((state) => state.answer);
   const { questions, optionCd, status } = event;
   const { answers, participantDate, result, beforeAnswerCnt } = answer;
-  const { id } = useParams();
+  const { eventId, answerId } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (id !== event._id) return;
+    if (event.error || eventId !== event._id) return;
 
     const variable = {
-      eventId: id,
+      eventId: eventId,
       optionCd: optionCd,
+      answerId: answerId,
     };
 
     dispatch(loadEventAnswerDetail(variable));
-  }, [event]);
+  }, [event, optionCd, answerId]);
 
   const resultColor = useMemo(() => {
     return getResultColor(result);

@@ -33,6 +33,7 @@ export default function (state = initialState, action) {
     case EDIT_EVENT_ANSWER:
       return {
         ...state,
+        ...action.payload.eventAnswer,
         success: action.payload,
       };
     case SET_ANSWER: {

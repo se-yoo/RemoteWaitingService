@@ -15,23 +15,24 @@ import { rules } from "../../utils/resource";
 import { ANSWER_TYPE } from "../../utils/code";
 import { createAnswer } from "../../store/actions/answer_actions";
 
-const UserEventJoinPage = () => {
+const EventParticipantPage = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
   const [openAlertAgree, setOpenAlertAgree] = useState(false);
   const [checkRealTime, setCheckRealTime] = useState(false);
   const [agree, setAgree] = useState(false);
   const [formStatus, setFormStatus] = useState([]);
-  const { id } = useParams();
+  const { eventId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const event = useSelector((state) => state.event);
   const answers = useSelector((state) => state.answer.answers);
   const userData = useSelector((state) => state.user.userData);
+  const { isAuth } = userData || { isAuth: false };
   const { questions } = event;
 
   useEffect(() => {
     const variable = {
-      eventId: id,
+      eventId: eventId,
     };
 
     dispatch(loadEventDetail(variable));
@@ -110,20 +111,24 @@ const UserEventJoinPage = () => {
 
     const body = {
       answers: answers,
-      writer: userData._id ? userData._id : null,
-      event: id,
+      writer: isAuth ? userData._id : null,
+      event: eventId,
     };
 
     dispatch(createAnswer(body))
       .then((res) => {
         if (res.payload.success) {
-          navigate(`/event/detail/${id}`);
+          navigate(
+            `/event/detail/${eventId}/${
+              !isAuth ? res.payload.eventAnswer._id : ""
+            }`,
+          );
         }
       })
       .catch(() => {
         setOpenAlertError(true);
       });
-  }, [id, questions, answers, agree]);
+  }, [eventId, questions, answers, agree]);
 
   return (
     <div>
@@ -158,4 +163,4 @@ const UserEventJoinPage = () => {
   );
 };
 
-export default Auth(UserEventJoinPage, null);
+export default Auth(EventParticipantPage, null);

@@ -14,7 +14,6 @@ import {
   ERR_EVENT,
   EDIT_EVENT,
   LOAD_EVENT_LIST,
-  SET_USER_EVENT_JOIN,
 } from "../actions/types";
 import { EVENT_OPTION } from "../../utils/code";
 
@@ -128,17 +127,14 @@ export default function (state = initialState, action) {
     case ERR_EVENT:
       return {
         ...state,
+        ...initialState,
+        title: "알 수 없는 이벤트",
         error: { ...action.payload },
       };
     case EDIT_EVENT:
       return {
         ...state,
         success: action.payload,
-      };
-    case SET_USER_EVENT_JOIN:
-      return {
-        ...state,
-        questions: action.payload,
       };
     default:
       return state;

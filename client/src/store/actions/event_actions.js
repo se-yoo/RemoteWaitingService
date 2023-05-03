@@ -14,7 +14,6 @@ import {
   SET_EVENT_TITLE,
   UPDATE_EVENT_QUESTION,
   EDIT_EVENT,
-  SET_USER_EVENT_JOIN,
 } from "./types";
 import { ANSWER_TYPE } from "../../utils/code";
 import { arrayMoveImmutable } from "array-move";
@@ -86,18 +85,6 @@ export function deleteEvent(dataToSubmit) {
 
   return {
     type: EDIT_EVENT,
-    payload: request,
-  };
-}
-
-//사용자 참여 페이지 load
-export function loadUserEventJoin(eventId) {
-  const request = axios
-    .post(`${EVENT_SERVER}/userEventSelect`, eventId)
-    .then((response) => response.data);
-
-  return {
-    type: SET_USER_EVENT_JOIN,
     payload: request,
   };
 }

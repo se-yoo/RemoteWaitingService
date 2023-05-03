@@ -207,21 +207,4 @@ router.delete("/delete", auth, (req, res) => {
   });
 });
 
-router.post("/userEventSelect", (req, res) => {
-  Event.findById(req.body.eventId, (err, item) => {
-    if (!item) {
-      return res.json({
-        success: false,
-        err,
-      });
-    } else {
-      return res.status(200).json({
-        success: true,
-        event: item,
-        eventQuestion: item.questions,
-      });
-    }
-  });
-});
-
 module.exports = router;
