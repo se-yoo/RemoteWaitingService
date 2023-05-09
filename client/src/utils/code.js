@@ -61,32 +61,36 @@ export const ANSWER_TYPE_TEXT = [
   { text: "숫자", value: ANSWER_TYPE.NUMBER },
 ];
 
-export const PARTICIPANT_STATUS = {
+export const PARTICIPATION_STATUS = {
   NONE: 0,
   WIN: 1,
   ENTER: 2,
   ENTER_CANCEL: 3,
 };
 
-export const PARTICIPANT_STATUS_INFO = [
-  { text: "-", value: PARTICIPANT_STATUS.NONE, color: theme.palette.black },
+export const PARTICIPATION_STATUS_INFO = [
+  { text: "-", value: PARTICIPATION_STATUS.NONE, color: theme.palette.black },
   {
     text: "당첨",
-    value: PARTICIPANT_STATUS.WIN,
+    value: PARTICIPATION_STATUS.WIN,
     color: theme.palette.primary.main,
   },
 ];
 
-export const WAITING_PARTICIPANT_STATUS_INFO = [
-  { text: "대기", value: PARTICIPANT_STATUS.NONE, color: theme.palette.black },
+export const WAITING_PARTICIPATION_STATUS_INFO = [
+  {
+    text: "대기",
+    value: PARTICIPATION_STATUS.NONE,
+    color: theme.palette.black,
+  },
   {
     text: "입장 완료",
-    value: PARTICIPANT_STATUS.ENTER,
+    value: PARTICIPATION_STATUS.ENTER,
     color: theme.palette.primary.main,
   },
   {
     text: "입장 취소",
-    value: PARTICIPANT_STATUS.ENTER_CANCEL,
+    value: PARTICIPATION_STATUS.ENTER_CANCEL,
     color: theme.palette.red.main,
   },
 ];

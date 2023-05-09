@@ -13,7 +13,7 @@ import MyPageEditPage from "./pages/MyPage/MyPageEditPage";
 import EventDetailPage from "./pages/EventDetailPage/EventDetailPage";
 import EndPage from "./pages/DefaultPage/EndPage";
 import DefaultPage from "./pages/DefaultPage/DefaultPage";
-import EventParticipantPage from "./pages/EventParticipantPage/EventParticipantPage";
+import EventParticipationPage from "./pages/EventParticipationPage/EventParticipationPage";
 
 function App() {
   return (
@@ -38,8 +38,8 @@ function App() {
                 element={<EventDetailPage />}
               />
               <Route
-                path="/event/participant/:eventId"
-                element={<EventParticipantPage />}
+                path="/event/participation/:eventId"
+                element={<EventParticipationPage />}
               />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/mypage/edit" element={<MyPageEditPage />} />

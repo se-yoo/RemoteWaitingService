@@ -13,10 +13,10 @@ import {
   resetEmptyEvent,
 } from "../../store/actions/event_actions";
 import NoticeInfo from "./Sections/NoticeInfo";
-import ParticipantInfo from "./Sections/ParticipantInfo";
+import ParticipationInfo from "./Sections/ParticipationInfo";
 import QuestionInfo from "./Sections/QuestionInfo";
 import ShareDialogContent from "./Sections/ShareDialogContent";
-import UserParticipant from "./Sections/UserParticipant";
+import UserParticipation from "./Sections/UserParticipation";
 import Auth from "../../hoc/Auth";
 
 const EventDetailPage = () => {
@@ -105,7 +105,7 @@ const EventDetailPage = () => {
     <div>
       <MenuTitle title="이벤트 상세" />
       <EventBasicInfo />
-      {isAdmin ? <ParticipantInfo /> : <UserParticipant />}
+      {isAdmin ? <ParticipationInfo /> : <UserParticipation />}
       <NoticeInfo editable={isAdmin} />
       {isAdmin && (
         <>

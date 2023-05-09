@@ -1,20 +1,20 @@
-import { Box, Button, FormHelperText } from '@mui/material';
-import React, { memo, useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addEventQuestion } from '../../../store/actions/event_actions';
-import SectionTitle from '../../../components/SectionTitle';
-import EditQuestionList from './EditQuestionList';
-import QuestionList from '../../../components/QuestionList';
+import { Box, Button, FormHelperText } from "@mui/material";
+import React, { memo, useCallback, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addEventQuestion } from "../../../store/actions/event_actions";
+import SectionTitle from "../../../components/SectionTitle";
+import EditQuestionList from "./EditQuestionList";
+import QuestionList from "../../../components/QuestionList";
 
 const EditQuestion = memo((props) => {
   const { sx, formStatus } = props;
-  const event = useSelector(state => state.event);
-  const { participantCnt, questions } = event;
+  const event = useSelector((state) => state.event);
+  const { participationCnt, questions } = event;
   const dispatch = useDispatch();
 
   const readOnly = useMemo(() => {
-    return participantCnt > 0;
-  }, [participantCnt]);
+    return participationCnt > 0;
+  }, [participationCnt]);
 
   const onClickQuestionAdd = useCallback(() => {
     dispatch(addEventQuestion());
@@ -30,15 +30,14 @@ const EditQuestion = memo((props) => {
           </Box>
           <QuestionList questions={questions} />
         </>
-      )
-      : (
+      ) : (
         <>
           <EditQuestionList />
           <Button
             type="translucent"
             sx={{
               fontSize: 24,
-              fontWeight: 400
+              fontWeight: 400,
             }}
             fullWidth
             onClick={onClickQuestionAdd}
@@ -46,7 +45,7 @@ const EditQuestion = memo((props) => {
             + 항목 추가
           </Button>
           {formStatus && (
-            <FormHelperText error sx={{mt: 1, ml: 2}}>
+            <FormHelperText error sx={{ mt: 1, ml: 2 }}>
               {formStatus}
             </FormHelperText>
           )}

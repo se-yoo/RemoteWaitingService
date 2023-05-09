@@ -6,9 +6,9 @@ import { theme } from "../../../styles/theme";
 import {
   EVENT_STATUS_COLOR,
   EVENT_STATUS_TYPE,
-  PARTICIPANT_STATUS,
-  PARTICIPANT_STATUS_INFO,
-  WAITING_PARTICIPANT_STATUS_INFO,
+  PARTICIPATION_STATUS,
+  PARTICIPATION_STATUS_INFO,
+  WAITING_PARTICIPATION_STATUS_INFO,
 } from "../../../utils/code";
 
 const StyledEventListItem = styled(ListItemButton)({
@@ -60,10 +60,10 @@ const getStatusColor = (status) => {
 
 const getResultColor = (status) => {
   switch (status) {
-    case PARTICIPANT_STATUS.WIN:
-    case PARTICIPANT_STATUS.ENTER:
+    case PARTICIPATION_STATUS.WIN:
+    case PARTICIPATION_STATUS.ENTER:
       return theme.palette.primary.main;
-    case PARTICIPANT_STATUS.ENTER_CANCEL:
+    case PARTICIPATION_STATUS.ENTER_CANCEL:
       return theme.palette.red.main;
     default:
       return theme.palette.grey.main;
@@ -72,14 +72,14 @@ const getResultColor = (status) => {
 
 const getResultText = (status) => {
   switch (status) {
-    case PARTICIPANT_STATUS.WIN:
-      return PARTICIPANT_STATUS_INFO.find(
-        (item) => item.value === PARTICIPANT_STATUS.WIN,
+    case PARTICIPATION_STATUS.WIN:
+      return PARTICIPATION_STATUS_INFO.find(
+        (item) => item.value === PARTICIPATION_STATUS.WIN,
       ).text;
-    case PARTICIPANT_STATUS.ENTER:
-    case PARTICIPANT_STATUS.ENTER_CANCEL:
-      return WAITING_PARTICIPANT_STATUS_INFO.find(
-        (item) => item.value === PARTICIPANT_STATUS.WIN,
+    case PARTICIPATION_STATUS.ENTER:
+    case PARTICIPATION_STATUS.ENTER_CANCEL:
+      return WAITING_PARTICIPATION_STATUS_INFO.find(
+        (item) => item.value === PARTICIPATION_STATUS.WIN,
       ).text;
     default:
       return "-";
@@ -104,7 +104,7 @@ const EventListItem = (props) => {
               sx={{ mr: 1.5 }}
             />
             {title}
-            {result !== undefined && result !== PARTICIPANT_STATUS.NONE && (
+            {result !== undefined && result !== PARTICIPATION_STATUS.NONE && (
               <StyledStateBox
                 sx={{
                   backgroundColor: `${getResultColor(result)}1a`,

@@ -14,12 +14,12 @@ router.get("/", auth_info, (req, res) => {
           from: "eventanswers",
           localField: "_id",
           foreignField: "event",
-          as: "participantCnt",
+          as: "participationCnt",
         },
       },
       {
         $addFields: {
-          participantCnt: { $size: "$participantCnt" },
+          participationCnt: { $size: "$participationCnt" },
         },
       },
       {
@@ -69,6 +69,42 @@ router.get("/", auth_info, (req, res) => {
           },
         },
       },
+      {
+        $lookup: {
+          from: "eventanswers",
+          localField: "_id",
+          foreignField: "event",
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$writer", req.user ? req.user._id : ""],
+                },
+              },
+            },
+          ],
+          as: "participated",
+        },
+      },
+      {
+        $addFields: {
+          participated: {
+            $switch: {
+              branches: [
+                {
+                  case: { $gt: [{ $size: "$participated" }, 0] },
+                  then: true,
+                },
+                {
+                  case: { $lte: [{ $size: "$participated" }, 0] },
+                  then: false,
+                },
+              ],
+              default: false,
+            },
+          },
+        },
+      },
     ];
 
     const condition =
@@ -87,12 +123,12 @@ router.get("/", auth_info, (req, res) => {
           from: "eventanswers",
           localField: "_id",
           foreignField: "event",
-          as: "participantCnt",
+          as: "participationCnt",
         },
       },
       {
         $addFields: {
-          participantCnt: { $size: "$participantCnt" },
+          participationCnt: { $size: "$participationCnt" },
         },
       },
       {

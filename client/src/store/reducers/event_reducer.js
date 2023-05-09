@@ -20,7 +20,7 @@ import { EVENT_OPTION } from "../../utils/code";
 const initialState = {
   _id: "new",
   title: "제목없는 이벤트",
-  participantCnt: 0,
+  participationCnt: 0,
   description: "",
   questions: [],
   notices: [],
@@ -28,6 +28,7 @@ const initialState = {
   endDate: null,
   noLimitDate: false,
   optionCd: EVENT_OPTION.WAITING,
+  participated: false,
   writer: {},
   createDate: "",
 

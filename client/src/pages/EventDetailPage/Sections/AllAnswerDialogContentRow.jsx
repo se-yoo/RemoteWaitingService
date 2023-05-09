@@ -1,10 +1,10 @@
-import { TableCell, TableRow } from '@mui/material';
-import React, { memo } from 'react';
-import { ANSWER_TYPE } from '../../../utils/code';
-import { formatDatetime } from '../../../utils/function';
+import { TableCell, TableRow } from "@mui/material";
+import React, { memo } from "react";
+import { ANSWER_TYPE } from "../../../utils/code";
+import { formatDatetime } from "../../../utils/function";
 
 const answerText = (question, answer) => {
-  switch(question.answerType) {
+  switch (question.answerType) {
     case ANSWER_TYPE.TEXT:
     case ANSWER_TYPE.TEXT_TELNO:
     case ANSWER_TYPE.TEXT_EMAIL:
@@ -12,17 +12,19 @@ const answerText = (question, answer) => {
     case ANSWER_TYPE.DATE:
       return answer;
     case ANSWER_TYPE.RADIO: {
-      const answerOption = question.options.find(option => option.value === Number(answer));
-      return answerOption ? answerOption.text : '알 수 없음';
+      const answerOption = question.options.find(
+        (option) => option.value === Number(answer),
+      );
+      return answerOption ? answerOption.text : "알 수 없음";
     }
     case ANSWER_TYPE.CHECKBOX: {
-      const answerArray = typeof answer === 'object' ? answer : [answer];
-      const answers = question.options.filter(option => 
-        answerArray.includes(option.value) 
+      const answerArray = typeof answer === "object" ? answer : [answer];
+      const answers = question.options.filter((option) =>
+        answerArray.includes(option.value),
       );
-      return answers.map(answer => answer.text).join(', ');
+      return answers.map((answer) => answer.text).join(", ");
     }
-    default: 
+    default:
       return answer;
   }
 };
@@ -34,15 +36,12 @@ const AllAnswerDialogContentRow = memo((props) => {
     <TableRow>
       <TableCell align="center">{index}</TableCell>
       {questions.map((question, i) => (
-        <TableCell 
-          key={question._id}
-          align="left"
-        >
+        <TableCell key={question._id} align="left">
           {answerText(question, item.answers[i]) || "-"}
         </TableCell>
       ))}
       <TableCell align="center">
-        {formatDatetime(item.participantDate)}
+        {formatDatetime(item.participateDate)}
       </TableCell>
     </TableRow>
   );

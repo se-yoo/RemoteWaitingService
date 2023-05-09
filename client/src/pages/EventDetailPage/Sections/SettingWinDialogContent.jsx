@@ -1,21 +1,38 @@
-import { Box, Checkbox, FormControlLabel, Grid, TextField } from '@mui/material';
-import React, { memo, useCallback, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { StyledDialogContent } from '../../../components/CommonDialog';
-import { EVENT_OPTION } from '../../../utils/code';
-import ParticipantInfoTable from './ParticipantInfoTable';
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  TextField,
+} from "@mui/material";
+import React, { memo, useCallback, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { StyledDialogContent } from "../../../components/CommonDialog";
+import { EVENT_OPTION } from "../../../utils/code";
+import ParticipationInfoTable from "./ParticipationInfoTable";
 
 const headers = [
-  { text: "순서", align: "center", width: "7%", sx: { minWidth: "4rem" }, value: 'index', useIndex: true },
-  { text: "응답 시간", align: "left", value: 'participantDate' }
+  {
+    text: "순서",
+    align: "center",
+    width: "7%",
+    sx: { minWidth: "4rem" },
+    value: "index",
+    useIndex: true,
+  },
+  { text: "응답 시간", align: "left", value: "participateDate" },
 ];
 
 function getRandomIndex(max) {
-  const candidate = Array(max).fill().map((v,i) => i);
+  const candidate = Array(max)
+    .fill()
+    .map((v, i) => i);
   const shuffleIndex = [];
 
-  while(candidate.length > 0) {
-    shuffleIndex.push(candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0]);
+  while (candidate.length > 0) {
+    shuffleIndex.push(
+      candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0],
+    );
   }
 
   return shuffleIndex;
@@ -25,9 +42,9 @@ const SettingWinDialogContent = memo((props) => {
   const [directly, setDirectly] = useState(false);
   const [winnerCount, setWinnerCount] = useState(0);
   const { selected, onChange } = props;
-  const optionCd = useSelector(state => state.event.optionCd);
-  const answers = useSelector(state => state.answer.eventAnswers);
-  
+  const optionCd = useSelector((state) => state.event.optionCd);
+  const answers = useSelector((state) => state.answer.eventAnswers);
+
   const selectedCount = useMemo(() => {
     return selected.length;
   }, [selected.length]);
@@ -36,27 +53,33 @@ const SettingWinDialogContent = memo((props) => {
     setDirectly(e.target.checked);
   }, []);
 
-  const onChangeWinnerCount = useCallback((e) => {
-    const newWinnerCount = e.target.value;
-    setWinnerCount(newWinnerCount);
+  const onChangeWinnerCount = useCallback(
+    (e) => {
+      const newWinnerCount = e.target.value;
+      setWinnerCount(newWinnerCount);
 
-    if(optionCd === EVENT_OPTION.FCFS) {
-      onChange([ ...answers.slice(0, newWinnerCount) ]);
-    } else {
-      let result = [];
-      const randomIndexs = getRandomIndex(answers.length);
+      if (optionCd === EVENT_OPTION.FCFS) {
+        onChange([...answers.slice(0, newWinnerCount)]);
+      } else {
+        let result = [];
+        const randomIndexs = getRandomIndex(answers.length);
 
-      for(let count = 0; count < newWinnerCount; count++) {
-        if(count >= answers.length) break;
-        result.push(answers[randomIndexs[count]]);
+        for (let count = 0; count < newWinnerCount; count++) {
+          if (count >= answers.length) break;
+          result.push(answers[randomIndexs[count]]);
+        }
+        onChange(result);
       }
-      onChange(result);
-    }
-  }, [onChange, optionCd, answers]);
+    },
+    [onChange, optionCd, answers],
+  );
 
-  const onChangeSelected = useCallback((newSelected) => {
-    onChange(newSelected);
-  }, [onChange]);
+  const onChangeSelected = useCallback(
+    (newSelected) => {
+      onChange(newSelected);
+    },
+    [onChange],
+  );
 
   return (
     <StyledDialogContent sx={{ mt: 6 }}>
@@ -80,7 +103,7 @@ const SettingWinDialogContent = memo((props) => {
           />
         </Grid>
       </Grid>
-      <ParticipantInfoTable
+      <ParticipationInfoTable
         headers={headers}
         checkboxSelection
         checkboxReadonly={!directly}
@@ -89,14 +112,10 @@ const SettingWinDialogContent = memo((props) => {
         onChangeSelected={onChangeSelected}
         sx={{
           maxHeight: 325,
-          overflowY: "auto"
+          overflowY: "auto",
         }}
       />
-      <Box
-        display="flex"
-        justifyContent="end"
-        sx={{color: "#496F46"}}
-      >
+      <Box display="flex" justifyContent="end" sx={{ color: "#496F46" }}>
         {selectedCount}명 선택됨
       </Box>
     </StyledDialogContent>

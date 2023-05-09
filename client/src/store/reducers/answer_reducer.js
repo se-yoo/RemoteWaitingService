@@ -4,14 +4,14 @@ import {
   EDIT_EVENT_ANSWER,
   SET_ANSWER,
 } from "../actions/types";
-import { PARTICIPANT_STATUS } from "../../utils/code";
+import { PARTICIPATION_STATUS } from "../../utils/code";
 
 const initialState = {
   _id: "new",
-  status: PARTICIPANT_STATUS.NONE,
+  status: PARTICIPATION_STATUS.NONE,
   writer: {},
   answers: [],
-  participantDate: "",
+  participateDate: "",
 
   eventAnswers: [],
 };

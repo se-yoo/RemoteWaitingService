@@ -15,7 +15,7 @@ const EventList = (props) => {
   const getContent = useCallback(
     (event) => {
       if (isAdmin) {
-        return `${event.participantCnt}명 참여 | ${formatDate(
+        return `${event.participationCnt}명 참여 | ${formatDate(
           event.createDate,
         )}`;
       } else {

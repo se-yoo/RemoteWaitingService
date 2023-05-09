@@ -1,28 +1,42 @@
-import { Box, Button, DialogActions } from '@mui/material';
-import React, { memo, useCallback, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ActionButtons from '../../../components/ActionButtons';
-import CommonDialog from '../../../components/CommonDialog';
-import SectionTitle from '../../../components/SectionTitle';
-import { loadEventAnswerList, updateWinner } from '../../../store/actions/answer_actions';
-import { EVENT_OPTION } from '../../../utils/code';
-import AllAnswerDialogContent from './AllAnswerDialogContent';
-import ParticipantInfoTable from './ParticipantInfoTable';
-import SettingWinDialogContent from './SettingWinDialogContent';
+import { Box, Button, DialogActions } from "@mui/material";
+import React, { memo, useCallback, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ActionButtons from "../../../components/ActionButtons";
+import CommonDialog from "../../../components/CommonDialog";
+import SectionTitle from "../../../components/SectionTitle";
+import {
+  loadEventAnswerList,
+  updateWinner,
+} from "../../../store/actions/answer_actions";
+import { EVENT_OPTION } from "../../../utils/code";
+import AllAnswerDialogContent from "./AllAnswerDialogContent";
+import ParticipationInfoTable from "./ParticipationInfoTable";
+import SettingWinDialogContent from "./SettingWinDialogContent";
 
-const ParticipantInfo = memo(() => {
+const ParticipationInfo = memo(() => {
   const [openDialogAllAnswer, setOpenDialogAllAnswer] = useState(false);
   const [openDialogSettingWin, setOpenDialogSettingWin] = useState(false);
   const [selected, setSelected] = useState([]);
-  const event = useSelector(state => state.event);
-  const { optionCd, participantCnt } = event;
+  const event = useSelector((state) => state.event);
+  const { optionCd, participationCnt } = event;
   const dispatch = useDispatch();
 
   const headers = useMemo(() => {
     return [
-      { text: "순서", align: "center", width: "7%", sx: { minWidth: "4rem" }, value: 'index', useIndex: true },
-      { text: "응답 시간", align: "left", value: 'participantDate' },
-      { text: `${optionCd === EVENT_OPTION.WAITING ? '입장' : '당첨'} 여부`, align: "center", value: 'status' }
+      {
+        text: "순서",
+        align: "center",
+        width: "7%",
+        sx: { minWidth: "4rem" },
+        value: "index",
+        useIndex: true,
+      },
+      { text: "응답 시간", align: "left", value: "participateDate" },
+      {
+        text: `${optionCd === EVENT_OPTION.WAITING ? "입장" : "당첨"} 여부`,
+        align: "center",
+        value: "status",
+      },
     ];
   }, [optionCd]);
 
@@ -43,28 +57,27 @@ const ParticipantInfo = memo(() => {
   const onClickSaveWinner = useCallback(() => {
     const body = {
       eventId: event._id,
-      winners: selected
+      winners: selected,
     };
 
-    dispatch(updateWinner(body))
-      .then(res => {
-        if (res.payload.success) {
-          setOpenDialogSettingWin(false);
+    dispatch(updateWinner(body)).then((res) => {
+      if (res.payload.success) {
+        setOpenDialogSettingWin(false);
 
-          const variable = {
-            eventId: event._id,
-            optionCd: optionCd
-          };
+        const variable = {
+          eventId: event._id,
+          optionCd: optionCd,
+        };
 
-          dispatch(loadEventAnswerList(variable));
-        }
-      });
+        dispatch(loadEventAnswerList(variable));
+      }
+    });
   }, [event, selected, optionCd]);
 
   const buttons = useMemo(() => {
     return [
       { text: "취소", color: "grey", onClick: onClose },
-      { text: "저장", onClick: onClickSaveWinner }
+      { text: "저장", onClick: onClickSaveWinner },
     ];
   }, [onClose, onClickSaveWinner]);
 
@@ -81,13 +94,9 @@ const ParticipantInfo = memo(() => {
   return (
     <>
       <SectionTitle title="참여 정보" sx={{ mt: 6 }} />
-      <Box>{participantCnt}명 참여</Box>
-      <ParticipantInfoTable headers={headers} />
-      <Box
-        display="flex"
-        justifyContent="end"
-        mt={4}
-      >
+      <Box>{participationCnt}명 참여</Box>
+      <ParticipationInfoTable headers={headers} />
+      <Box display="flex" justifyContent="end" mt={4}>
         <Button
           type="translucent"
           customsize="small"
@@ -103,7 +112,7 @@ const ParticipantInfo = memo(() => {
             onClick={onClickSettingWin}
           >
             당첨 설정
-            </Button>
+          </Button>
         )}
       </Box>
       <CommonDialog
@@ -122,10 +131,7 @@ const ParticipantInfo = memo(() => {
         subText="참여자 목록에서 당첨 인원을 선정합니다"
         closable
         ContentComponent={
-          <SettingWinDialogContent
-            selected={selected}
-            onChange={setSelected}
-          />
+          <SettingWinDialogContent selected={selected} onChange={setSelected} />
         }
         ActionComponent={ActionComponent}
       />
@@ -133,4 +139,4 @@ const ParticipantInfo = memo(() => {
   );
 });
 
-export default ParticipantInfo;
+export default ParticipationInfo;

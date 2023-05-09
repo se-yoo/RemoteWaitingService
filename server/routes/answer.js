@@ -9,7 +9,7 @@ router.get("/", auth_info, (req, res) => {
     // 관리자(목록 검색)
     EventAnswer.find({ event: req.query.eventId })
       .populate("writer")
-      .sort({ participantDate: req.query.optionCd === 0 ? -1 : 1 })
+      .sort({ participateDate: req.query.optionCd === 0 ? -1 : 1 })
       .exec((err, eventAnswers) => {
         if (err) return res.status(400).send(err);
         res.status(200).json({ success: true, eventAnswers });
@@ -39,13 +39,13 @@ router.get("/", auth_info, (req, res) => {
             from: "eventanswers",
             localField: "event",
             foreignField: "event",
-            let: { participantDate: "$participantDate", status: "$status" },
+            let: { participateDate: "$participateDate", status: "$status" },
             pipeline: [
               {
                 $match: {
                   $expr: {
                     $and: [
-                      { $gt: ["$$participantDate", "$participantDate"] },
+                      { $gt: ["$$participateDate", "$participateDate"] },
                       { $eq: ["$$status", 0] },
                     ],
                   },

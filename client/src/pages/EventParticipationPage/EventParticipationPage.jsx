@@ -14,10 +14,12 @@ import { checkFormValidation } from "../../utils/function";
 import { rules } from "../../utils/resource";
 import { ANSWER_TYPE } from "../../utils/code";
 import { createAnswer } from "../../store/actions/answer_actions";
+import { EVENT_OPTION } from "../../utils/code";
 
-const EventParticipantPage = () => {
+const EventParticipationPage = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
   const [openAlertAgree, setOpenAlertAgree] = useState(false);
+  const [openAlertParticipated, setOpenAlertParticipated] = useState(false);
   const [checkRealTime, setCheckRealTime] = useState(false);
   const [agree, setAgree] = useState(false);
   const [formStatus, setFormStatus] = useState([]);
@@ -28,7 +30,7 @@ const EventParticipantPage = () => {
   const answers = useSelector((state) => state.answer.answers);
   const userData = useSelector((state) => state.user.userData);
   const { isAuth } = userData || { isAuth: false };
-  const { questions } = event;
+  const { questions, participated, optionCd } = event;
 
   useEffect(() => {
     const variable = {
@@ -40,9 +42,16 @@ const EventParticipantPage = () => {
 
   useEffect(() => {
     if (checkRealTime) {
-      checkParticipantFormVaildation();
+      checkParticipationFormVaildation();
     }
   }, [checkRealTime, answers]);
+
+  useEffect(() => {
+    console.log(isAuth, optionCd, participated, event);
+    if (isAuth && optionCd !== EVENT_OPTION.WAITING && participated) {
+      setOpenAlertParticipated(true);
+    }
+  }, [isAuth, participated, optionCd]);
 
   const conditions = useMemo(() => {
     return questions.map((question) => {
@@ -74,7 +83,7 @@ const EventParticipantPage = () => {
     setOpenAlertAgree(false);
   }, []);
 
-  const checkParticipantFormVaildation = useCallback(() => {
+  const checkParticipationFormVaildation = useCallback(() => {
     let check = false;
 
     for (const index in questions) {
@@ -98,8 +107,8 @@ const EventParticipantPage = () => {
     return check;
   }, [questions, answers]);
 
-  const onClickParticipant = useCallback(() => {
-    const validation = checkParticipantFormVaildation();
+  const onClickParticipation = useCallback(() => {
+    const validation = checkParticipationFormVaildation();
 
     if (validation) {
       setCheckRealTime(true);
@@ -130,6 +139,10 @@ const EventParticipantPage = () => {
       });
   }, [eventId, questions, answers, agree]);
 
+  const navigateDetail = useCallback(() => {
+    navigate(`/event/detail/${eventId}`);
+  }, [eventId]);
+
   return (
     <div>
       <MenuTitle title="이벤트 참여" />
@@ -143,7 +156,7 @@ const EventParticipantPage = () => {
       <ActionButtons
         WrapComponent={Box}
         sx={{ mt: 6, display: "flex", justifyContent: "end" }}
-        buttons={[{ text: "참여", width: 200, onClick: onClickParticipant }]}
+        buttons={[{ text: "참여", width: 200, onClick: onClickParticipation }]}
       />
       <AlertDialog
         open={openAlertError}
@@ -159,8 +172,15 @@ const EventParticipantPage = () => {
         content="개인정보 수집 이용에 동의해주세요."
         hideDisagree
       />
+      <AlertDialog
+        open={openAlertParticipated}
+        onAgree={navigateDetail}
+        title="이미 참여한 이벤트"
+        content="이미 참여한 이벤트입니다. 확인을 누르시면 상세 화면으로 이동합니다."
+        hideDisagree
+      />
     </div>
   );
 };
 
-export default Auth(EventParticipantPage, null);
+export default Auth(EventParticipationPage, null);

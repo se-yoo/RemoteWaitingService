@@ -2,19 +2,19 @@ import { Button, TableCell } from "@mui/material";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import {
   EVENT_OPTION,
-  PARTICIPANT_STATUS_INFO,
-  WAITING_PARTICIPANT_STATUS_INFO,
+  PARTICIPATION_STATUS_INFO,
+  WAITING_PARTICIPATION_STATUS_INFO,
 } from "../../../utils/code";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import DataTable from "../../../components/DataTable";
-import ParticipantInfoTableExpand from "./ParticipantInfoTableExpand";
+import ParticipationInfoTableExpand from "./ParticipationInfoTableExpand";
 import { useDispatch, useSelector } from "react-redux";
 import { loadEventAnswerList } from "../../../store/actions/answer_actions";
 import { useParams } from "react-router-dom";
 import { formatDatetime } from "../../../utils/function";
 
-const ParticipantInfoTable = memo((props) => {
+const ParticipationInfoTable = memo((props) => {
   const [page, setPage] = useState(1);
   const [statusInfos, setStatusInfos] = useState([]);
   const event = useSelector((state) => state.event);
@@ -41,14 +41,14 @@ const ParticipantInfoTable = memo((props) => {
 
     switch (optionCd) {
       case EVENT_OPTION.WAITING:
-        setStatusInfos(WAITING_PARTICIPANT_STATUS_INFO);
+        setStatusInfos(WAITING_PARTICIPATION_STATUS_INFO);
         break;
       case EVENT_OPTION.FCFS:
       case EVENT_OPTION.RANDOM:
-        setStatusInfos(PARTICIPANT_STATUS_INFO);
+        setStatusInfos(PARTICIPATION_STATUS_INFO);
         break;
       default:
-        setStatusInfos(PARTICIPANT_STATUS_INFO);
+        setStatusInfos(PARTICIPATION_STATUS_INFO);
         break;
     }
 
@@ -77,8 +77,8 @@ const ParticipantInfoTable = memo((props) => {
   );
 
   const ItemCellComponent = {
-    participantDate: ({ item }) => (
-      <TableCell align="left">{formatDatetime(item.participantDate)}</TableCell>
+    participateDate: ({ item }) => (
+      <TableCell align="left">{formatDatetime(item.participateDate)}</TableCell>
     ),
     status: ({ item }) => (
       <TableCell
@@ -93,7 +93,7 @@ const ParticipantInfoTable = memo((props) => {
   const CollapseContentComponent = useCallback(
     ({ item }) => {
       return (
-        <ParticipantInfoTableExpand
+        <ParticipationInfoTableExpand
           item={item}
           questions={questions}
           option={optionCd}
@@ -141,4 +141,4 @@ const ParticipantInfoTable = memo((props) => {
   );
 });
 
-export default ParticipantInfoTable;
+export default ParticipationInfoTable;

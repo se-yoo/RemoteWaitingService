@@ -3,7 +3,7 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StyledDialogContent } from "../../../components/CommonDialog";
 
-const baseJoinUrl = `${window.location.protocol}//${window.location.host}/event/participant`;
+const baseJoinUrl = `${window.location.protocol}//${window.location.host}/event/participation`;
 
 const ShareDialogContent = memo(() => {
   const eventId = useSelector((state) => state.event._id);
