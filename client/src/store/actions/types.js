@@ -18,8 +18,9 @@ export const SET_EVENT_START_DATE = "SET_EVENT_START_DATE";
 export const SET_EVENT_END_DATE = "SET_EVENT_END_DATE";
 export const SET_EVENT_NO_LIMIT_DATE = "SET_EVENT_NO_LIMIT_DATE";
 export const SET_EVENT_OPTION_CD = "SET_EVENT_OPTION_CD";
-export const ERR_EVENT = "ERR_EVENT";
 export const EDIT_EVENT = "EDIT_EVENT";
+export const ERR_EVENT = "ERR_EVENT";
+export const ERR_EVENT_NO_RESET = "ERR_EVENT_NO_RESET";
 
 // EVENT_ANSWER: 답변 전체 정보(작성일, 결과 등) 포괄
 // ANSWER: 작성자 선택 답변 정보

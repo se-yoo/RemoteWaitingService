@@ -14,6 +14,7 @@ import {
   ERR_EVENT,
   EDIT_EVENT,
   LOAD_EVENT_LIST,
+  ERR_EVENT_NO_RESET,
 } from "../actions/types";
 import { EVENT_OPTION } from "../../utils/code";
 
@@ -130,6 +131,11 @@ export default function (state = initialState, action) {
         ...state,
         ...initialState,
         title: "알 수 없는 이벤트",
+        error: { ...action.payload },
+      };
+    case ERR_EVENT_NO_RESET:
+      return {
+        ...state,
         error: { ...action.payload },
       };
     case EDIT_EVENT:

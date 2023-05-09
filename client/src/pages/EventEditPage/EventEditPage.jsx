@@ -25,8 +25,13 @@ const validation = {
   description: { rules: [rules.required] },
   questions: {
     rules: [
-      (value) =>
-        value.length > 0 || "이벤트 문항은 최소 1개 이상 작성되어야 합니다.",
+      (value) => {
+        if (!Array.isArray(value) || value.length < 1)
+          return "이벤트 문항은 최소 1개 이상 작성되어야 합니다.";
+        else if (value.filter((v) => v.question).length !== value.length)
+          return "이름이 작성되지 않은 문항이 존재합니다.";
+        else return true;
+      },
     ],
   },
 };
@@ -92,19 +97,19 @@ const EventEditPage = () => {
       }
     }
 
-    setFormStatus((prevFormStatus) => {
-      const result =
-        event.noLimitDate ||
-        (Boolean(event.startDate) && Boolean(event.endDate)) ||
-        "날짜를 모두 입력해주세요.";
+    const dateResult =
+      event.noLimitDate ||
+      (Boolean(event.startDate) && Boolean(event.endDate)) ||
+      "날짜를 모두 입력해주세요.";
 
+    check = check || dateResult !== true;
+
+    setFormStatus((prevFormStatus) => {
       return {
         ...prevFormStatus,
-        date: result !== true ? result : undefined,
+        date: dateResult !== true ? dateResult : undefined,
       };
     });
-
-    check = check || formStatus.date !== undefined;
 
     return check;
   }, [event]);
@@ -173,11 +178,16 @@ const EventEditPage = () => {
 
   useEffect(() => {
     if (event.error) {
-      const { message, error } = event.error;
-      setErrorDialogAgree(() => navigateMain);
-      setErrorDialogContent(
-        `${message} 확인을 누르시면 메인으로 돌아갑니다. \n오류: ${error.toString()}`,
-      );
+      const { message, error, closing } = event.error;
+      if (closing) {
+        setErrorDialogAgree(() => onCloseErrorDialog);
+        setErrorDialogContent(message);
+      } else {
+        setErrorDialogAgree(() => navigateMain);
+        setErrorDialogContent(
+          `${message} 확인을 누르시면 메인으로 돌아갑니다. \n오류: ${error.toString()}`,
+        );
+      }
       setOpenAlertError(true);
     }
   }, [event.error, navigateMain]);
