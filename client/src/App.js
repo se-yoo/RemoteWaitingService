@@ -8,12 +8,12 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import JoinPage from "./pages/JoinPage/JoinPage";
 import EventListPage from "./pages/EventListPage/EventListPage";
 import EventEditPage from "./pages/EventEditPage/EventEditPage";
-import MyPage from "./pages/MyPage/MyPage";
-import MyPageEditPage from "./pages/MyPage/MyPageEditPage";
 import EventDetailPage from "./pages/EventDetailPage/EventDetailPage";
+import EventParticipationPage from "./pages/EventParticipationPage/EventParticipationPage";
+import MyPage from "./pages/MyPage/MyPage";
+import MyPageEditPage from "./pages/MyPageEditPage/MyPageEditPage";
 import EndPage from "./pages/DefaultPage/EndPage";
 import DefaultPage from "./pages/DefaultPage/DefaultPage";
-import EventParticipationPage from "./pages/EventParticipationPage/EventParticipationPage";
 
 function App() {
   return (

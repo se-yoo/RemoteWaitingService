@@ -168,7 +168,7 @@ const EventParticipationPage = () => {
       <AlertDialog
         open={openAlertAgree}
         onAgree={onCloseAgreeDialog}
-        title="참여 불가"
+        title="이벤트 참여 실패"
         content="개인정보 수집 이용에 동의해주세요."
         hideDisagree
       />

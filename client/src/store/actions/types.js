@@ -1,9 +1,11 @@
 export const LOGIN_USER = "LOGIN_USER";
-export const REGISTER_USER = "REGISTER_USER";
 export const AUTH_USER = "AUTH_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
-export const MYPAGE_USER = "MYPAGE_USER";
-export const MYPAGE_USER_EDIT = "MYPAGE_USER_EDIT";
+export const RESET_EMPTY_USER = "RESET_EMPTY_USER";
+export const LOAD_USER_DETAIL = "LOAD_USER_DETAIL";
+export const SET_USER_PROPERTY = "SET_USER_PROPERTY";
+export const EDIT_USER = "EDIT_USER";
+export const ERR_USER = "ERR_USER";
 
 export const LOAD_EVENT_LIST = "LOAD_EVENT_LIST";
 export const LOAD_EVENT_DETAIL = "LOAD_EVENT_DETAIL";

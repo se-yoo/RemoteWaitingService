@@ -1,132 +1,99 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
 
-//req.params.id는 클라이언트에서 엔드포인트의 끝(:id)에 붙여준 id를 받아오는 것
 router.post("/register", (req, res) => {
   const user = new User(req.body);
 
   user.save((err, doc) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({
-      success: true
+      success: true,
     });
   });
 });
 
 router.post("/login", (req, res) => {
-  User.findOne({userId:req.body.userId}, (err, user)=>{
-    if(!user) {
+  User.findOne({ userId: req.body.userId }, (err, user) => {
+    if (!user) {
       return res.json({
         loginSuccess: false,
-        message: "입력한 아이디에 해당하는 유저가 없습니다."
-      })
+        message: "입력한 아이디에 해당하는 유저가 없습니다.",
+      });
     }
-    user.comparePassword(req.body.password, (err, isMatch)=>{
-      if(!isMatch) 
-        return res.json({ loginSuccess:false, message:"비밀번호가 틀렸습니다." })
-      
-      user.generateToken((err,user)=>{
-        if(err) return res.status(400).send(err);
-        
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch)
+        return res.json({
+          loginSuccess: false,
+          message: "비밀번호가 틀렸습니다.",
+        });
+
+      user.generateToken((err, user) => {
+        if (err) return res.status(400).send(err);
+
         res.cookie("x_authExp", user.tokenExp);
         res
           .cookie("x_auth", user.token)
           .status(200)
-          .json({ 
-            loginSuccess: true, 
-            userId: user._id, 
+          .json({
+            loginSuccess: true,
+            userId: user._id,
             isAdmin: user.role === 1,
-            isAuth: true
+            isAuth: true,
           });
-      })
-    })
-  })
+      });
+    });
+  });
 });
 
-
-router.get("/auth", auth, (req,res)=>{
+router.get("/auth", auth, (req, res) => {
   res.status(200).json({
     _id: req.user._id,
     isAdmin: req.user.role === 1,
     isAuth: true,
     userId: req.user.userId,
     name: req.user.name,
-    role: req.user.role
-  })
-})
+    role: req.user.role,
+  });
+});
 
-router.get("/logout",auth, (req,res)=>{
-  User.findOneAndUpdate({ _id: req.user._id },
-    { token : "", tokenExp: "" }
-    , (err, user)=>{
-      if(err) return res.json({ success:false, err });
-      return res.status(200).send({
-        success: true
-      })
-    })
-})
-
-router.post("/mypage",auth, (req,res)=>{
-  User.findOne({_id:req.user._id},(err, user)=>{
-    if(!user) {
-      return res.json({
-        success: false,
-        err
-      })
-    }
-    else{
+router.get("/logout", auth, (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { token: "", tokenExp: "" },
+    (err, user) => {
+      if (err) return res.json({ success: false, err });
       return res.status(200).send({
         success: true,
-        result:req.user,
-        _id: req.user._id,
-        userId: req.user.userId,
-        name: req.user.name,
-        birthDay: req.user.birthDay,
-        phoneNumber: req.user.phoneNumber,
-        email: req.user.email,
-        role: req.user.role
-      })
-    }
-  })
-})
+      });
+    },
+  );
+});
 
-router.post("/mypage/edit", auth, (req,res)=>{
-  User.findOne({_id:req.user._id},(err,user)=>{
-    if(!user){
-      return res.json({
-        success:false,
-        err
-      })
-    }
-    else{
-      User.findByIdAndUpdate(req.user._id, req.body, null, (err, user)=>{
-        if(err) return res.json({ success:false, err });
-        user.isChangePW(req.body.password, (err,user)=>{
-          if(err) res.json({success:false, err})
-          if(user){
-            User.findOneAndUpdate({ _id: req.user._id },
-              { password : user.password }
-              , (err, user)=>{
-                if(err) return res.json({ success:false, isPWChange:true, err });
-                return res.status(200).send({
-                  success: true,
-                  isPWChange:true
-                })
-              })
-          }
-          else{
-            return res.status(200).send({
-              success: true,
-              isPWChange:false
-            })
-          }
-        })
-        
-      })
-    }
-  })
-})
+router.get("/", auth, (req, res) => {
+  User.findOne({ _id: req.user._id }, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    res.status(200).json({
+      success: true,
+      user: {
+        _id: user._id,
+        userId: user.userId,
+        name: user.name,
+        birthDay: user.birthDay,
+        phoneNumber: user.phoneNumber,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  });
+});
+
+router.put("/", auth, (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, req.body, (err, doc) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({ success: true });
+  });
+});
 
 module.exports = router;
