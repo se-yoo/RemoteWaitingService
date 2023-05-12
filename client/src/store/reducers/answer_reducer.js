@@ -1,57 +1,50 @@
 import {
   LOAD_EVENT_ANSWER_LIST,
-  USER_ANSWER,
-  USER_EVENT_LIST,
-  USER_EVENT_DETAIL,
-  UPDATE_ANSWER,
-  GUEST_ANSWER,
+  LOAD_EVENT_ANSWER_DETAIL,
+  EDIT_EVENT_ANSWER,
+  SET_ANSWER,
 } from "../actions/types";
-import { PARTICIPANT_STATUS } from "../../utils/code";
+import { PARTICIPATION_STATUS } from "../../utils/code";
 
 const initialState = {
-  answerId: "new",
-  status: PARTICIPANT_STATUS.NONE,
+  _id: "new",
+  status: PARTICIPATION_STATUS.NONE,
   writer: {},
   answers: [],
-  participantDate: "",
+  participateDate: "",
 
-  eventAnswers: []
+  eventAnswers: [],
 };
 
-export default function(state = initialState, action) {
-  switch(action.type){
+export default function (state = initialState, action) {
+  switch (action.type) {
     case LOAD_EVENT_ANSWER_LIST:
       return {
         ...state,
-        eventAnswers: [...action.payload.answers],
-        error: null
-      }
-    case USER_ANSWER:
-      return {
-        ...state, 
-        answer: action.payload 
-      }
-      
-    case USER_EVENT_LIST:
-      return {
-        ...state, 
-        userEventList: action.payload 
-      }
-    case USER_EVENT_DETAIL:
-      return {
-        ...state, 
-        userEventDetail: action.payload 
-      }
-    case UPDATE_ANSWER: 
+        eventAnswers: [...action.payload.eventAnswers],
+        error: null,
+      };
+    case LOAD_EVENT_ANSWER_DETAIL:
       return {
         ...state,
-        success: action.payload
-      }
-    case GUEST_ANSWER:
+        ...action.payload.eventAnswer,
+        error: null,
+      };
+    case EDIT_EVENT_ANSWER:
       return {
         ...state,
-        success: action.payload
-      }
+        ...action.payload.eventAnswer,
+        success: action.payload,
+      };
+    case SET_ANSWER: {
+      let answers = [...state.answers];
+      answers[action.payload.index] = action.payload.newValue;
+
+      return {
+        ...state,
+        answers: answers,
+      };
+    }
     default:
       return state;
   }

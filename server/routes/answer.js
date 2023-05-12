@@ -1,216 +1,106 @@
-const express = require('express');
-const { auth } = require('../middleware/auth');
+const express = require("express");
+const { auth_info } = require("../middleware/auth");
 const router = express.Router();
 const { EventAnswer } = require("../models/EventAnswer");
-const { mongoose } = require('mongoose');
+const { mongoose } = require("mongoose");
 
-router.get("/", auth, (req, res) => {
-  if(req.user.role === 1) { // 관리자
-    EventAnswer.find({ "event": req.query.eventId })
+router.get("/", auth_info, (req, res) => {
+  if (req.user && req.user.role === 1) {
+    // 관리자(목록 검색)
+    EventAnswer.find({ event: req.query.eventId })
       .populate("writer")
-      .sort({ participantDate: req.query.optionCd === 0 ? -1 : 1 })
-      .exec((err, answers) => {
-        if(err) return res.status(400).send(err);
-        res.status(200).json({ success: true, answers });
-      })
-  } else { // 사용자(참여자)
+      .sort({ participateDate: req.query.optionCd === 0 ? -1 : 1 })
+      .exec((err, eventAnswers) => {
+        if (err) return res.status(400).send(err);
+        res.status(200).json({ success: true, eventAnswers });
+      });
+  } else {
+    if (!req.user && !req.query.answerId) {
+      return res.status(401).send({
+        error: "찾을 수 없음",
+      });
+    }
 
+    // 사용자(참여자) (단일 검색)
+    const condition = req.user
+      ? { writer: new mongoose.Types.ObjectId(req.user._id) }
+      : { _id: new mongoose.Types.ObjectId(req.query.answerId) };
+
+    EventAnswer.aggregate(
+      [
+        {
+          $match: {
+            event: new mongoose.Types.ObjectId(req.query.eventId),
+            ...condition,
+          },
+        },
+        {
+          $lookup: {
+            from: "eventanswers",
+            localField: "event",
+            foreignField: "event",
+            let: { participateDate: "$participateDate", status: "$status" },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $gt: ["$$participateDate", "$participateDate"] },
+                      { $eq: ["$$status", 0] },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "beforeAnswerCnt",
+          },
+        },
+        {
+          $addFields: {
+            beforeAnswerCnt: { $size: "$beforeAnswerCnt" },
+          },
+        },
+      ],
+      (err, eventAnswers) => {
+        if (err) return res.status(400).send(err);
+        res.status(200).json({ success: true, eventAnswer: eventAnswers[0] });
+      },
+    );
   }
 });
 
-router.post("/guestCreate",(req,res)=>{
-  EventAnswer.findByIdAndUpdate(req.body.writer,{"writer":req.body.writer},
-  (err, answer)=>{
-    if(err) return res.json({success:false, err});
-    return res.status(200).json({
-      success:true,
-      guestId:answer._id,
-      eventId:answer.event
-    });
-  })
-})
-
 router.post("/create", (req, res) => {
-  const answer = new EventAnswer(req.body);
+  const eventAnswer = new EventAnswer(req.body);
 
-  if(req.body.writer){
-    EventAnswer.findOne({event:req.body.event, writer:req.body.writer},
-      (err, item)=>{
-        if(!item){
-          answer.save((err, doc) => {
-            if(err) return res.json({success:false, message:"Error!", err});
-            return res.status(200).json({
-              success:true,
-              event:answer.event,
-              writer:answer.writer,
-              _id:answer._id
-            });
-          });
-        }
-        else{
-          return res.json({
-            success: false,
-            message:"이미 참여한 이벤트 입니다.",
-            err
-          })
-        }
-    })
-  }
-  else{
-    answer.save((err, doc) => {
-      if(err) return res.json({success:false, message:"Error!", err});
-      return res.status(200).json({
-        success:true,
-        event:answer.event,
-        writer:answer.writer,
-        _id:answer._id
-      });
-    });
-  }
-  
-
-  
+  eventAnswer.save((err, eventAnswer) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({ success: true, eventAnswer });
+  });
 });
 
 router.put("/update", (req, res) => {
   EventAnswer.findOneAndUpdate(
-    { "_id": req.body._id }, 
+    { _id: req.body._id },
     req.body,
-    (err, doc) => {
+    (err, eventAnswer) => {
       if (err) return res.json({ success: false, err });
-      return res.status(200).json({ success: true });
-    }
-  )
+      return res.status(200).json({ success: true, eventAnswer });
+    },
+  );
 });
 
 router.put("/updateWin", async (req, res) => {
   const { eventId, winners } = req.body;
-  
-  await EventAnswer.updateMany({ "event": eventId }, { "$set": { "status": 0 } });
 
-  winners.forEach(async winner => {
-    await EventAnswer.findOneAndUpdate({ "_id": winner._id }, { "status": 1 });
+  await EventAnswer.updateMany({ event: eventId }, { $set: { status: 0 } });
+
+  winners.forEach(async (winner) => {
+    await EventAnswer.findOneAndUpdate({ _id: winner._id }, { status: 1 });
   });
 
   return res.status(200).json({
-    success: true
+    success: true,
   });
 });
-
-
-
-router.post("/AnswerRowNum",(req,res)=>{
-  EventAnswer.aggregate([
-    { $match:{ "event" : new mongoose.Types.ObjectId(req.body.eventId)}},
-    { $project:{
-      _id:1,
-      status:1
-    }},
-    { $setWindowFields: {
-      sortBy: { participantDate: -1 },
-      output: { rowNum: { $documentNumber: {} } }
-    }}
-  ],function(err, list){
-    if(err) {
-      return res.json({
-        success: false,
-        message:"list load를 실패했습니다.",
-        err
-      })
-    }
-    else{
-      return res.status(200).json({
-        success: true,
-        eventList:list
-      })
-    }
-  })
-})
-
-router.post("/userAnswerSelect",(req,res)=>{
-  EventAnswer.aggregate([
-    { $match:{ "writer" : new mongoose.Types.ObjectId(req.body.userId) , "event" : new mongoose.Types.ObjectId(req.body.eventId)}},
-    { $lookup:
-     {
-       from: "events",
-       localField: "event",
-       foreignField: "_id",
-       as: "eventDetail"
-     }
-    },
-    { $limit: 1 },
-    { $unwind: "$eventDetail" },
-    { $project:{
-        questions:"$eventDetail.questions",
-        createDate:"$eventDetail.createDate",
-        startDate:"$eventDetail.startDate",
-        endDate:"$eventDetail.endDate",
-        option:"$eventDetail.optionCd",
-        eventId:"$eventDetail._id",
-        participantDate:1,
-        answers:1,
-        status:1
-      }
-    }
-
-  ],function(err, list){
-    if(err) {
-      return res.json({
-        success: false,
-        message:"list load를 실패했습니다.",
-        err
-      })
-    }
-    else{
-      return res.status(200).json({
-        success: true,
-        eventDetail:list
-      })
-    }
-  })
-})
-
-
-router.post("/userEventListSelect",(req,res)=>{
-  EventAnswer.aggregate([
-    { $match:{ "writer" : new mongoose.Types.ObjectId(req.body.userId) } },
-    { $lookup:
-     {
-       from: "events",
-       localField: "event",
-       foreignField: "_id",
-       as: "eventDetail"
-     }
-    },
-    { $unwind: "$eventDetail" },
-    { $project:{
-        _id:"$eventDetail._id", 
-        title:"$eventDetail.title", 
-        createDate:"$eventDetail.createDate",
-        startDate:"$eventDetail.startDate",
-        endDate:"$eventDetail.endDate",
-        noLimitDate:"$eventDetail.noLimitDate",
-        status:1,
-        participantDate:1
-      },
-    },
-    { $sort: { participantDate: -1 } }
-  
-  ], function(err, list){
-      if(err) {
-        return res.json({
-          success: false,
-          message:"list load를 실패했습니다.",
-          err
-        })
-      }
-      else{
-        return res.status(200).json({
-          success: true,
-          eventList:list
-        })
-      }
-  })
-})
 
 module.exports = router;

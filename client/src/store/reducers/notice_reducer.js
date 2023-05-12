@@ -1,12 +1,11 @@
 import {
   LOAD_NOTICE_LIST,
   RESET_EMPTY_NOTICE,
-  SET_NOTICE, 
-  SET_NOTICE_DESCRIPTION, 
-  SET_NOTICE_TARGET, 
-  SET_NOTICE_TITLE, 
-  UPLOAD_NOTICE,
-  LOAD_USER_NOTICE_LIST
+  SET_NOTICE,
+  SET_NOTICE_DESCRIPTION,
+  SET_NOTICE_TARGET,
+  SET_NOTICE_TITLE,
+  EDIT_NOTICE,
 } from "../actions/types";
 import { NOTICE_TARGET } from "../../utils/code";
 
@@ -16,12 +15,12 @@ const initialState = {
   target: NOTICE_TARGET.ALL,
   createDate: "",
 
-  notices: []
+  notices: [],
 };
 
-export default function(state = initialState, action) {
-  switch(action.type){
-    case RESET_EMPTY_NOTICE: 
+export default function (state = initialState, action) {
+  switch (action.type) {
+    case RESET_EMPTY_NOTICE:
       return {
         ...state,
         _id: "new",
@@ -29,14 +28,14 @@ export default function(state = initialState, action) {
         description: "",
         target: NOTICE_TARGET.ALL,
         createDate: "",
-        error: null
-      }
+        error: null,
+      };
     case LOAD_NOTICE_LIST:
       return {
         ...state,
         notices: [...action.payload.notices],
-        error: null
-      }
+        error: null,
+      };
     case SET_NOTICE: {
       const newState = action.payload;
 
@@ -46,34 +45,29 @@ export default function(state = initialState, action) {
         title: newState.title,
         description: newState.description,
         target: newState.target,
-        createDate: newState.createDate
-      }
+        createDate: newState.createDate,
+      };
     }
     case SET_NOTICE_TITLE:
-      return  {
+      return {
         ...state,
-        title: action.payload
-      }
+        title: action.payload,
+      };
     case SET_NOTICE_DESCRIPTION:
-      return  {
+      return {
         ...state,
-        description: action.payload
-      }
+        description: action.payload,
+      };
     case SET_NOTICE_TARGET:
-      return  {
-        ...state,
-        target: action.payload
-      }
-    case UPLOAD_NOTICE: 
       return {
         ...state,
-        success: action.payload
-      }
-    case LOAD_USER_NOTICE_LIST:
+        target: action.payload,
+      };
+    case EDIT_NOTICE:
       return {
         ...state,
-        noticeList: action.payload
-      }
+        success: action.payload,
+      };
     default:
       return state;
   }

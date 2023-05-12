@@ -25,6 +25,17 @@ const GlobalStyle = createGlobalStyle`
     vertical-align: middle;
     padding-left: 4px;
   }
+
+  .com-center-area {
+    max-width: 440px;
+    width: 80%;
+    margin: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export default GlobalStyle;

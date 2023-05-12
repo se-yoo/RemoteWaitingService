@@ -11,7 +11,7 @@ const AllAnswerDialogContent = memo(() => {
   const questions = useSelector(state => state.event.questions);
   const answers = useSelector(state => state.answer.eventAnswers);
 
-  const handleChangePage = useCallback((event, newPage) => {
+  const onChangePage = useCallback((event, newPage) => {
     setPage(newPage);
   }, []);
 
@@ -31,10 +31,10 @@ const AllAnswerDialogContent = memo(() => {
     setHeaders(tempHeaders);
   }, []);
 
-  const ItemRowComponent = useCallback(({item, index}) => {
+  const ItemRowComponent = useCallback(({ item, index }) => {
     return (
       <AllAnswerDialogContentRow
-        item={item} 
+        item={item}
         index={getSeq(page, 8, index)}
         questions={questions}
       />
@@ -49,7 +49,7 @@ const AllAnswerDialogContent = memo(() => {
         page={page}
         sx={{ my: 3 }}
         rowsPerPage={8}
-        onChangePage={handleChangePage}
+        onChangePage={onChangePage}
         ItemRowComponent={ItemRowComponent}
       />
     </StyledDialogContent>

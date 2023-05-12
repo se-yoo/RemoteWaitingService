@@ -4,7 +4,8 @@ import Image from "mui-image";
 import Logo from "../assets/images/logo.png";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import OutputIcon from "@mui/icons-material/Output";
-import { useDispatch } from "react-redux";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../store/actions/user_actions";
 import AlertDialog from "../components/AlertDialog";
@@ -16,9 +17,11 @@ const iconStyle = {
 };
 
 const LayoutHeader = () => {
+  const [openAlertError, setOpenAlertError] = useState(false);
+  const userData = useSelector((state) => state.user.userData);
+  const { isAuth } = userData || { isAuth: false };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [openAlertError, setOpenAlertError] = useState(false);
 
   const onClickLogo = useCallback(() => {
     navigate("/");
@@ -29,7 +32,7 @@ const LayoutHeader = () => {
   }, []);
 
   //로그아웃
-  const onClickLogoutHandler = () => {
+  const onClickLogout = useCallback(() => {
     dispatch(logoutUser()).then((response) => {
       if (response.payload.success) {
         navigate("/login");
@@ -37,9 +40,13 @@ const LayoutHeader = () => {
         setOpenAlertError(true);
       }
     });
-  };
+  }, []);
 
-  const handleClose = useCallback(() => {
+  const onClickLogin = useCallback(() => {
+    navigate("/login");
+  }, []);
+
+  const onClose = useCallback(() => {
     setOpenAlertError(false);
   }, []);
 
@@ -64,16 +71,26 @@ const LayoutHeader = () => {
           onClick={onClickLogo}
         />
         <Box sx={{ flexGrow: 1 }} />
-        <IconButton onClick={onClickMyPage}>
-          <PermIdentityIcon sx={iconStyle} />
-        </IconButton>
-        <IconButton sx={{ ml: "8px" }} onClick={onClickLogoutHandler}>
-          <OutputIcon sx={iconStyle} />
-        </IconButton>
+        {isAuth ? (
+          <>
+            <IconButton onClick={onClickMyPage}>
+              <PermIdentityIcon sx={iconStyle} />
+            </IconButton>
+            <IconButton sx={{ ml: "8px" }} onClick={onClickLogout}>
+              <OutputIcon sx={iconStyle} />
+            </IconButton>
+          </>
+        ) : (
+          <>
+            <IconButton onClick={onClickLogin}>
+              <AccountCircleOutlinedIcon sx={iconStyle} />
+            </IconButton>
+          </>
+        )}
       </Toolbar>
       <AlertDialog
         open={openAlertError}
-        onClose={handleClose}
+        onClose={onClose}
         title="오류 발생"
         content="로그아웃에 실패했습니다."
         hideDisagree

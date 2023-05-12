@@ -1,14 +1,14 @@
-import React, { useCallback } from 'react';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker, DateTimePicker } from '@mui/x-date-pickers';
-import { TextField } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+import React, { useCallback, useMemo } from "react";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
+import { TextField } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 const DateInput = (props) => {
-  const { 
+  const {
     sx,
-    value, 
+    value,
     onChangeValue,
     label,
     disabled,
@@ -16,19 +16,26 @@ const DateInput = (props) => {
     helperText,
     minDate,
     maxDate,
-    containTime
+    containTime,
   } = props;
 
-  const onChangeDate = useCallback((newValue) => {
-    const value = dayjs(newValue).format("YYYY-MM-DD HH:mm");
-    onChangeValue(value !== "Invalid Date" ? value : null);
-  }, [onChangeValue]);
+  const inputFormat = useMemo(() => {
+    return `YYYY-MM-DD${containTime ? " HH:mm" : ""}`;
+  }, [containTime]);
+
+  const onChangeDate = useCallback(
+    (newValue) => {
+      const value = dayjs(newValue).format(inputFormat);
+      onChangeValue(value !== "Invalid Date" ? value : null);
+    },
+    [onChangeValue, inputFormat],
+  );
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      {containTime? (
+      {containTime ? (
         <DateTimePicker
-          inputFormat="YYYY-MM-DD HH:mm" 
+          inputFormat={inputFormat}
           mask="____-__-__ __:__"
           label={label}
           value={value}
@@ -39,15 +46,17 @@ const DateInput = (props) => {
           minDate={minDate}
           maxDate={maxDate}
           renderInput={(params) => (
-            <TextField 
+            <TextField
               sx={sx}
-              {...params}  
+              {...params}
+              error={error}
+              helperText={helperText}
             />
           )}
         />
-      ): (
+      ) : (
         <DatePicker
-          inputFormat="YYYY-MM-DD" 
+          inputFormat={inputFormat}
           mask="____-__-__"
           label={label}
           value={value}
@@ -58,9 +67,11 @@ const DateInput = (props) => {
           minDate={minDate}
           maxDate={maxDate}
           renderInput={(params) => (
-            <TextField 
+            <TextField
               sx={sx}
-              {...params}  
+              {...params}
+              error={error}
+              helperText={helperText}
             />
           )}
         />

@@ -1,11 +1,11 @@
-import { Box, TextField } from '@mui/material';
-import React, { memo, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import SectionTitle from '../../../components/SectionTitle';
-import { setEventDescription } from '../../../store/actions/event_actions';
+import { Box, TextField } from "@mui/material";
+import React, { memo, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import SectionTitle from "../../../components/SectionTitle";
+import { setEventDescription } from "../../../store/actions/event_actions";
 
 const EditDesc = memo((props) => {
-  const description = useSelector(state => state.event.description);
+  const description = useSelector((state) => state.event.description);
   const { sx, formStatus } = props;
   const dispatch = useDispatch();
 

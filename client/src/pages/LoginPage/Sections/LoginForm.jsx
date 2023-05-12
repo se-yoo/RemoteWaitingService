@@ -6,55 +6,57 @@ import { loginUser } from "../../../store/actions/user_actions";
 import AlertDialog from "../../../components/AlertDialog";
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [userID, setUserID] = useState("");
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [openAlertError, setOpenAlertError] = useState(false);
+  const [errorDialogContent, setErrorDialogContent] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const onUserIDHandler = (event) => {
-    setUserID(event.currentTarget.value);
-  };
+  const onChangeUserId = useCallback((e) => {
+    setUserId(e.target.value);
+  }, []);
 
-  const onPasswordHandler = (event) => {
-    setPassword(event.currentTarget.value);
-  };
+  const onChangePassword = useCallback((e) => {
+    setPassword(e.target.value);
+  }, []);
 
-  const onSubmitHandler = (event) => {
-    event.preventDefault();
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    let body = {
-      userId: userID,
-      password: password,
-    };
+      const body = {
+        userId,
+        password,
+      };
 
-    //로그인 액션
-    dispatch(loginUser(body)).then((response) => {
-      if (response.payload.loginSuccess) {
-        navigate("/");
-      } else {
-        setOpenAlertError(true);
-      }
-    });
-  };
+      //로그인 액션
+      dispatch(loginUser(body)).then((response) => {
+        if (response.payload.loginSuccess) {
+          navigate("/");
+        } else {
+          setErrorDialogContent(
+            `입력 정보를 다시 확인해주세요. \n오류: ${response.payload.message}`,
+          );
+          setOpenAlertError(true);
+        }
+      });
+    },
+    [userId, password],
+  );
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     setOpenAlertError(false);
   }, []);
 
   return (
-    <Box
-      component="form"
-      noValidate
-      autoComplete="off"
-      onSubmit={onSubmitHandler}
-    >
-      <TextField label="아이디" value={userID} onChange={onUserIDHandler} />
+    <Box component="form" onSubmit={onSubmit}>
+      <TextField label="아이디" value={userId} onChange={onChangeUserId} />
       <TextField
-        value={password}
-        onChange={onPasswordHandler}
         type="password"
         label="비밀번호"
+        value={password}
+        onChange={onChangePassword}
         sx={{ mt: 2.5 }}
       />
       <Button
@@ -70,9 +72,9 @@ const LoginForm = () => {
       </Button>
       <AlertDialog
         open={openAlertError}
-        onClose={handleClose}
-        title="오류 발생"
-        content="로그인에 실패했습니다. 입력 정보를 다시 확인해주세요."
+        onClose={onClose}
+        title="로그인 실패"
+        content={errorDialogContent}
         hideDisagree
       />
     </Box>

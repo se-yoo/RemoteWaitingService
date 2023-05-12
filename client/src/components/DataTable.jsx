@@ -32,7 +32,7 @@ const DataTable = (props) => {
     onClickRow
   } = props;
   const [opens, setOpens] = useState(initialOpens(items.length));
-  
+
   const emptyRows = useMemo(() => {
     return page > 0 ? Math.max(0, page * rowsPerPage - items.length) : 0;
   }, [page, rowsPerPage, items.length]);
@@ -53,33 +53,33 @@ const DataTable = (props) => {
     return getPageItems(page, items, rowsPerPage);
   }, [page, items, rowsPerPage]);
 
-  const DataTableCell = (({item, rowIndex, header}) => {
-    if(ItemCellComponent && ItemCellComponent[header.value]) {
+  const DataTableCell = (({ item, rowIndex, header }) => {
+    if (ItemCellComponent && ItemCellComponent[header.value]) {
       const CellComponent = ItemCellComponent[header.value];
       return <CellComponent item={item} />
     } else {
       return (
         <TableCell align={header.align}>
-          { header.value === "index" && header.useIndex ?
+          {header.value === "index" && header.useIndex ?
             getSeq(page, rowsPerPage, rowIndex) : item[header.value]
           }
         </TableCell>
       )
     }
   });
-  
+
   const isSelected = (item) => {
     return selected.indexOf(item) !== -1;
   };
 
-  const DataTableRow = ({item, index}) => {
+  const DataTableRow = ({ item, index }) => {
     const arrIndex = getSeq(page, rowsPerPage, index) - 1;
     const isItemSelected = isSelected(item);
 
-    return ItemRowComponent ? 
+    return ItemRowComponent ?
       <ItemRowComponent item={item} index={index} />
       : (
-        <TableRow 
+        <TableRow
           clickable={onClickRow != null ? "true" : "false"}
           onClick={(e) => onClickTableRowComponent(e, item)}
         >
@@ -89,12 +89,12 @@ const DataTable = (props) => {
                 color="primary"
                 disabled={checkboxReadonly}
                 checked={isItemSelected}
-                onClick={() => handleSelectRow(item)}
+                onClick={() => onClickRowSelect(item)}
               />
             </TableCell>
           )}
           {headers.map(header => (
-            <DataTableCell 
+            <DataTableCell
               key={`row-${item._id || index}-cell-${header.value || header.text}`}
               item={item}
               rowIndex={index}
@@ -103,12 +103,12 @@ const DataTable = (props) => {
           ))}
           {showExpand && (
             <TableCell align="center">
-              {opens[arrIndex] ? 
-                <HideControlComponent 
-                  onClick={() => toggleOpen(arrIndex)} 
+              {opens[arrIndex] ?
+                <HideControlComponent
+                  onClick={() => toggleOpen(arrIndex)}
                 />
-                : <ExpandControlComponent 
-                  onClick={() => toggleOpen(arrIndex)} 
+                : <ExpandControlComponent
+                  onClick={() => toggleOpen(arrIndex)}
                 />
               }
             </TableCell>
@@ -117,7 +117,7 @@ const DataTable = (props) => {
       );
   };
 
-  const handleSelectRow = (row) => {
+  const onClickRowSelect = (row) => {
     const selectedIndex = selected.indexOf(row);
     let newSelected = [];
 
@@ -136,13 +136,13 @@ const DataTable = (props) => {
 
     onChangeSelected(newSelected);
   };
-                
-  const DataTableRowExpand = useCallback(({item, index}) => {
+
+  const DataTableRowExpand = useCallback(({ item, index }) => {
     const arrIndex = getSeq(page, rowsPerPage, index) - 1;
 
     return (
       <TableRow type="collapse">
-        <TableCell colSpan={headers.length + (checkboxSelection? 2 : 1)}>
+        <TableCell colSpan={headers.length + (checkboxSelection ? 2 : 1)}>
           <Collapse in={opens[arrIndex]} timeout="auto">
             <CollapseContentComponent item={item} />
           </Collapse>
@@ -157,7 +157,7 @@ const DataTable = (props) => {
     setOpens(newOpens);
   }, [opens]);
 
-  const handleSelectAllClick = useCallback((event) => {
+  const onClickAllSelect = useCallback((event) => {
     if (event.target.checked) {
       const newSelected = items;
       onChangeSelected(newSelected);
@@ -168,7 +168,7 @@ const DataTable = (props) => {
   }, [items]);
 
   const onClickTableRowComponent = useCallback((event, row) => {
-    if(onClickRow == null) return;
+    if (onClickRow == null) return;
     onClickRow(event, row);
   }, [onClickRow]);
 
@@ -186,14 +186,14 @@ const DataTable = (props) => {
                       disabled={checkboxReadonly}
                       indeterminate={selectedCount > 0 && selectedCount < rowCount}
                       checked={rowCount > 0 && selectedCount === rowCount}
-                      onChange={handleSelectAllClick}
+                      onChange={onClickAllSelect}
                     />
                   </TableCell>
                 )}
                 {headers.map(header => (
                   <TableCell
                     key={`header-${header.value || header.text}`}
-                    align={header.align} 
+                    align={header.align}
                     sx={header.sx}
                     width={header.width}
                   >
@@ -212,13 +212,13 @@ const DataTable = (props) => {
             {pageItems.map((item, index) => (
               <React.Fragment key={`row-${item._id || index}`} >
                 <DataTableRow
-                  item={item} 
-                  index={index} 
+                  item={item}
+                  index={index}
                 />
                 {showExpand && (
                   <DataTableRowExpand
-                    item={item} 
-                    index={index} 
+                    item={item}
+                    index={index}
                   />
                 )}
               </React.Fragment>
@@ -228,7 +228,7 @@ const DataTable = (props) => {
                 {rowCount === 0 && (
                   <TableCell
                     sx={{ textAlign: "center", color: "grey" }}
-                    colSpan={headers.length + (checkboxSelection? 2 : 1)}
+                    colSpan={headers.length + (checkboxSelection ? 2 : 1)}
                   >
                     데이터가 없습니다
                   </TableCell>
@@ -239,9 +239,9 @@ const DataTable = (props) => {
         </Table>
       </TableContainer>
       {rowCount > 0 && (
-        <Pagination 
-          count={pageCount} 
-          page={page} 
+        <Pagination
+          count={pageCount}
+          page={page}
           onChange={onChangePage}
           sx={{ mt: 5 }}
         />
@@ -255,7 +255,7 @@ DataTable.defaultProps = {
   items: [],
   page: 1,
   rowsPerPage: 10,
-  onChangePage: () => {},
+  onChangePage: () => { },
   sx: {},
   HeaderComponent: null,
   ItemRowComponent: null,
@@ -268,7 +268,7 @@ DataTable.defaultProps = {
   checkboxSelection: false,
   checkboxReadonly: false,
   selected: [],
-  onChangeSelected: () => {},
+  onChangeSelected: () => { },
   onClickRow: null
 }
 
