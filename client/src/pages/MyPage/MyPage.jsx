@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  deleteUser,
   loadUserDetail,
   resetEmptyUser,
 } from "../../store/actions/user_actions";
@@ -24,6 +25,8 @@ const infos = [
 const MyPage = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
   const [errorDialogContent, setErrorDialogContent] = useState("");
+  const [errorDialogAgree, setErrorDialogAgree] = useState(() => {});
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -45,9 +48,39 @@ const MyPage = () => {
     navigate("/");
   }, []);
 
+  const onCloseConfirmDialog = useCallback(() => {
+    setOpenConfirmDelete(false);
+  }, []);
+
+  const onCloseErrorDialog = useCallback(() => {
+    setOpenAlertError(false);
+  }, []);
+
+  const onClickDeleteAgree = useCallback(() => {
+    dispatch(deleteUser())
+      .then((res) => {
+        if (res.payload.success) {
+          navigate(`/login`);
+        }
+      })
+      .catch((err) => {
+        setErrorDialogAgree(() => onCloseErrorDialog);
+        setErrorDialogContent(
+          `계정 삭제에 실패했습니다. \n오류: ${err.toString()}`,
+        );
+        setOpenAlertError(true);
+      });
+  }, []);
+
   const buttons = useMemo(() => {
     return [
-      { text: "탈퇴", color: "red" },
+      {
+        text: "탈퇴",
+        color: "red",
+        onClick: () => {
+          setOpenConfirmDelete(true);
+        },
+      },
       { text: "수정", width: 200, onClick: navigateEdit },
     ];
   }, []);
@@ -55,6 +88,7 @@ const MyPage = () => {
   useEffect(() => {
     if (user.error) {
       const { message, error } = user.error;
+      setErrorDialogAgree(() => navigateMain);
       setErrorDialogContent(
         `${message} 확인을 누르시면 메인으로 돌아갑니다. \n오류: ${error.toString()}`,
       );
@@ -80,10 +114,17 @@ const MyPage = () => {
       />
       <AlertDialog
         open={openAlertError}
-        onClose={navigateMain}
+        onClose={errorDialogAgree}
         title="오류 발생"
         content={errorDialogContent}
         hideDisagree
+      />
+      <AlertDialog
+        open={openConfirmDelete}
+        onClose={onCloseConfirmDialog}
+        onAgree={onClickDeleteAgree}
+        title="계정 삭제"
+        content="정말로 탈퇴하시겠습니까? 계정 삭제 후 복원할 수 없습니다."
       />
     </div>
   );

@@ -6,11 +6,12 @@ import { loginUser } from "../../../store/actions/user_actions";
 import AlertDialog from "../../../components/AlertDialog";
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [openAlertError, setOpenAlertError] = useState(false);
+  const [errorDialogContent, setErrorDialogContent] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onChangeUserId = useCallback((e) => {
     setUserId(e.target.value);
@@ -20,39 +21,37 @@ const LoginForm = () => {
     setPassword(e.target.value);
   }, []);
 
-  const onSubmit = useCallback((e) => {
-    e.preventDefault();
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const body = {
-      userId,
-      password,
-    };
+      const body = {
+        userId,
+        password,
+      };
 
-    //로그인 액션
-    dispatch(loginUser(body))
-      .then((response) => {
+      //로그인 액션
+      dispatch(loginUser(body)).then((response) => {
         if (response.payload.loginSuccess) {
           navigate("/");
         } else {
+          setErrorDialogContent(
+            `입력 정보를 다시 확인해주세요. \n오류: ${response.payload.message}`,
+          );
           setOpenAlertError(true);
         }
       });
-  }, [userId, password]);
+    },
+    [userId, password],
+  );
 
   const onClose = useCallback(() => {
     setOpenAlertError(false);
   }, []);
 
   return (
-    <Box
-      component="form"
-      onSubmit={onSubmit}
-    >
-      <TextField
-        label="아이디"
-        value={userId}
-        onChange={onChangeUserId}
-      />
+    <Box component="form" onSubmit={onSubmit}>
+      <TextField label="아이디" value={userId} onChange={onChangeUserId} />
       <TextField
         type="password"
         label="비밀번호"
@@ -74,8 +73,8 @@ const LoginForm = () => {
       <AlertDialog
         open={openAlertError}
         onClose={onClose}
-        title="오류 발생"
-        content="로그인에 실패했습니다. 입력 정보를 다시 확인해주세요."
+        title="로그인 실패"
+        content={errorDialogContent}
         hideDisagree
       />
     </Box>

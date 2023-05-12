@@ -31,6 +31,10 @@ const userSchema = mongoose.Schema({
     type: Number,
     default: 0, //참여자 0
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
   token: {
     type: String,
   },

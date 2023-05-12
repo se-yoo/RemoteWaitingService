@@ -97,3 +97,14 @@ export function setUserProperty(name, newValue) {
     payload: user,
   };
 }
+
+export function deleteUser() {
+  const request = axios
+    .put(`${USER_SERVER}/active`)
+    .then((response) => response.data);
+
+  return {
+    type: RESET_EMPTY_USER,
+    payload: request,
+  };
+}

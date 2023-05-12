@@ -15,7 +15,7 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  User.findOne({ userId: req.body.userId }, (err, user) => {
+  User.findOne({ userId: req.body.userId, active: true }, (err, user) => {
     if (!user) {
       return res.json({
         loginSuccess: false,
@@ -94,6 +94,19 @@ router.put("/", auth, (req, res) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({ success: true });
   });
+});
+
+router.put("/active", auth, (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { token: "", tokenExp: "", active: false },
+    (err, user) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).send({
+        success: true,
+      });
+    },
+  );
 });
 
 module.exports = router;
