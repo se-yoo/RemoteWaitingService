@@ -27,6 +27,7 @@ const ParticipationInfoTable = memo((props) => {
     checkboxReadonly,
     selected,
     onChangeSelected,
+    onClickEnterStatus,
     rowsPerPage,
   } = props;
   const { eventId } = useParams();
@@ -97,6 +98,7 @@ const ParticipationInfoTable = memo((props) => {
           item={item}
           questions={questions}
           option={optionCd}
+          onClickEnterStatus={onClickEnterStatus}
         />
       );
     },

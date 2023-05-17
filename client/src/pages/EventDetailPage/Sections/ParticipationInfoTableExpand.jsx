@@ -1,18 +1,12 @@
 import { Box, Button } from "@mui/material";
 import React, { memo, useCallback } from "react";
-import { useDispatch } from "react-redux";
 import AnswerList from "../../../components/AnswerList";
 import SectionTitle from "../../../components/SectionTitle";
-import {
-  loadEventAnswerList,
-  updateAnswer,
-} from "../../../store/actions/answer_actions";
 import { EVENT_OPTION, PARTICIPATION_STATUS } from "../../../utils/code";
 import { formatDatetime } from "../../../utils/function";
 
 const ParticipationInfoTableExpand = memo((props) => {
-  const { item, questions, option } = props;
-  const dispatch = useDispatch();
+  const { item, questions, option, onClickEnterStatus } = props;
 
   const onClickStatus = useCallback(
     (status) => {
@@ -21,16 +15,7 @@ const ParticipationInfoTableExpand = memo((props) => {
         status: status,
       };
 
-      dispatch(updateAnswer(body)).then((res) => {
-        if (res.payload.success) {
-          const variable = {
-            eventId: item.event,
-            optionCd: option,
-          };
-
-          dispatch(loadEventAnswerList(variable));
-        }
-      });
+      onClickEnterStatus(body, item.status);
     },
     [item],
   );
@@ -48,7 +33,7 @@ const ParticipationInfoTableExpand = memo((props) => {
             customsize="x-small"
             onClick={() => onClickStatus(PARTICIPATION_STATUS.ENTER_CANCEL)}
           >
-            입장 거절
+            입장 취소
           </Button>
           <Button
             type="translucent"
