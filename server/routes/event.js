@@ -117,7 +117,12 @@ router.get("/", auth_info, (req, res) => {
   } else if (req.user) {
     // 목록 검색
     const adminCondition = [
-      { $match: { writer: new mongoose.Types.ObjectId(req.user._id) } },
+      {
+        $match: {
+          writer: new mongoose.Types.ObjectId(req.user._id),
+          title: { $regex: req.query.search || "" },
+        },
+      },
       {
         $lookup: {
           from: "eventanswers",
@@ -176,7 +181,12 @@ router.get("/", auth_info, (req, res) => {
           },
         },
       },
-      { $match: { userAnswerCnt: { $gt: 0 } } },
+      {
+        $match: {
+          userAnswerCnt: { $gt: 0 },
+          title: { $regex: req.query.search || "" },
+        },
+      },
       { $unwind: "$eventanswer" },
       {
         $addFields: {

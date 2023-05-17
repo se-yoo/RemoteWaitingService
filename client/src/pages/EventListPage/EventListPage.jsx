@@ -12,6 +12,7 @@ import EventList from "./Sections/EventList";
 import HelpList from "./Sections/HelpList";
 import SearchInput from "./Sections/SearchInput";
 import Auth from "../../hoc/Auth";
+import { windowScrollTop } from "../../utils/function";
 
 const EventListPage = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
@@ -47,13 +48,21 @@ const EventListPage = () => {
     setOpenAlertError(false);
   }, []);
 
-  const onChangeSearchKeyword = useCallback((searchKeyword) => {
-    setSearchKeyword(searchKeyword);
+  const onChangeSearchKeyword = useCallback((e) => {
+    setSearchKeyword(e);
   }, []);
 
-  const onClickSearch = useCallback(() => {
-    // 추후 검색 연결
-  }, []);
+  const onSearch = useCallback(
+    (e) => {
+      const variable = {
+        search: searchKeyword,
+      };
+
+      dispatch(loadEventList(variable));
+      windowScrollTop();
+    },
+    [searchKeyword],
+  );
 
   const onClickAddEvent = useCallback(() => {
     navigate("/event/edit/new");
@@ -82,7 +91,7 @@ const EventListPage = () => {
           <SearchInput
             value={searchKeyword}
             onChangeValue={onChangeSearchKeyword}
-            onClickSearch={onClickSearch}
+            onSearch={onSearch}
           />
         </Grid>
       </Grid>

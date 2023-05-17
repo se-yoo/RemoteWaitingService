@@ -20,10 +20,10 @@ import { arrayMoveImmutable } from "array-move";
 import { EVENT_SERVER } from "./api";
 import axios from "axios";
 
-export function loadEventList() {
+export function loadEventList(dataToSubmit) {
   return (dispatch) => {
     axios
-      .get(`${EVENT_SERVER}`)
+      .get(`${EVENT_SERVER}`, { params: dataToSubmit })
       .then((res) => dispatch({ type: LOAD_EVENT_LIST, payload: res.data }))
       .catch((err) =>
         dispatch({
