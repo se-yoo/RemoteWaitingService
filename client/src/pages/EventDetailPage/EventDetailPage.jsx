@@ -7,11 +7,14 @@ import AlertDialog from "../../components/AlertDialog";
 import CommonDialog from "../../components/CommonDialog";
 import MenuTitle from "../../components/MenuTitle";
 import EventBasicInfo from "../../components/EventBasicInfo";
+import Loading from "../../components/Loading";
 import {
   deleteEvent,
   loadEventDetail,
   resetEmptyEvent,
 } from "../../store/actions/event_actions";
+import { resetEmptyEventAnswerList } from "../../store/actions/answer_actions";
+import { resetEmptyNoticeList } from "../../store/actions/notice_actions";
 import NoticeInfo from "./Sections/NoticeInfo";
 import ParticipationInfo from "./Sections/ParticipationInfo";
 import QuestionInfo from "./Sections/QuestionInfo";
@@ -20,6 +23,7 @@ import UserParticipation from "./Sections/UserParticipation";
 import Auth from "../../hoc/Auth";
 
 const EventDetailPage = () => {
+  const [readyEvent, setReadyEvent] = useState(false);
   const [openAlertError, setOpenAlertError] = useState(false);
   const [errorDialogContent, setErrorDialogContent] = useState("");
   const [errorDialogAgree, setErrorDialogAgree] = useState(() => {});
@@ -38,7 +42,19 @@ const EventDetailPage = () => {
     };
 
     dispatch(loadEventDetail(variable));
+
+    return () => {
+      dispatch(resetEmptyEventAnswerList());
+      dispatch(resetEmptyNoticeList());
+      dispatch(resetEmptyEvent());
+    };
   }, []);
+
+  useEffect(() => {
+    if (!readyEvent && event._id === eventId) {
+      setReadyEvent(true);
+    }
+  }, [event._id, readyEvent]);
 
   const onClose = useCallback(() => {
     setOpenDialogShare(false);
@@ -86,7 +102,6 @@ const EventDetailPage = () => {
   }, []);
 
   const navigateMain = useCallback(() => {
-    dispatch(resetEmptyEvent());
     navigate("/");
   }, []);
 
@@ -103,34 +118,40 @@ const EventDetailPage = () => {
 
   return (
     <div>
-      <MenuTitle title="이벤트 상세" />
-      <EventBasicInfo />
-      {isAdmin ? <ParticipationInfo /> : <UserParticipation />}
-      <NoticeInfo editable={isAdmin} />
-      {isAdmin && (
+      {!readyEvent ? (
+        <Loading />
+      ) : (
         <>
-          <QuestionInfo />
-          <ActionButtons
-            WrapComponent={Box}
-            sx={{ mt: 6, display: "flex", justifyContent: "end" }}
-            buttons={buttons}
-          />
-          <CommonDialog
-            open={openDialogShare}
-            onClose={onClose}
-            width={900}
-            title="이벤트 공유"
-            subText="생성한 이벤트의 참여 페이지를 공유합니다"
-            closable
-            ContentComponent={<ShareDialogContent />}
-          />
-          <AlertDialog
-            open={openConfirmDelete}
-            onClose={onClose}
-            onAgree={onClickDeleteAgree}
-            title="이벤트 삭제"
-            content="정말로 이벤트를 삭제하시겠습니까? 삭제 후 복원할 수 없습니다"
-          />
+          <MenuTitle title="이벤트 상세" />
+          <EventBasicInfo />
+          {isAdmin ? <ParticipationInfo /> : <UserParticipation />}
+          <NoticeInfo editable={isAdmin} />
+          {isAdmin && (
+            <>
+              <QuestionInfo />
+              <ActionButtons
+                WrapComponent={Box}
+                sx={{ mt: 6, display: "flex", justifyContent: "end" }}
+                buttons={buttons}
+              />
+              <CommonDialog
+                open={openDialogShare}
+                onClose={onClose}
+                width={900}
+                title="이벤트 공유"
+                subText="생성한 이벤트의 참여 페이지를 공유합니다"
+                closable
+                ContentComponent={<ShareDialogContent />}
+              />
+              <AlertDialog
+                open={openConfirmDelete}
+                onClose={onClose}
+                onAgree={onClickDeleteAgree}
+                title="이벤트 삭제"
+                content="정말로 이벤트를 삭제하시겠습니까? 삭제 후 복원할 수 없습니다"
+              />
+            </>
+          )}
         </>
       )}
       <AlertDialog

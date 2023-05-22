@@ -3,6 +3,7 @@ import {
   LOAD_EVENT_ANSWER_DETAIL,
   EDIT_EVENT_ANSWER,
   SET_ANSWER,
+  RESET_EMPTY_EVENT_ANSWER_LIST,
 } from "../actions/types";
 import { PARTICIPATION_STATUS } from "../../utils/code";
 
@@ -18,6 +19,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case RESET_EMPTY_EVENT_ANSWER_LIST:
+      return {
+        ...state,
+        eventAnswers: [],
+        error: null,
+      };
     case LOAD_EVENT_ANSWER_LIST:
       return {
         ...state,

@@ -7,6 +7,7 @@ import {
   ERR_EVENT,
   RESET_EMPTY_NOTICE,
   EDIT_NOTICE,
+  RESET_EMPTY_NOTICE_LIST,
 } from "./types";
 import { NOTICE_SERVER } from "./api";
 import axios from "axios";
@@ -69,6 +70,10 @@ export function deleteNotice(dataToSubmit) {
 
 export function resetEmptyNotice() {
   return { type: RESET_EMPTY_NOTICE };
+}
+
+export function resetEmptyNoticeList() {
+  return { type: RESET_EMPTY_NOTICE_LIST };
 }
 
 export function setNotice(newValue) {

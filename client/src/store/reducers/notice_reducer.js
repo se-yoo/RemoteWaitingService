@@ -1,6 +1,7 @@
 import {
-  LOAD_NOTICE_LIST,
   RESET_EMPTY_NOTICE,
+  RESET_EMPTY_NOTICE_LIST,
+  LOAD_NOTICE_LIST,
   SET_NOTICE,
   SET_NOTICE_DESCRIPTION,
   SET_NOTICE_TARGET,
@@ -28,6 +29,12 @@ export default function (state = initialState, action) {
         description: "",
         target: NOTICE_TARGET.ALL,
         createDate: "",
+        error: null,
+      };
+    case RESET_EMPTY_NOTICE_LIST:
+      return {
+        ...state,
+        notices: [],
         error: null,
       };
     case LOAD_NOTICE_LIST:

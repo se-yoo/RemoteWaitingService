@@ -4,6 +4,7 @@ import {
   LOAD_EVENT_ANSWER_DETAIL,
   EDIT_EVENT_ANSWER,
   SET_ANSWER,
+  RESET_EMPTY_EVENT_ANSWER_LIST,
 } from "./types";
 import { EVENT_ANSWER_SERVER } from "./api";
 import axios from "axios";
@@ -68,6 +69,10 @@ export function updateAnswer(dataToSubmit) {
     type: EDIT_EVENT_ANSWER,
     payload: request,
   };
+}
+
+export function resetEmptyEventAnswerList() {
+  return { type: RESET_EMPTY_EVENT_ANSWER_LIST };
 }
 
 export function updateWinner(dataToSubmit) {

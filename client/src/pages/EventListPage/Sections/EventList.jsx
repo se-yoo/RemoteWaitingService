@@ -1,9 +1,10 @@
-import { List } from "@mui/material";
+import { Box, List } from "@mui/material";
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/function";
 import EventListItem from "./EventListItem";
+import { theme } from "../../../styles/theme";
 
 const EventList = (props) => {
   const { sx } = props;
@@ -34,7 +35,7 @@ const EventList = (props) => {
     [isAdmin, userData],
   );
 
-  return (
+  return Array.isArray(events) && events.length ? (
     <List sx={sx}>
       {events.map((event) => (
         <EventListItem
@@ -49,6 +50,18 @@ const EventList = (props) => {
         />
       ))}
     </List>
+  ) : (
+    <Box
+      display="flex"
+      alignItems="center"
+      flexDirection="column"
+      justifyContent="center"
+      fontSize="2em"
+      color={theme.palette.grey.main}
+      sx={{ minHeight: "calc(100vh - 376px)" }}
+    >
+      이벤트가 존재하지 않습니다
+    </Box>
   );
 };
 

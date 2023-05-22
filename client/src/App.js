@@ -12,8 +12,6 @@ import EventDetailPage from "./pages/EventDetailPage/EventDetailPage";
 import EventParticipationPage from "./pages/EventParticipationPage/EventParticipationPage";
 import MyPage from "./pages/MyPage/MyPage";
 import MyPageEditPage from "./pages/MyPageEditPage/MyPageEditPage";
-import EndPage from "./pages/DefaultPage/EndPage";
-import DefaultPage from "./pages/DefaultPage/DefaultPage";
 
 function App() {
   return (
@@ -24,8 +22,6 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/join" element={<JoinPage />} />
-            <Route path="/end" element={<EndPage />} />
-            <Route path="/default" element={<DefaultPage />} />
             <Route path="/" element={<Layout />}>
               <Route path="/event" element={<EventListPage />} />
               <Route path="/event/edit/:eventId" element={<EventEditPage />} />

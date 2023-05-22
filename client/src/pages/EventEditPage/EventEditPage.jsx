@@ -19,6 +19,7 @@ import EditOption from "./Sections/EditOption";
 import EditQuestion from "./Sections/EditQuestion";
 import EditTitle from "./Sections/EditTitle";
 import Auth from "../../hoc/Auth";
+import Loading from "../../components/Loading";
 
 const validation = {
   title: { rules: [rules.required] },
@@ -37,6 +38,7 @@ const validation = {
 };
 
 const EventEditPage = () => {
+  const [readyEvent, setReadyEvent] = useState(false);
   const [openAlertError, setOpenAlertError] = useState(false);
   const [checkRealTime, setCheckRealTime] = useState(false);
   const [errorDialogContent, setErrorDialogContent] = useState("");
@@ -55,6 +57,7 @@ const EventEditPage = () => {
   useEffect(() => {
     if (isNew) {
       dispatch(resetEmptyEvent());
+      setReadyEvent(true);
     } else {
       const variable = {
         eventId: eventId,
@@ -62,7 +65,17 @@ const EventEditPage = () => {
 
       dispatch(loadEventDetail(variable));
     }
+
+    return () => {
+      dispatch(resetEmptyEvent());
+    };
   }, []);
+
+  useEffect(() => {
+    if (!isNew && !readyEvent && event._id === eventId) {
+      setReadyEvent(true);
+    }
+  }, [event._id, readyEvent, isNew]);
 
   const onCloseErrorDialog = useCallback(() => {
     setOpenAlertError(false);
@@ -172,7 +185,6 @@ const EventEditPage = () => {
   }, [isNew, event, user]);
 
   const navigateMain = useCallback(() => {
-    dispatch(resetEmptyEvent());
     navigate("/");
   }, []);
 
@@ -201,20 +213,26 @@ const EventEditPage = () => {
 
   return (
     <div>
-      <MenuTitle
-        title={`이벤트 ${editType}`}
-        subText={`이벤트 참여 양식을 ${editType}합니다`}
-      />
-      <EditTitle sx={{ mt: 8 }} formStatus={formStatus.title} />
-      <EditDesc sx={{ mt: 4 }} formStatus={formStatus.description} />
-      <EditQuestion sx={{ mt: 4 }} formStatus={formStatus.questions} />
-      <EditDate sx={{ mt: 4 }} formStatus={formStatus.date} />
-      <EditOption sx={{ mt: 4 }} />
-      <ActionButtons
-        WrapComponent={Box}
-        sx={{ mt: 6, display: "flex", justifyContent: "end" }}
-        buttons={buttons}
-      />
+      {!readyEvent ? (
+        <Loading />
+      ) : (
+        <>
+          <MenuTitle
+            title={`이벤트 ${editType}`}
+            subText={`이벤트 참여 양식을 ${editType}합니다`}
+          />
+          <EditTitle sx={{ mt: 8 }} formStatus={formStatus.title} />
+          <EditDesc sx={{ mt: 4 }} formStatus={formStatus.description} />
+          <EditQuestion sx={{ mt: 4 }} formStatus={formStatus.questions} />
+          <EditDate sx={{ mt: 4 }} formStatus={formStatus.date} />
+          <EditOption sx={{ mt: 4 }} />
+          <ActionButtons
+            WrapComponent={Box}
+            sx={{ mt: 6, display: "flex", justifyContent: "end" }}
+            buttons={buttons}
+          />
+        </>
+      )}
       <AlertDialog
         open={openAlertError}
         onAgree={errorDialogAgree}
