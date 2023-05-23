@@ -58,7 +58,7 @@ export function loadEventDetail(dataToSubmit) {
 
 export function createEvent(dataToSubmit) {
   const request = axios
-    .post(`${EVENT_SERVER}/create`, dataToSubmit)
+    .post(`${EVENT_SERVER}`, dataToSubmit)
     .then((response) => response.data);
 
   return {
@@ -69,7 +69,7 @@ export function createEvent(dataToSubmit) {
 
 export function updateEvent(dataToSubmit) {
   const request = axios
-    .put(`${EVENT_SERVER}/update`, dataToSubmit)
+    .put(`${EVENT_SERVER}`, dataToSubmit)
     .then((response) => response.data);
 
   return {
@@ -80,7 +80,7 @@ export function updateEvent(dataToSubmit) {
 
 export function deleteEvent(dataToSubmit) {
   const request = axios
-    .delete(`${EVENT_SERVER}/delete`, { params: dataToSubmit })
+    .delete(`${EVENT_SERVER}`, { params: dataToSubmit })
     .then((response) => response.data);
 
   return {

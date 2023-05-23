@@ -51,7 +51,7 @@ export function loadEventAnswerDetail(dataToSubmit) {
 
 export function createAnswer(dataToSubmit) {
   const request = axios
-    .post(`${EVENT_ANSWER_SERVER}/create`, dataToSubmit)
+    .post(`${EVENT_ANSWER_SERVER}`, dataToSubmit)
     .then((response) => response.data);
 
   return {
@@ -62,7 +62,7 @@ export function createAnswer(dataToSubmit) {
 
 export function updateAnswer(dataToSubmit) {
   const request = axios
-    .put(`${EVENT_ANSWER_SERVER}/update`, dataToSubmit)
+    .put(`${EVENT_ANSWER_SERVER}`, dataToSubmit)
     .then((response) => response.data);
 
   return {
@@ -77,7 +77,7 @@ export function resetEmptyEventAnswerList() {
 
 export function updateWinner(dataToSubmit) {
   const request = axios
-    .put(`${EVENT_ANSWER_SERVER}/updateWin`, dataToSubmit)
+    .put(`${EVENT_ANSWER_SERVER}/winner`, dataToSubmit)
     .then((response) => response.data);
 
   return {

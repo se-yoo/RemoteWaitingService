@@ -230,7 +230,7 @@ router.get("/", auth_info, (req, res) => {
   }
 });
 
-router.post("/create", auth, (req, res) => {
+router.post("/", auth, (req, res) => {
   const event = new Event(req.body);
 
   event.save((err, doc) => {
@@ -239,14 +239,14 @@ router.post("/create", auth, (req, res) => {
   });
 });
 
-router.put("/update", auth, (req, res) => {
+router.put("/", auth, (req, res) => {
   Event.findOneAndUpdate({ _id: req.body._id }, req.body, (err, doc) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({ success: true });
   });
 });
 
-router.delete("/delete", auth, (req, res) => {
+router.delete("/", auth, (req, res) => {
   Event.findOneAndDelete({ _id: req.query.eventId }, {}, (err, doc) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({ success: true });

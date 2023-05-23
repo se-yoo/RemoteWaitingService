@@ -69,7 +69,7 @@ router.get("/", auth_info, (req, res) => {
   }
 });
 
-router.post("/create", (req, res) => {
+router.post("/", (req, res) => {
   const eventAnswer = new EventAnswer(req.body);
 
   eventAnswer.save((err, eventAnswer) => {
@@ -78,7 +78,7 @@ router.post("/create", (req, res) => {
   });
 });
 
-router.put("/update", (req, res) => {
+router.put("/", (req, res) => {
   EventAnswer.findOneAndUpdate(
     { _id: req.body._id },
     req.body,
@@ -89,7 +89,7 @@ router.put("/update", (req, res) => {
   );
 });
 
-router.put("/updateWin", async (req, res) => {
+router.put("/winner", async (req, res) => {
   const { eventId, winners } = req.body;
 
   await EventAnswer.updateMany({ event: eventId }, { $set: { status: 0 } });

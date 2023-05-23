@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { Notice } = require("../models/Notice");
 const { auth, auth_info } = require("../middleware/auth");
-const { mongoose } = require("mongoose");
 const { EventAnswer } = require("../models/EventAnswer");
 const send_message = require("../utils/send");
 
@@ -42,7 +41,7 @@ router.get("/", auth_info, (req, res) => {
   }
 });
 
-router.post("/create", (req, res) => {
+router.post("/", (req, res) => {
   const notice = new Notice(req.body.notice);
 
   notice.save((err, doc) => {
@@ -80,14 +79,14 @@ router.post("/create", (req, res) => {
   });
 });
 
-router.put("/update", auth, (req, res) => {
+router.put("/", auth, (req, res) => {
   Notice.findOneAndUpdate({ _id: req.body._id }, req.body, (err, doc) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({ success: true });
   });
 });
 
-router.delete("/delete", auth, (req, res) => {
+router.delete("/", auth, (req, res) => {
   Notice.findOneAndDelete({ _id: req.query.noticeId }, {}, (err, doc) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({ success: true });

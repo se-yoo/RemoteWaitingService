@@ -37,7 +37,7 @@ export function createNotice(dataToSubmit, telnoIndex) {
   };
 
   const request = axios
-    .post(`${NOTICE_SERVER}/create`, params)
+    .post(`${NOTICE_SERVER}`, params)
     .then((response) => response.data);
 
   return {
@@ -48,7 +48,7 @@ export function createNotice(dataToSubmit, telnoIndex) {
 
 export function updateNotice(dataToSubmit) {
   const request = axios
-    .put(`${NOTICE_SERVER}/update`, dataToSubmit)
+    .put(`${NOTICE_SERVER}`, dataToSubmit)
     .then((response) => response.data);
 
   return {
@@ -59,7 +59,7 @@ export function updateNotice(dataToSubmit) {
 
 export function deleteNotice(dataToSubmit) {
   const request = axios
-    .delete(`${NOTICE_SERVER}/delete`, { params: dataToSubmit })
+    .delete(`${NOTICE_SERVER}`, { params: dataToSubmit })
     .then((response) => response.data);
 
   return {

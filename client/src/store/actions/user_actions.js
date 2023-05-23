@@ -13,7 +13,7 @@ import { USER_SERVER } from "./api";
 
 export function registerUser(dataToSubmit) {
   const request = axios
-    .post(`${USER_SERVER}/register`, dataToSubmit)
+    .post(`${USER_SERVER}`, dataToSubmit)
     .then((response) => response.data);
 
   return {
