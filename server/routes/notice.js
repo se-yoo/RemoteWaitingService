@@ -47,7 +47,7 @@ router.post("/", (req, res) => {
   notice.save((err, doc) => {
     if (err) return res.json({ success: false, err });
 
-    if (req.body.telnoIndex >= 0) {
+    if (req.body.phoneNumberIndex >= 0) {
       let targetStatus = [0, 1, 2, 3];
 
       if (doc.target == 1) {
@@ -62,7 +62,7 @@ router.post("/", (req, res) => {
       }).exec(async (err2, answers) => {
         if (err2) return res.json({ success: false, err: err2 });
         const result = answers.map(
-          (answer) => answer.answers[req.body.telnoIndex],
+          (answer) => answer.answers[req.body.phoneNumberIndex],
         );
 
         if (result.length > 0) {

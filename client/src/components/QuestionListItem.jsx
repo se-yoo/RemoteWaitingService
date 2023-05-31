@@ -77,7 +77,7 @@ const QuestionListItem = (props) => {
           <Box mt={2} color="grey">
             {(answerType === ANSWER_TYPE.TEXT ||
               answerType === ANSWER_TYPE.TEXT_EMAIL ||
-              answerType === ANSWER_TYPE.TEXT_TELNO) && (
+              answerType === ANSWER_TYPE.TEXT_PHONE_NUMBER) && (
               <TextField
                 onChange={onChangeAnswer}
                 placeholder={`${question.question}을 입력하세요`}

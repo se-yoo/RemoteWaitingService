@@ -6,19 +6,19 @@ import { useSelector } from "react-redux";
 import { windowScrollTop } from "../utils/function";
 
 const Layout = () => {
-  const userData = useSelector((state) => state.user.userData);
+  const loginData = useSelector((state) => state.user.loginData);
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname === "/" && userData) {
+    if (location.pathname === "/" && loginData) {
       navigate("/event");
     } else if (location.pathname === "/") {
       navigate("/login");
     }
 
     windowScrollTop();
-  }, [location, userData]);
+  }, [location, loginData]);
 
   return (
     <>

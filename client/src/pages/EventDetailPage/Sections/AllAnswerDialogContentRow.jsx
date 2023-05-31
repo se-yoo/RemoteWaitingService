@@ -6,7 +6,7 @@ import { formatDatetime } from "../../../utils/function";
 const answerText = (question, answer) => {
   switch (question.answerType) {
     case ANSWER_TYPE.TEXT:
-    case ANSWER_TYPE.TEXT_TELNO:
+    case ANSWER_TYPE.TEXT_PHONE_NUMBER:
     case ANSWER_TYPE.TEXT_EMAIL:
     case ANSWER_TYPE.TEXTAREA:
     case ANSWER_TYPE.DATE:

@@ -150,7 +150,7 @@ const EventEditPage = () => {
       endDate: event.endDate,
       noLimitDate: event.noLimitDate,
       optionCd: event.optionCd,
-      writer: user.userData._id,
+      writer: user.loginData._id,
     };
 
     if (isNew) {

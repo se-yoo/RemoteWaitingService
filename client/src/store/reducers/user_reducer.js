@@ -20,7 +20,7 @@ const initialState = {
   email: "",
   role: 0,
 
-  userData: {}, // 현재 로그인 정보
+  loginData: {}, // 현재 로그인 정보
 
   error: null,
 };
@@ -30,12 +30,12 @@ export default function (state = initialState, action) {
     case LOGIN_USER:
       return {
         ...state,
-        userData: action.payload,
+        loginData: action.payload,
       };
     case AUTH_USER:
       return {
         ...state,
-        userData: action.payload,
+        loginData: action.payload,
       };
     case LOGOUT_USER:
       return { ...state };
@@ -43,13 +43,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         ...initialState,
-        userData: state.userData,
+        loginData: state.loginData,
         error: null,
       };
     case LOAD_USER_DETAIL:
       return {
         ...initialState,
-        userData: state.userData,
+        loginData: state.loginData,
         ...action.payload.user,
         error: null,
       };

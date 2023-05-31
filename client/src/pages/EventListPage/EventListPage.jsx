@@ -18,9 +18,9 @@ const EventListPage = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
   const [errorDialogContent, setErrorDialogContent] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const userData = useSelector((state) => state.user.userData);
+  const loginData = useSelector((state) => state.user.loginData);
   const event = useSelector((state) => state.event);
-  const { isAdmin } = userData || { isAdmin: false };
+  const { isAdmin } = loginData || { isAdmin: false };
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

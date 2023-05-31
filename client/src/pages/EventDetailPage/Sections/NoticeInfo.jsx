@@ -72,11 +72,11 @@ const NoticeInfo = memo((props) => {
     return isNew ? "등록" : "수정";
   }, [isNew]);
 
-  const telnoIndex = useMemo(() => {
+  const phoneNumberIndex = useMemo(() => {
     const { questions } = event;
 
     return questions.findIndex(
-      (question) => question.answerType === ANSWER_TYPE.TEXT_TELNO,
+      (question) => question.answerType === ANSWER_TYPE.TEXT_PHONE_NUMBER,
     );
   }, [event]);
 
@@ -178,7 +178,7 @@ const NoticeInfo = memo((props) => {
     };
 
     if (isNew) {
-      dispatch(createNotice(body, telnoIndex))
+      dispatch(createNotice(body, phoneNumberIndex))
         .then((res) => {
           if (res.payload.success) {
             getNoticeList();
@@ -217,12 +217,12 @@ const NoticeInfo = memo((props) => {
       return;
     }
 
-    if (isNew && telnoIndex < 0) {
+    if (isNew && phoneNumberIndex < 0) {
       setOpenConfirmNotice(true);
     } else {
       editNotice();
     }
-  }, [isNew, telnoIndex, checkEditFormVaildation, editNotice]);
+  }, [isNew, phoneNumberIndex, checkEditFormVaildation, editNotice]);
 
   const requestDeleteNotice = useCallback(() => {
     const variable = {

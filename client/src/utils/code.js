@@ -41,7 +41,7 @@ export const EVENT_OPTION_TEXT = [
 
 export const ANSWER_TYPE = {
   TEXT: 0,
-  TEXT_TELNO: 1,
+  TEXT_PHONE_NUMBER: 1,
   TEXT_EMAIL: 2,
   TEXTAREA: 3,
   RADIO: 4,
@@ -52,7 +52,7 @@ export const ANSWER_TYPE = {
 
 export const ANSWER_TYPE_TEXT = [
   { text: "텍스트(일반)", value: ANSWER_TYPE.TEXT },
-  { text: "텍스트(전화번호)", value: ANSWER_TYPE.TEXT_TELNO },
+  { text: "텍스트(전화번호)", value: ANSWER_TYPE.TEXT_PHONE_NUMBER },
   { text: "텍스트(이메일)", value: ANSWER_TYPE.TEXT_EMAIL },
   { text: "텍스트(여러줄)", value: ANSWER_TYPE.TEXTAREA },
   { text: "라디오 버튼", value: ANSWER_TYPE.RADIO },

@@ -13,11 +13,12 @@ import {
   loadEventDetail,
   resetEmptyEvent,
 } from "../../store/actions/event_actions";
-import { createAnswer } from "../../store/actions/answer_actions";
+import { createAnswer, setAnswer } from "../../store/actions/answer_actions";
 import { checkFormValidation } from "../../utils/function";
 import { rules } from "../../utils/resource";
 import { ANSWER_TYPE, EVENT_OPTION, EVENT_STATUS_TYPE } from "../../utils/code";
 import Auth from "../../hoc/Auth";
+import { loadUserDetail } from "../../store/actions/user_actions";
 
 const EventParticipationPage = () => {
   const [readyEvent, setReadyEvent] = useState(false);
@@ -33,8 +34,9 @@ const EventParticipationPage = () => {
   const navigate = useNavigate();
   const event = useSelector((state) => state.event);
   const answers = useSelector((state) => state.answer.answers);
-  const userData = useSelector((state) => state.user.userData);
-  const { isAuth } = userData || { isAuth: false };
+  const user = useSelector((state) => state.user);
+  const loginData = useSelector((state) => state.user.loginData);
+  const { isAuth } = loginData || { isAuth: false };
   const { questions, participated, optionCd, status } = event;
 
   useEffect(() => {
@@ -43,6 +45,7 @@ const EventParticipationPage = () => {
     };
 
     dispatch(loadEventDetail(variable));
+    dispatch(loadUserDetail());
 
     return () => {
       dispatch(resetEmptyEvent());
@@ -54,6 +57,24 @@ const EventParticipationPage = () => {
       setReadyEvent(true);
     }
   }, [event._id, readyEvent]);
+
+  useEffect(() => {
+    if (isAuth && user._id) {
+      questions.forEach((question, i) => {
+        let defaultValue = "";
+
+        if (question.answerType === ANSWER_TYPE.TEXT_PHONE_NUMBER) {
+          defaultValue = user.phoneNumber;
+        } else if (question.answerType === ANSWER_TYPE.TEXT_EMAIL) {
+          defaultValue = user.email;
+        }
+
+        if (defaultValue) {
+          dispatch(setAnswer(i, defaultValue));
+        }
+      });
+    }
+  }, [isAuth, user, questions]);
 
   useEffect(() => {
     if (checkRealTime) {
@@ -83,7 +104,7 @@ const EventParticipationPage = () => {
 
       if (question.answerType === ANSWER_TYPE.TEXT_EMAIL) {
         condition.push(rules.email);
-      } else if (question.answerType === ANSWER_TYPE.TEXT_TELNO) {
+      } else if (question.answerType === ANSWER_TYPE.TEXT_PHONE_NUMBER) {
         condition.push(rules.phoneNumber);
       }
 
@@ -140,7 +161,7 @@ const EventParticipationPage = () => {
 
     const body = {
       answers: answers,
-      writer: isAuth ? userData._id : null,
+      writer: isAuth ? loginData._id : null,
       event: eventId,
     };
 

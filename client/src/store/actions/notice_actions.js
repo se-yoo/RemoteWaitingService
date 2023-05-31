@@ -30,10 +30,10 @@ export function loadNoticeList(dataToSubmit) {
   };
 }
 
-export function createNotice(dataToSubmit, telnoIndex) {
+export function createNotice(dataToSubmit, phoneNumberIndex) {
   const params = {
     notice: dataToSubmit,
-    telnoIndex: telnoIndex,
+    phoneNumberIndex: phoneNumberIndex,
   };
 
   const request = axios

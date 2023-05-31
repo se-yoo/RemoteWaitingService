@@ -33,8 +33,8 @@ const EventDetailPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const event = useSelector((state) => state.event);
-  const userData = useSelector((state) => state.user.userData);
-  const { isAdmin } = userData || { isAdmin: false };
+  const loginData = useSelector((state) => state.user.loginData);
+  const { isAdmin } = loginData || { isAdmin: false };
 
   useEffect(() => {
     const variable = {

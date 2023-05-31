@@ -9,8 +9,8 @@ import { theme } from "../../../styles/theme";
 const EventList = (props) => {
   const { sx } = props;
   const events = useSelector((state) => state.event.events);
-  const userData = useSelector((state) => state.user.userData);
-  const { isAdmin } = userData || { isAdmin: false };
+  const loginData = useSelector((state) => state.user.loginData);
+  const { isAdmin } = loginData || { isAdmin: false };
   const navigate = useNavigate();
 
   const getContent = useCallback(
@@ -32,7 +32,7 @@ const EventList = (props) => {
     (eventId) => {
       navigate(`/event/detail/${eventId}`);
     },
-    [isAdmin, userData],
+    [isAdmin, loginData],
   );
 
   return Array.isArray(events) && events.length ? (

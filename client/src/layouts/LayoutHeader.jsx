@@ -18,8 +18,8 @@ const iconStyle = {
 
 const LayoutHeader = () => {
   const [openAlertError, setOpenAlertError] = useState(false);
-  const userData = useSelector((state) => state.user.userData);
-  const { isAuth } = userData || { isAuth: false };
+  const loginData = useSelector((state) => state.user.loginData);
+  const { isAuth } = loginData || { isAuth: false };
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
