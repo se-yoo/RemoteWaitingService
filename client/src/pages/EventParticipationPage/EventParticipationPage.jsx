@@ -13,7 +13,10 @@ import {
   loadEventDetail,
   resetEmptyEvent,
 } from "../../store/actions/event_actions";
-import { createAnswer, setAnswer } from "../../store/actions/answer_actions";
+import {
+  createEventAnswer,
+  setEventAnswer,
+} from "../../store/actions/answer_actions";
 import { checkFormValidation } from "../../utils/function";
 import { rules } from "../../utils/resource";
 import { ANSWER_TYPE, EVENT_OPTION, EVENT_STATUS_TYPE } from "../../utils/code";
@@ -70,7 +73,7 @@ const EventParticipationPage = () => {
         }
 
         if (defaultValue) {
-          dispatch(setAnswer(i, defaultValue));
+          dispatch(setEventAnswer(i, defaultValue));
         }
       });
     }
@@ -165,7 +168,7 @@ const EventParticipationPage = () => {
       event: eventId,
     };
 
-    dispatch(createAnswer(body))
+    dispatch(createEventAnswer(body))
       .then((res) => {
         if (res.payload.success) {
           navigate(

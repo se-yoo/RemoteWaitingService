@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ERR_EVENT_NO_RESET } from "../../../store/actions/types";
 
 const EditQuestionListItemFormOption = memo((props) => {
-  const { idx, onChangeOptions } = props;
-  const question = useSelector((state) => state.event.questions[idx]);
+  const { index, onChangeOptions } = props;
+  const question = useSelector((state) => state.event.questions[index]);
   const { options } = question;
   const dispatch = useDispatch();
 
@@ -40,7 +40,7 @@ const EditQuestionListItemFormOption = memo((props) => {
   }, [options, onChangeOptions]);
 
   const onClickDeleteOption = useCallback(
-    (idx) => {
+    (index) => {
       if (options.length === 1) {
         dispatch({
           type: ERR_EVENT_NO_RESET,
@@ -53,7 +53,7 @@ const EditQuestionListItemFormOption = memo((props) => {
       }
 
       let newOptions = [...options];
-      newOptions.splice(idx, 1);
+      newOptions.splice(index, 1);
 
       onChangeOptions(newOptions);
     },
@@ -98,7 +98,7 @@ const EditQuestionListItemFormOption = memo((props) => {
         </Grid>
       </>
     ),
-    [options, idx],
+    [options, index],
   );
 });
 

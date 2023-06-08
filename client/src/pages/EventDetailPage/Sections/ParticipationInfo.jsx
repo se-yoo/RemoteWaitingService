@@ -6,8 +6,8 @@ import CommonDialog from "../../../components/CommonDialog";
 import SectionTitle from "../../../components/SectionTitle";
 import {
   loadEventAnswerList,
-  updateAnswer,
-  updateWinner,
+  updateEventAnswer,
+  updateEventAnswerWinner,
 } from "../../../store/actions/answer_actions";
 import { EVENT_OPTION, PARTICIPATION_STATUS } from "../../../utils/code";
 import AllAnswerDialogContent from "./AllAnswerDialogContent";
@@ -76,7 +76,7 @@ const ParticipationInfo = memo(() => {
       winners: selected,
     };
 
-    dispatch(updateWinner(body)).then((res) => {
+    dispatch(updateEventAnswerWinner(body)).then((res) => {
       if (res.payload.success) {
         getEventAnswerList();
         setOpenDialogSettingWin(false);
@@ -84,9 +84,9 @@ const ParticipationInfo = memo(() => {
     });
   }, [event, selected, optionCd]);
 
-  const onClickEnterStausAgree = useCallback(
+  const onClickEnterStatusAgree = useCallback(
     (callback) => {
-      dispatch(updateAnswer(enter)).then((res) => {
+      dispatch(updateEventAnswer(enter)).then((res) => {
         if (res.payload.success) {
           getEventAnswerList();
           setOpenConfirmStatus(false);
@@ -98,7 +98,7 @@ const ParticipationInfo = memo(() => {
     [getEventAnswerList, enter],
   );
 
-  const onClickEnterStausDisagree = useCallback(() => {
+  const onClickEnterStatusDisagree = useCallback(() => {
     setEnter({});
     setOpenConfirmStatus(false);
   }, []);
@@ -115,7 +115,7 @@ const ParticipationInfo = memo(() => {
   useEffect(() => {
     if (enter._id && !openConfirmStatus) {
       // 입장 여부 상태 수정(완료/취소간 수정)
-      onClickEnterStausAgree(() => {
+      onClickEnterStatusAgree(() => {
         setOpenAlertComplete(true);
       });
     }
@@ -187,8 +187,8 @@ const ParticipationInfo = memo(() => {
       />
       <AlertDialog
         open={openConfirmStatus}
-        onAgree={onClickEnterStausAgree}
-        onClose={onClickEnterStausDisagree}
+        onAgree={onClickEnterStatusAgree}
+        onClose={onClickEnterStatusDisagree}
         title="입장 설정"
         content="정말로 입장 상태를 변경하시겠습니까? 설정 후 대기 상태로 복원할 수 없습니다(완료/취소는 변경 가능)"
       />

@@ -20,21 +20,21 @@ import { ANSWER_TYPE, ANSWER_TYPE_TEXT } from "../../../utils/code";
 import EditQuestionListItemFormOption from "./EditQuestionListItemFormOption";
 
 const EditQuestionListItemForm = memo((props) => {
-  const { idx } = props;
-  const questionInfo = useSelector((state) => state.event.questions[idx]);
+  const { index } = props;
+  const questionInfo = useSelector((state) => state.event.questions[index]);
   const { question, answerType, required } = questionInfo;
   const dispatch = useDispatch();
 
   const onClickDelete = useCallback(() => {
-    dispatch(deleteEventQuestion(idx));
-  }, [idx]);
+    dispatch(deleteEventQuestion(index));
+  }, [index]);
 
   const onChangeQuestion = useCallback(
     (e) => {
       const newValue = { question: e.target.value };
-      dispatch(updateEventQuestion(idx, newValue));
+      dispatch(updateEventQuestion(index, newValue));
     },
-    [idx],
+    [index],
   );
 
   const onChangeAnswerType = useCallback(
@@ -53,25 +53,25 @@ const EditQuestionListItemForm = memo((props) => {
         answerType: newAnswerType,
         options: newOptions,
       };
-      dispatch(updateEventQuestion(idx, newValue));
+      dispatch(updateEventQuestion(index, newValue));
     },
-    [idx],
+    [index],
   );
 
   const onChangeRequired = useCallback(
     (e) => {
       const newValue = { required: e.target.checked };
-      dispatch(updateEventQuestion(idx, newValue));
+      dispatch(updateEventQuestion(index, newValue));
     },
-    [idx],
+    [index],
   );
 
   const onChangeOptions = useCallback(
     (options) => {
       const newValue = { options };
-      dispatch(updateEventQuestion(idx, newValue));
+      dispatch(updateEventQuestion(index, newValue));
     },
-    [idx],
+    [index],
   );
 
   const QuestionOption = useMemo(() => {
@@ -79,12 +79,12 @@ const EditQuestionListItemForm = memo((props) => {
       (answerType === ANSWER_TYPE.RADIO ||
         answerType === ANSWER_TYPE.CHECKBOX) && (
         <EditQuestionListItemFormOption
-          idx={idx}
+          index={index}
           onChangeOptions={onChangeOptions}
         />
       )
     );
-  }, [answerType, idx]);
+  }, [answerType, index]);
 
   return (
     <>

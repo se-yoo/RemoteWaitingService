@@ -1,17 +1,22 @@
 import {
+  ERR_EVENT,
   LOAD_NOTICE_LIST,
   SET_NOTICE,
   SET_NOTICE_DESCRIPTION,
   SET_NOTICE_TARGET,
   SET_NOTICE_TITLE,
-  ERR_EVENT,
   RESET_EMPTY_NOTICE,
-  EDIT_NOTICE,
   RESET_EMPTY_NOTICE_LIST,
+  EDIT_NOTICE,
 } from "./types";
 import { NOTICE_SERVER } from "./api";
 import axios from "axios";
 
+/**
+ * @method loadNoticeList
+ * @param {Object} dataToSubmit 검색 조건
+ * @note 공지 목록을 불러오는 함수
+ */
 export function loadNoticeList(dataToSubmit) {
   return (dispatch) => {
     axios
@@ -30,6 +35,12 @@ export function loadNoticeList(dataToSubmit) {
   };
 }
 
+/**
+ * @method createNotice
+ * @param {Object} dataToSubmit 생성할 공지 정보
+ * @param {Number} phoneNumberIndex 이벤트 문항 중 전화번호 정보 index
+ * @note 공지를 생성하는 함수
+ */
 export function createNotice(dataToSubmit, phoneNumberIndex) {
   const params = {
     notice: dataToSubmit,
@@ -46,6 +57,11 @@ export function createNotice(dataToSubmit, phoneNumberIndex) {
   };
 }
 
+/**
+ * @method updateNotice
+ * @param {Object} dataToSubmit 수정할 공지 정보
+ * @note 공지를 수정하는 함수
+ */
 export function updateNotice(dataToSubmit) {
   const request = axios
     .put(`${NOTICE_SERVER}`, dataToSubmit)
@@ -57,6 +73,11 @@ export function updateNotice(dataToSubmit) {
   };
 }
 
+/**
+ * @method deleteNotice
+ * @param {Object} dataToSubmit 삭제할 공지 정보
+ * @note 공지를 삭제하는 함수
+ */
 export function deleteNotice(dataToSubmit) {
   const request = axios
     .delete(`${NOTICE_SERVER}`, { params: dataToSubmit })
@@ -68,14 +89,27 @@ export function deleteNotice(dataToSubmit) {
   };
 }
 
+/**
+ * @method resetEmptyNotice
+ * @note 공지 정보를 초기화하는 함수
+ */
 export function resetEmptyNotice() {
   return { type: RESET_EMPTY_NOTICE };
 }
 
+/**
+ * @method resetEmptyNoticeList
+ * @note 공지 목록을 초기화하는 함수
+ */
 export function resetEmptyNoticeList() {
   return { type: RESET_EMPTY_NOTICE_LIST };
 }
 
+/**
+ * @method setNotice
+ * @param {Object} newValue 설정할 공지 정보
+ * @note 공지 정보를 설정하는 함수
+ */
 export function setNotice(newValue) {
   return {
     type: SET_NOTICE,
@@ -83,6 +117,11 @@ export function setNotice(newValue) {
   };
 }
 
+/**
+ * @method setNoticeTitle
+ * @param {String} newTitle 설정할 공지 제목
+ * @note 공지 제목을 설정하는 함수
+ */
 export function setNoticeTitle(newTitle) {
   return {
     type: SET_NOTICE_TITLE,
@@ -90,6 +129,11 @@ export function setNoticeTitle(newTitle) {
   };
 }
 
+/**
+ * @method setNoticeDescription
+ * @param {String} newDescription 설정할 공지 설명
+ * @note 공지 설명을 설정하는 함수
+ */
 export function setNoticeDescription(newDescription) {
   return {
     type: SET_NOTICE_DESCRIPTION,
@@ -97,6 +141,11 @@ export function setNoticeDescription(newDescription) {
   };
 }
 
+/**
+ * @method setNoticeTarget
+ * @param {Number} newTarget 설정할 공지 대상
+ * @note 공지 대상을 설정하는 함수
+ */
 export function setNoticeTarget(newTarget) {
   return {
     type: SET_NOTICE_TARGET,

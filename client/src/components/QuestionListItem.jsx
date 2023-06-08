@@ -15,7 +15,7 @@ import {
 import DateInput from "./DateInput";
 import { ANSWER_TYPE, ANSWER_TYPE_TEXT } from "../utils/code";
 import { useDispatch, useSelector } from "react-redux";
-import { setAnswer } from "../store/actions/answer_actions";
+import { setEventAnswer } from "../store/actions/answer_actions";
 
 const StyledQuestionListItem = styled(ListItem)({
   background: "#FFFFFF",
@@ -38,11 +38,11 @@ const QuestionListItem = (props) => {
 
   const onChangeAnswer = useCallback((e) => {
     const newValue = e.target.value;
-    dispatch(setAnswer(index, newValue));
+    dispatch(setEventAnswer(index, newValue));
   }, []);
 
   const onChangeAnswerDate = useCallback((date) => {
-    dispatch(setAnswer(index, date));
+    dispatch(setEventAnswer(index, date));
   }, []);
 
   const onChangeAnswerCheckBox = useCallback(
@@ -55,7 +55,7 @@ const QuestionListItem = (props) => {
       } else if (!e.target.checked) {
         newValue = newValue.filter((v) => v !== option);
       }
-      dispatch(setAnswer(index, newValue));
+      dispatch(setEventAnswer(index, newValue));
     },
     [answer],
   );

@@ -1,38 +1,38 @@
-import { List } from '@mui/material';
-import React, { memo, useCallback } from 'react';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
-import { useDispatch, useSelector } from 'react-redux';
-import EditQuestionListItem from './EditQuestionListItem';
-import { moveEventQuestion } from '../../../store/actions/event_actions';
+import { List } from "@mui/material";
+import React, { memo, useCallback } from "react";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { useDispatch, useSelector } from "react-redux";
+import EditQuestionListItem from "./EditQuestionListItem";
+import { moveEventQuestion } from "../../../store/actions/event_actions";
 
-
-const SortableItem = SortableElement(({ itemIdx }) => (
-  <EditQuestionListItem
-    itemIdx={itemIdx} 
-  />
+const SortableItem = SortableElement(({ itemIndex }) => (
+  <EditQuestionListItem itemIndex={itemIndex} />
 ));
 
 const SortableList = SortableContainer(({ items, sx }) => {
   return (
     <List sx={sx}>
       {items.map((question, index) => (
-        <SortableItem 
+        <SortableItem
           key={question._id || question.tempId}
           index={index}
-          itemIdx={index} 
-        />)
-      )}
+          itemIndex={index}
+        />
+      ))}
     </List>
   );
 });
 
 const EditQuestionList = memo(({ sx }) => {
-  const questions = useSelector(state => state.event.questions);
+  const questions = useSelector((state) => state.event.questions);
   const dipatch = useDispatch();
 
-  const onSortEnd = useCallback((moveInfo) => {
-    dipatch(moveEventQuestion(questions, moveInfo));
-  }, [questions]);
+  const onSortEnd = useCallback(
+    (moveInfo) => {
+      dipatch(moveEventQuestion(questions, moveInfo));
+    },
+    [questions],
+  );
 
   return (
     <SortableList

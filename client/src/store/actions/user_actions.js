@@ -11,6 +11,11 @@ import {
 } from "./types";
 import { USER_SERVER } from "./api";
 
+/**
+ * @method registerUser
+ * @param {Object} dataToSubmit 가입할 사용자 정보
+ * @note 사용자 계정을 생성하는 함수
+ */
 export function registerUser(dataToSubmit) {
   const request = axios
     .post(`${USER_SERVER}`, dataToSubmit)
@@ -22,6 +27,11 @@ export function registerUser(dataToSubmit) {
   };
 }
 
+/**
+ * @method loginUser
+ * @param {Object} dataToSubmit 로그인할 사용자 정보
+ * @note 로그인하는 함수
+ */
 export function loginUser(dataToSubmit) {
   const request = axios
     .post(`${USER_SERVER}/login`, dataToSubmit)
@@ -33,6 +43,10 @@ export function loginUser(dataToSubmit) {
   };
 }
 
+/**
+ * @method auth
+ * @note 로그인된 사용자 정보를 불러오는 함수
+ */
 export function auth() {
   const request = axios
     .get(`${USER_SERVER}/auth`)
@@ -44,6 +58,10 @@ export function auth() {
   };
 }
 
+/**
+ * @method logoutUser
+ * @note 로그아웃하는 함수
+ */
 export function logoutUser() {
   const request = axios
     .get(`${USER_SERVER}/logout`)
@@ -55,10 +73,18 @@ export function logoutUser() {
   };
 }
 
+/**
+ * @method resetEmptyUser
+ * @note 사용자 정보를 초기화하는 함수
+ */
 export function resetEmptyUser() {
   return { type: RESET_EMPTY_USER };
 }
 
+/**
+ * @method loadUserDetail
+ * @note 로그인된 사용자 상세 정보를 불러오는 함수
+ */
 export function loadUserDetail() {
   return (dispatch) => {
     axios
@@ -77,6 +103,11 @@ export function loadUserDetail() {
   };
 }
 
+/**
+ * @method updateUser
+ * @param {Object} dataToSubmit 수정할 사용자 정보
+ * @note 사용자 정보를 수정하는 함수
+ */
 export function updateUser(dataToSubmit) {
   const request = axios
     .put(`${USER_SERVER}`, dataToSubmit)
@@ -88,6 +119,12 @@ export function updateUser(dataToSubmit) {
   };
 }
 
+/**
+ * @method setUserProperty
+ * @param {String} name 설정할 사용자 속성
+ * @param {Object} newValue 설정할 사용자 정보
+ * @note 사용자 정보를 설정하는 함수
+ */
 export function setUserProperty(name, newValue) {
   let user = {};
   user[name] = newValue;
@@ -98,6 +135,10 @@ export function setUserProperty(name, newValue) {
   };
 }
 
+/**
+ * @method deleteUser
+ * @note 사용자를 비활성화하는 함수
+ */
 export function deleteUser() {
   const request = axios
     .put(`${USER_SERVER}/active`)
