@@ -1,10 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {
-  Checkbox,
-  FormControlLabel,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Checkbox, FormControlLabel, TextField, Button } from "@mui/material";
 import { terms } from "../../../utils/resource";
 
 const JoinTerms = (props) => {
@@ -36,7 +31,7 @@ const JoinTerms = (props) => {
         sx={{
           height: "90px",
           fontSize: "32px",
-          mt: 4,
+          my: 4,
         }}
         fullWidth
         onClick={onClickNext}

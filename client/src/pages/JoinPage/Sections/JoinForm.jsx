@@ -1,5 +1,12 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
-import { TextField, Box, Radio, RadioGroup, FormControlLabel, Button } from "@mui/material";
+import {
+  TextField,
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Button,
+} from "@mui/material";
 import { ROLE_TYPE, ROLE_TYPE_TEXT } from "../../../utils/code";
 import { rules } from "../../../utils/resource";
 import { checkFormValidation } from "../../../utils/function";
@@ -15,7 +22,7 @@ const validation = {
   name: { rules: [rules.required] },
   birthday: { rules: [rules.required] },
   phoneNumber: { rules: [rules.required, rules.phoneNumber] },
-  email: { rules: [rules.required, rules.email] }
+  email: { rules: [rules.required, rules.email] },
 };
 
 const JoinForm = () => {
@@ -41,14 +48,18 @@ const JoinForm = () => {
     birthday,
     phoneNumber,
     email,
-    role
+    role,
   };
 
   const joinValidation = useMemo(() => {
     return {
       ...validation,
-      passwordConfirm: { rules: [(value) => value === password || "비밀번호와 일치하지 않습니다."] }
-    }
+      passwordConfirm: {
+        rules: [
+          (value) => value === password || "비밀번호와 일치하지 않습니다.",
+        ],
+      },
+    };
   }, [password]);
 
   const onChangeUserId = useCallback((e) => {
@@ -89,13 +100,13 @@ const JoinForm = () => {
     for (const key of Object.keys(joinValidation)) {
       const result = checkFormValidation(user, key, joinValidation[key].rules);
 
-      setFormStatus(prevFormStatus => {
+      setFormStatus((prevFormStatus) => {
         let newStatus = {};
         newStatus[key] = result !== true ? result : undefined;
 
         return {
           ...prevFormStatus,
-          ...newStatus
+          ...newStatus,
         };
       });
 
@@ -107,25 +118,27 @@ const JoinForm = () => {
     return check;
   }, [user, joinValidation]);
 
-  const onSubmit = useCallback((e) => {
-    e.preventDefault();
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const check = checkJoinFormVaildation();
+      const check = checkJoinFormVaildation();
 
-    if (check) {
-      setCheckRealTime(true);
-      return;
-    }
+      if (check) {
+        setCheckRealTime(true);
+        return;
+      }
 
-    dispatch(registerUser(user))
-      .then((response) => {
+      dispatch(registerUser(user)).then((response) => {
         if (response.payload.success) {
           setOpenAlertComplete(true);
         } else {
           setOpenAlertError(true);
         }
       });
-  }, [user]);
+    },
+    [user],
+  );
 
   useEffect(() => {
     if (checkRealTime) {
@@ -143,10 +156,7 @@ const JoinForm = () => {
   }, []);
 
   return (
-    <Box
-      component="form"
-      onSubmit={onSubmit}
-    >
+    <Box component="form" onSubmit={onSubmit}>
       <TextField
         error={formStatus.userId}
         helperText={formStatus.userId}
@@ -204,13 +214,8 @@ const JoinForm = () => {
         onChange={onChangeEmail}
         sx={{ mt: 2.5 }}
       />
-      <RadioGroup
-        row
-        value={role}
-        sx={{ mt: 2.5 }}
-        onChange={onChangeRole}
-      >
-        {ROLE_TYPE_TEXT.map(type => (
+      <RadioGroup row value={role} sx={{ mt: 2.5 }} onChange={onChangeRole}>
+        {ROLE_TYPE_TEXT.map((type) => (
           <FormControlLabel
             key={type.value}
             value={type.value}
@@ -224,7 +229,7 @@ const JoinForm = () => {
         sx={{
           height: "90px",
           fontSize: "32px",
-          mt: 4,
+          my: 4,
         }}
         fullWidth
       >

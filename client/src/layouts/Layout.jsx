@@ -31,12 +31,13 @@ const Layout = () => {
               md: "80%",
               xl: "70%",
             },
-            margin: {
+            padding: {
               xs: "16px",
               sm: "32px",
               md: "32px auto",
               xl: "70px auto",
             },
+            margin: "auto",
           }}
         >
           <Outlet />

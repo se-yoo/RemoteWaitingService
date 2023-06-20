@@ -72,8 +72,16 @@ const EventListPage = () => {
     <div>
       <MenuTitle title={title} />
       <Grid container justifyContent="space-between" alignItems="end">
-        <Grid item xs={4}>
-          {isAdmin && (
+        {isAdmin && (
+          <Grid
+            item
+            xs={12}
+            sm={5}
+            lg={4}
+            sx={{
+              mt: { xs: 2, sm: 0 },
+            }}
+          >
             <Button
               sx={{
                 width: "200px",
@@ -84,9 +92,17 @@ const EventListPage = () => {
             >
               이벤트 등록
             </Button>
-          )}
-        </Grid>
-        <Grid item xs={8} sm={6} lg={4}>
+          </Grid>
+        )}
+        <Grid
+          item
+          xs={12}
+          sm={7}
+          lg={4}
+          sx={{
+            mt: { xs: 4, sm: 0 },
+          }}
+        >
           <HelpList />
           <SearchInput
             value={searchKeyword}
