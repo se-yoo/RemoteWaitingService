@@ -22,7 +22,6 @@ const StyledQuestionListItem = styled(ListItem)({
   boxShadow: "0px 0px 10px 2px rgba(0, 0, 0, 0.1)",
   borderRadius: "20px",
   marginBottom: "24px",
-  padding: "40px 32px",
 });
 
 const QuestionListItem = (props) => {
@@ -61,7 +60,12 @@ const QuestionListItem = (props) => {
   );
 
   return (
-    <Grid container component={StyledQuestionListItem} alignItems="start">
+    <Grid
+      container
+      component={StyledQuestionListItem}
+      alignItems="start"
+      sx={{ padding: { xs: "18px", sm: "24px", md: "40px 32px" } }}
+    >
       <Grid item xs="auto" sx={{ fontWeight: 700, pr: 3 }}>
         {index + 1}
       </Grid>

@@ -204,10 +204,11 @@ const EventParticipationPage = () => {
           <FormControlLabel
             label="개인정보 수집 이용에 동의합니다."
             control={<Checkbox checked={agree} onChange={onChangeAgree} />}
+            sx={{ mt: { xs: -2, lg: -1 } }}
           />
           <ActionButtons
             WrapComponent={Box}
-            sx={{ mt: 6, display: "flex", justifyContent: "end" }}
+            sx={{ mt: 4, display: "flex", justifyContent: "end" }}
             buttons={[
               { text: "참여", width: 200, onClick: onClickParticipation },
             ]}

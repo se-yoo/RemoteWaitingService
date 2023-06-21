@@ -58,9 +58,11 @@ const EventList = (props) => {
       justifyContent="center"
       fontSize="2em"
       color={theme.palette.grey.main}
-      sx={{ minHeight: "calc(100vh - 376px)" }}
+      sx={{ minHeight: "calc(100vh - 376px)", textAlign: "center" }}
     >
-      이벤트가 존재하지 않습니다
+      이벤트가
+      <br />
+      존재하지 않습니다
     </Box>
   );
 };

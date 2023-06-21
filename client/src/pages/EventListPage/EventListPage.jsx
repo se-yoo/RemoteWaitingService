@@ -71,7 +71,11 @@ const EventListPage = () => {
   return (
     <div>
       <MenuTitle title={title} />
-      <Grid container justifyContent="space-between" alignItems="end">
+      <Grid
+        container
+        justifyContent={isAdmin ? "space-between" : "end"}
+        alignItems="end"
+      >
         {isAdmin && (
           <Grid
             item
