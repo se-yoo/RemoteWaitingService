@@ -63,8 +63,13 @@ const EditQuestionListItemFormOption = memo((props) => {
   return useMemo(
     () => (
       <>
-        <Grid container justifyContent="end" spacing={2} sx={{ pr: 2, mt: 0 }}>
-          <Grid item xs={9}>
+        <Grid
+          container
+          justifyContent="end"
+          spacing={2}
+          sx={{ pr: 2, mt: { xs: 2, md: 0 } }}
+        >
+          <Grid item xs={11} md={9}>
             {options &&
               options.map((option, index) => (
                 <TextField

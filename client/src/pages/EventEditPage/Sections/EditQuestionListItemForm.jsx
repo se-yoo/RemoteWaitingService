@@ -104,7 +104,7 @@ const EditQuestionListItemForm = memo((props) => {
         </Grid>
       </Grid>
       <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
-        <Grid item xs={3}>
+        <Grid item xs={8} sm md={3}>
           <FormControl fullWidth>
             <InputLabel id="type-select-label" selectlabel="true">
               문항 종류
