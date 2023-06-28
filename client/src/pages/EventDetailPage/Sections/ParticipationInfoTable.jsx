@@ -128,6 +128,7 @@ const ParticipationInfoTable = memo((props) => {
       page={page}
       rowsPerPage={rowsPerPage || 5}
       sx={{ my: 3, ...sx }}
+      tableSx={{ minWidth: 600 }}
       showExpand
       expandHeaderText="답변 상세"
       HideControlComponent={HideButton}

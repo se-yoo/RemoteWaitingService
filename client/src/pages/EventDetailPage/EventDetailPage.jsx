@@ -131,7 +131,11 @@ const EventDetailPage = () => {
               <QuestionInfo />
               <ActionButtons
                 WrapComponent={Box}
-                sx={{ mt: 6, display: "flex", justifyContent: "end" }}
+                sx={{
+                  mt: { xs: 2, md: 6 },
+                  display: "flex",
+                  justifyContent: "end",
+                }}
                 buttons={buttons}
               />
               <CommonDialog

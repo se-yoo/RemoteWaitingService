@@ -26,8 +26,8 @@ const ShareDialogContent = memo(() => {
 
   return (
     <StyledDialogContent sx={{ mt: 3 }}>
-      <Grid container spacing={2}>
-        <Grid item xs>
+      <Grid container spacing={2} justifyContent="end">
+        <Grid item xs={12} md>
           <TextField disabled value={shareUrl} fullWidth />
         </Grid>
         <Grid item xs="auto">

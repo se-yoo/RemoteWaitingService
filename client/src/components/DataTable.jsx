@@ -1,9 +1,19 @@
-import { Checkbox, Collapse, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { Box } from '@mui/system';
-import React, { useCallback, useMemo, useState } from 'react';
-import { getPageCount, getPageItems, getSeq } from '../utils/function';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import {
+  Checkbox,
+  Collapse,
+  Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { Box } from "@mui/system";
+import React, { useCallback, useMemo, useState } from "react";
+import { getPageCount, getPageItems, getSeq } from "../utils/function";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const initialOpens = (length) => {
   return new Array(length).fill(false);
@@ -17,6 +27,7 @@ const DataTable = (props) => {
     rowsPerPage,
     onChangePage,
     sx,
+    tableSx,
     HeaderComponent,
     ItemRowComponent,
     ItemCellComponent,
@@ -29,7 +40,7 @@ const DataTable = (props) => {
     checkboxReadonly,
     selected,
     onChangeSelected,
-    onClickRow
+    onClickRow,
   } = props;
   const [opens, setOpens] = useState(initialOpens(items.length));
 
@@ -53,20 +64,20 @@ const DataTable = (props) => {
     return getPageItems(page, items, rowsPerPage);
   }, [page, items, rowsPerPage]);
 
-  const DataTableCell = (({ item, rowIndex, header }) => {
+  const DataTableCell = ({ item, rowIndex, header }) => {
     if (ItemCellComponent && ItemCellComponent[header.value]) {
       const CellComponent = ItemCellComponent[header.value];
-      return <CellComponent item={item} />
+      return <CellComponent item={item} />;
     } else {
       return (
         <TableCell align={header.align}>
-          {header.value === "index" && header.useIndex ?
-            getSeq(page, rowsPerPage, rowIndex) : item[header.value]
-          }
+          {header.value === "index" && header.useIndex
+            ? getSeq(page, rowsPerPage, rowIndex)
+            : item[header.value]}
         </TableCell>
-      )
+      );
     }
-  });
+  };
 
   const isSelected = (item) => {
     return selected.indexOf(item) !== -1;
@@ -76,45 +87,42 @@ const DataTable = (props) => {
     const arrIndex = getSeq(page, rowsPerPage, index) - 1;
     const isItemSelected = isSelected(item);
 
-    return ItemRowComponent ?
+    return ItemRowComponent ? (
       <ItemRowComponent item={item} index={index} />
-      : (
-        <TableRow
-          clickable={onClickRow != null ? "true" : "false"}
-          onClick={(e) => onClickTableRowComponent(e, item)}
-        >
-          {checkboxSelection && (
-            <TableCell padding="checkbox">
-              <Checkbox
-                color="primary"
-                disabled={checkboxReadonly}
-                checked={isItemSelected}
-                onClick={() => onClickRowSelect(item)}
-              />
-            </TableCell>
-          )}
-          {headers.map(header => (
-            <DataTableCell
-              key={`row-${item._id || index}-cell-${header.value || header.text}`}
-              item={item}
-              rowIndex={index}
-              header={header}
+    ) : (
+      <TableRow
+        clickable={onClickRow != null ? "true" : "false"}
+        onClick={(e) => onClickTableRowComponent(e, item)}
+      >
+        {checkboxSelection && (
+          <TableCell padding="checkbox">
+            <Checkbox
+              color="primary"
+              disabled={checkboxReadonly}
+              checked={isItemSelected}
+              onClick={() => onClickRowSelect(item)}
             />
-          ))}
-          {showExpand && (
-            <TableCell align="center">
-              {opens[arrIndex] ?
-                <HideControlComponent
-                  onClick={() => toggleOpen(arrIndex)}
-                />
-                : <ExpandControlComponent
-                  onClick={() => toggleOpen(arrIndex)}
-                />
-              }
-            </TableCell>
-          )}
-        </TableRow>
-      );
+          </TableCell>
+        )}
+        {headers.map((header) => (
+          <DataTableCell
+            key={`row-${item._id || index}-cell-${header.value || header.text}`}
+            item={item}
+            rowIndex={index}
+            header={header}
+          />
+        ))}
+        {showExpand && (
+          <TableCell align="center">
+            {opens[arrIndex] ? (
+              <HideControlComponent onClick={() => toggleOpen(arrIndex)} />
+            ) : (
+              <ExpandControlComponent onClick={() => toggleOpen(arrIndex)} />
+            )}
+          </TableCell>
+        )}
+      </TableRow>
+    );
   };
 
   const onClickRowSelect = (row) => {
@@ -137,46 +145,60 @@ const DataTable = (props) => {
     onChangeSelected(newSelected);
   };
 
-  const DataTableRowExpand = useCallback(({ item, index }) => {
-    const arrIndex = getSeq(page, rowsPerPage, index) - 1;
+  const DataTableRowExpand = useCallback(
+    ({ item, index }) => {
+      const arrIndex = getSeq(page, rowsPerPage, index) - 1;
 
-    return (
-      <TableRow type="collapse">
-        <TableCell colSpan={headers.length + (checkboxSelection ? 2 : 1)}>
-          <Collapse in={opens[arrIndex]} timeout="auto">
-            <CollapseContentComponent item={item} />
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    );
-  }, [headers.length, showExpand, CollapseContentComponent, opens]);
+      return (
+        <TableRow type="collapse">
+          <TableCell colSpan={headers.length + (checkboxSelection ? 2 : 1)}>
+            <Collapse in={opens[arrIndex]} timeout="auto">
+              <CollapseContentComponent item={item} />
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      );
+    },
+    [headers.length, showExpand, CollapseContentComponent, opens],
+  );
 
-  const toggleOpen = useCallback((index) => {
-    const newOpens = [...opens];
-    newOpens[index] = !newOpens[index];
-    setOpens(newOpens);
-  }, [opens]);
+  const toggleOpen = useCallback(
+    (index) => {
+      const newOpens = [...opens];
+      newOpens[index] = !newOpens[index];
+      setOpens(newOpens);
+    },
+    [opens],
+  );
 
-  const onClickAllSelect = useCallback((event) => {
-    if (event.target.checked) {
-      const newSelected = items;
-      onChangeSelected(newSelected);
-      return;
-    }
+  const onClickAllSelect = useCallback(
+    (event) => {
+      if (event.target.checked) {
+        const newSelected = items;
+        onChangeSelected(newSelected);
+        return;
+      }
 
-    onChangeSelected([]);
-  }, [items]);
+      onChangeSelected([]);
+    },
+    [items],
+  );
 
-  const onClickTableRowComponent = useCallback((event, row) => {
-    if (onClickRow == null) return;
-    onClickRow(event, row);
-  }, [onClickRow]);
+  const onClickTableRowComponent = useCallback(
+    (event, row) => {
+      if (onClickRow == null) return;
+      onClickRow(event, row);
+    },
+    [onClickRow],
+  );
 
   return (
     <>
       <TableContainer component={Box} sx={sx}>
-        <Table>
-          {HeaderComponent ? HeaderComponent : (
+        <Table sx={tableSx}>
+          {HeaderComponent ? (
+            HeaderComponent
+          ) : (
             <TableHead>
               <TableRow>
                 {checkboxSelection && (
@@ -184,13 +206,15 @@ const DataTable = (props) => {
                     <Checkbox
                       color="primary"
                       disabled={checkboxReadonly}
-                      indeterminate={selectedCount > 0 && selectedCount < rowCount}
+                      indeterminate={
+                        selectedCount > 0 && selectedCount < rowCount
+                      }
                       checked={rowCount > 0 && selectedCount === rowCount}
                       onChange={onClickAllSelect}
                     />
                   </TableCell>
                 )}
-                {headers.map(header => (
+                {headers.map((header) => (
                   <TableCell
                     key={`header-${header.value || header.text}`}
                     align={header.align}
@@ -201,26 +225,16 @@ const DataTable = (props) => {
                   </TableCell>
                 ))}
                 {showExpand && (
-                  <TableCell align="center">
-                    {expandHeaderText}
-                  </TableCell>
+                  <TableCell align="center">{expandHeaderText}</TableCell>
                 )}
               </TableRow>
             </TableHead>
           )}
           <TableBody>
             {pageItems.map((item, index) => (
-              <React.Fragment key={`row-${item._id || index}`} >
-                <DataTableRow
-                  item={item}
-                  index={index}
-                />
-                {showExpand && (
-                  <DataTableRowExpand
-                    item={item}
-                    index={index}
-                  />
-                )}
+              <React.Fragment key={`row-${item._id || index}`}>
+                <DataTableRow item={item} index={index} />
+                {showExpand && <DataTableRowExpand item={item} index={index} />}
               </React.Fragment>
             ))}
             {emptyRows > 0 && (
@@ -243,7 +257,7 @@ const DataTable = (props) => {
           count={pageCount}
           page={page}
           onChange={onChangePage}
-          sx={{ mt: 5 }}
+          sx={{ mt: { xs: 3, md: 5 } }}
         />
       )}
     </>
@@ -255,21 +269,21 @@ DataTable.defaultProps = {
   items: [],
   page: 1,
   rowsPerPage: 10,
-  onChangePage: () => { },
+  onChangePage: () => {},
   sx: {},
   HeaderComponent: null,
   ItemRowComponent: null,
   ItemCellComponent: null,
   showExpand: false,
-  expandHeaderText: '',
+  expandHeaderText: "",
   ExpandControlComponent: KeyboardArrowDownIcon,
   HideControlComponent: KeyboardArrowUpIcon,
   CollapseContentComponent: null,
   checkboxSelection: false,
   checkboxReadonly: false,
   selected: [],
-  onChangeSelected: () => { },
-  onClickRow: null
-}
+  onChangeSelected: () => {},
+  onClickRow: null,
+};
 
 export default DataTable;

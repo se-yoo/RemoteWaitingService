@@ -263,7 +263,7 @@ const NoticeInfo = memo((props) => {
     return (
       <ActionButtons
         WrapComponent={DialogActions}
-        sx={{ px: 0 }}
+        sx={{ px: 0, mt: { xs: 2, md: 0 } }}
         buttons={buttons}
       />
     );
@@ -284,6 +284,7 @@ const NoticeInfo = memo((props) => {
         page={page}
         rowsPerPage={5}
         sx={{ my: 3 }}
+        tableSx={{ minWidth: 600 }}
         ItemCellComponent={ItemCellComponent}
         onChangePage={onChangePage}
         onClickRow={onClickNotice}
